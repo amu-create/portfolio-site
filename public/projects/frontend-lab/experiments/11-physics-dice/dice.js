@@ -112,12 +112,38 @@ function initCannon() {
     
     // 벽 생성 (투명)
     createWalls();
+    
+    // 천장 생성 (뚜껑)
+    const ceilingShape = new CANNON.Box(new CANNON.Vec3(12.5, 0.5, 12.5));
+    const ceilingBody = new CANNON.Body({
+        mass: 0,
+        shape: ceilingShape,
+        material: new CANNON.Material({
+            friction: 0.1,
+            restitution: 0.3
+        })
+    });
+    ceilingBody.position.set(0, 25, 0);  // 높이 25에 천장 설치
+    world.add(ceilingBody);
+    
+    // Three.js 천장 (투명)
+    const ceilingGeometry = new THREE.BoxGeometry(25, 1, 25);
+    const ceilingMaterial = new THREE.MeshStandardMaterial({
+        color: 0x00d4ff,
+        transparent: true,
+        opacity: 0.05,  // 거의 투명하게
+        side: THREE.DoubleSide
+    });
+    const ceilingMesh = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+    ceilingMesh.position.y = 25;
+    ceilingMesh.receiveShadow = true;
+    scene.add(ceilingMesh);
 }
 
 // 벽 생성
 function createWalls() {
     const wallThickness = 1;
-    const wallHeight = 20;  // 높이를 더 높임
+    const wallHeight = 25;  // 천장까지 높이
     const wallDistance = 12.5;  // 거리를 1/4로
     
     const wallMaterial = new CANNON.Material({
@@ -172,39 +198,49 @@ function initControls() {
 
 // 파티클 생성
 function createParticles(position, velocity) {
-    const particleCount = 20;
+    console.log('Creating particles at:', position, 'velocity:', velocity); // 디버깅
+    
+    const particleCount = 30;  // 파티클 개수 증가
     const geometry = new THREE.BufferGeometry();
     const positions = [];
     const velocities = [];
-    const lifetimes = [];
+    const colors = [];
     
     for (let i = 0; i < particleCount; i++) {
-        positions.push(position.x + (Math.random() - 0.5) * 0.5);
-        positions.push(position.y);
-        positions.push(position.z + (Math.random() - 0.5) * 0.5);
+        // 위치
+        positions.push(position.x + (Math.random() - 0.5) * 1);
+        positions.push(position.y + (Math.random() - 0.5) * 1);
+        positions.push(position.z + (Math.random() - 0.5) * 1);
         
-        velocities.push((Math.random() - 0.5) * 5);
-        velocities.push(Math.random() * 5 + velocity * 0.5);
-        velocities.push((Math.random() - 0.5) * 5);
+        // 속도
+        velocities.push((Math.random() - 0.5) * 15);
+        velocities.push(Math.random() * 15 + 5);
+        velocities.push((Math.random() - 0.5) * 15);
         
-        lifetimes.push(1.0);
+        // 색상 (네온 효과)
+        colors.push(0, 1, 0.5); // RGB
     }
     
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
-    geometry.setAttribute('lifetime', new THREE.Float32BufferAttribute(lifetimes, 1));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     
     const material = new THREE.PointsMaterial({
-        color: 0x00ff88,
-        size: 0.2,
+        size: 0.5,  // 크기 증가
         transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
+        opacity: 1.0,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
     });
     
     const particleSystem = new THREE.Points(geometry, material);
     scene.add(particleSystem);
-    particles.push({ mesh: particleSystem, startTime: Date.now() });
+    particles.push({ 
+        mesh: particleSystem, 
+        startTime: Date.now(),
+        velocities: velocities 
+    });
 }
 
 // 파티클 업데이트
@@ -214,7 +250,7 @@ function updateParticles() {
     particles = particles.filter(particle => {
         const age = (currentTime - particle.startTime) / 1000;
         
-        if (age > 1) {
+        if (age > 1.5) {  // 수명 증가
             scene.remove(particle.mesh);
             particle.mesh.geometry.dispose();
             particle.mesh.material.dispose();
@@ -222,17 +258,20 @@ function updateParticles() {
         }
         
         const positions = particle.mesh.geometry.attributes.position.array;
-        const velocities = particle.mesh.geometry.attributes.velocity.array;
+        const velocities = particle.velocities;
         
+        // 위치 업데이트
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i] += velocities[i] * 0.016;
-            positions[i + 1] += velocities[i + 1] * 0.016;
-            positions[i + 2] += velocities[i + 2] * 0.016;
-            velocities[i + 1] -= 9.8 * 0.016;
+            positions[i] += velocities[i] * 0.016;     // X
+            positions[i + 1] += velocities[i + 1] * 0.016; // Y
+            positions[i + 2] += velocities[i + 2] * 0.016; // Z
+            
+            // 중력
+            velocities[i + 1] -= 15 * 0.016;
         }
         
         particle.mesh.geometry.attributes.position.needsUpdate = true;
-        particle.mesh.material.opacity = 0.8 * (1 - age);
+        particle.mesh.material.opacity = Math.max(0, 1 - age * 0.7);
         
         return true;
     });
@@ -412,34 +451,42 @@ function createDice(position) {
         Math.random() * Math.PI * 2
     );
     
-    // 랜덤 속도 (높이와 속도를 크게 줄임)
+    // 랜덤 속도 (더 세게 던지기)
     body.velocity.set(
-        (Math.random() - 0.5) * 10,  // 수평 속도 절반으로
-        Math.random() * 5 + 10,      // 수직 속도 크게 감소 (20->10)
-        (Math.random() - 0.5) * 10
+        (Math.random() - 0.5) * 30,  // 수평 속도 증가
+        Math.random() * 20 + 30,     // 수직 속도 크게 증가 (30~50)
+        (Math.random() - 0.5) * 30
     );
     
-    // 랜덤 각속도 (회전도 줄임)
+    // 랜덤 각속도 (빠른 회전)
     body.angularVelocity.set(
-        (Math.random() - 0.5) * 5,   // 각속도도 절반으로
-        (Math.random() - 0.5) * 5,
-        (Math.random() - 0.5) * 5
+        (Math.random() - 0.5) * 20,   // 각속도 증가
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 20
     );
     
     world.add(body);
     
-    // 충돌 이벤트 리스너
+    // 충돌 이벤트 리스너 - CANNON.js 0.6.2 문법
     body.addEventListener('collide', function(e) {
-        const relativeVelocity = Math.abs(e.contact.getImpactVelocityAlongNormal());
-        if (relativeVelocity > 5) {  // 충돌 강도가 5 이상일 때만
-            const contactPoint = new THREE.Vector3();
-            contactPoint.copy(e.contact.bi.position);
-            contactPoint.vadd(e.contact.ri);
+        // 충돌 속도 계산
+        const v1 = body.velocity;
+        const v2 = e.body.velocity;
+        const relativeVelocity = Math.sqrt(
+            Math.pow(v1.x - v2.x, 2) + 
+            Math.pow(v1.y - v2.y, 2) + 
+            Math.pow(v1.z - v2.z, 2)
+        );
+        
+        if (relativeVelocity > 5) {  // 충돌 강도 임계값 낮춤
+            // 충돌 지점 계산
+            const contactPoint = {
+                x: (body.position.x + e.body.position.x) / 2,
+                y: (body.position.y + e.body.position.y) / 2,
+                z: (body.position.z + e.body.position.z) / 2
+            };
             
-            createParticles(
-                { x: contactPoint.x, y: contactPoint.y, z: contactPoint.z },
-                relativeVelocity
-            );
+            createParticles(contactPoint, relativeVelocity);
         }
     });
     
@@ -516,9 +563,9 @@ function throwDice() {
     const count = parseInt(document.getElementById('dice-count').value);
     for (let i = 0; i < count; i++) {
         const position = new CANNON.Vec3(
-            (Math.random() - 0.5) * 5,  // 범위를 줄임
-            5 + i * 1.5,  // 높이를 크게 줄임 (10->5)
-            (Math.random() - 0.5) * 5
+            (Math.random() - 0.5) * 8,  // 범위 약간 증가
+            15 + i * 3,  // 높이 다시 증가
+            (Math.random() - 0.5) * 8
         );
         dice.push(createDice(position));
     }
