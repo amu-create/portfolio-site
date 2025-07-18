@@ -198,6 +198,7 @@
             <div class="controls">
                 <button id="rollDice">🎲 주사위 던지기!</button>
                 <button id="resetDice">초기화</button>
+                <button id="physicsEngine" onclick="goToPhysicsEngine()">🎯 주사위 던지기 (물리엔진)</button>
                 
                 <div class="dice-selector">
                     <label>주사위 선택: </label>
@@ -228,6 +229,27 @@
     <button class="back-btn" onclick="window.location.href='index.html'">← 큐브 편집기로 돌아가기</button>
 
     <script>
+        // 물리엔진 페이지로 이동
+        function goToPhysicsEngine() {
+            // 현재 주사위 상태를 저장
+            if (diceSelect.value === 'temp' || diceSelect.value !== 'default') {
+                localStorage.setItem('selectedCustomDice', JSON.stringify({
+                    name: diceSelect.options[diceSelect.selectedIndex].text,
+                    faces: [
+                        currentDiceData.front,
+                        currentDiceData.left,
+                        currentDiceData.top,
+                        currentDiceData.bottom,
+                        currentDiceData.right,
+                        currentDiceData.back
+                    ],
+                    bgColor: '#ffffff',
+                    textColor: '#000000'
+                }));
+            }
+            window.location.href = '../../11-physics-dice/index.html';
+        }
+
         // 간단한 주사위 구현
         const loading = document.getElementById('loading');
         const simpleDice = document.querySelector('.simple-dice');
