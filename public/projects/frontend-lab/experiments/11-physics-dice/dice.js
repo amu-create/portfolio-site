@@ -2,97 +2,39 @@
 let scene, camera, renderer;
 let world;
 let dice = [];
-let throwBtn, diceCountSelect, diceTypeSelect;
+let diceValues = [];
 let isRolling = false;
-let orbitControls;
-let customDiceData = null;
+let controls;
+let customCubeData = null;
+let cameraSpeed = 1.0;
 
-// 커스텀 주사위 면 텍스처 생성
-function createDiceFaceTexture(faceData) {
-    const size = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const context = canvas.getContext('2d');
-    
-    // 배경색
-    context.fillStyle = faceData.backgroundColor || '#ffffff';
-    context.fillRect(0, 0, size, size);
-    
-    // 텍스트 설정
-    context.fillStyle = faceData.textColor || '#000000';
-    context.font = `bold ${faceData.fontSize || 60}px Arial`;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    
-    // 여러 줄 텍스트 지원
-    const text = faceData.text || '';
-    const words = text.split(' ');
-    const lines = [];
-    let line = '';
-    
-    const maxWidth = size - 40;
-    for (let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + ' ';
-        const metrics = context.measureText(testLine);
-        const testWidth = metrics.width;
-        
-        if (testWidth > maxWidth && n > 0) {
-            lines.push(line);
-            line = words[n] + ' ';
-        } else {
-            line = testLine;
-        }
+// 초기화
+window.addEventListener('DOMContentLoaded', init);
+
+function init() {
+    // localStorage에서 커스텀 큐브 데이터 가져오기
+    const savedData = localStorage.getItem('currentCubeData');
+    if (savedData) {
+        customCubeData = JSON.parse(savedData);
     }
-    lines.push(line);
     
-    // 여러 줄 텍스트 중앙 정렬
-    const lineHeight = 70;
-    const startY = size/2 - (lines.length - 1) * lineHeight/2;
+    initThree();
+    initCannon();
+    initControls();
+    animate();
     
-    lines.forEach((line, index) => {
-        context.fillText(line.trim(), size/2, startY + index * lineHeight);
-    });
+    // 카메라 속도 조절 이벤트
+    const speedSlider = document.getElementById('camera-speed');
+    const speedValue = document.getElementById('speed-value');
+    if (speedSlider) {
+        speedSlider.addEventListener('input', function() {
+            cameraSpeed = parseFloat(this.value);
+            speedValue.textContent = cameraSpeed.toFixed(1);
+        });
+    }
     
-    return new THREE.CanvasTexture(canvas);
-}
-
-// 주사위 면 텍스처를 위한 캔버스 생성
-function createDiceFaceCanvas(number) {
-    const size = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const context = canvas.getContext('2d');
-    
-    // 배경
-    context.fillStyle = '#ffffff';
-    context.fillRect(0, 0, size, size);
-    
-    // 테두리
-    context.strokeStyle = '#000000';
-    context.lineWidth = 10;
-    context.strokeRect(5, 5, size - 10, size - 10);
-    
-    // 점 그리기
-    context.fillStyle = '#000000';
-    const dotSize = 40;
-    const positions = {
-        1: [[size/2, size/2]],
-        2: [[size/3, size/3], [2*size/3, 2*size/3]],
-        3: [[size/3, size/3], [size/2, size/2], [2*size/3, 2*size/3]],
-        4: [[size/3, size/3], [2*size/3, size/3], [size/3, 2*size/3], [2*size/3, 2*size/3]],
-        5: [[size/3, size/3], [2*size/3, size/3], [size/2, size/2], [size/3, 2*size/3], [2*size/3, 2*size/3]],
-        6: [[size/3, size/4], [size/3, size/2], [size/3, 3*size/4], [2*size/3, size/4], [2*size/3, size/2], [2*size/3, 3*size/4]]
-    };
-    
-    positions[number].forEach(([x, y]) => {
-        context.beginPath();
-        context.arc(x, y, dotSize/2, 0, 2 * Math.PI);
-        context.fill();
-    });
-    
-    return new THREE.CanvasTexture(canvas);
+    // 로딩 화면 제거
+    document.getElementById('loading').style.display = 'none';
 }
 
 // Three.js 초기화
@@ -107,7 +49,7 @@ function initThree() {
         0.1,
         1000
     );
-    camera.position.set(25, 30, 40);
+    camera.position.set(30, 40, 50);
     camera.lookAt(0, 0, 0);
     
     // 렌더러 설정
@@ -118,42 +60,23 @@ function initThree() {
     renderer.setClearColor(0x0a0a0a, 1);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
     
-    // OrbitControls 추가
-    if (THREE.OrbitControls) {
-        orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
-        orbitControls.enableDamping = true;
-        orbitControls.dampingFactor = 0.05;
-        orbitControls.minDistance = 20;
-        orbitControls.maxDistance = 80;
-        orbitControls.maxPolarAngle = Math.PI / 2 - 0.1; // 바닥 아래로 카메라가 가지 않도록
-    } else {
-        console.warn('OrbitControls를 사용할 수 없습니다. 마우스 컨트롤이 비활성화됩니다.');
-    }
-    
     // 조명 설정
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
     
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(20, 40, 20);
     directionalLight.castShadow = true;
-    directionalLight.shadow.camera.left = -30;
-    directionalLight.shadow.camera.right = 30;
-    directionalLight.shadow.camera.top = 30;
-    directionalLight.shadow.camera.bottom = -30;
-    directionalLight.shadow.camera.near = 0.1;
-    directionalLight.shadow.camera.far = 100;
+    directionalLight.shadow.camera.left = -50;
+    directionalLight.shadow.camera.right = 50;
+    directionalLight.shadow.camera.top = 50;
+    directionalLight.shadow.camera.bottom = -50;
     directionalLight.shadow.mapSize.width = 2048;
     directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
-    
-    // 포인트 라이트 추가 (주사위 강조)
-    const pointLight = new THREE.PointLight(0x00ff88, 0.5, 50);
-    pointLight.position.set(0, 20, 0);
-    scene.add(pointLight);
 }
 
-// Cannon.js 물리 엔진 초기화
+// Cannon.js 물리엔진 초기화
 function initCannon() {
     world = new CANNON.World();
     world.gravity.set(0, -30, 0);
@@ -173,7 +96,7 @@ function initCannon() {
     groundBody.position.set(0, -0.5, 0);
     world.add(groundBody);
     
-    // Three.js 바닥 메시
+    // Three.js 바닥
     const groundGeometry = new THREE.BoxGeometry(100, 1, 100);
     const groundMaterial = new THREE.MeshStandardMaterial({
         color: 0x1a1a1a,
@@ -185,60 +108,156 @@ function initCannon() {
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
     
-    // 벽 생성 (주사위가 날아가지 않도록)
+    // 벽 생성 (투명)
+    createWalls();
+}
+
+// 벽 생성
+function createWalls() {
     const wallThickness = 1;
     const wallHeight = 30;
     const wallDistance = 50;
     
-    // 벽 재질
     const wallMaterial = new CANNON.Material({
         friction: 0.1,
         restitution: 0.5
     });
     
-    // 앞뒤 벽
-    for (let i = 0; i < 2; i++) {
-        const wallShape = new CANNON.Box(new CANNON.Vec3(wallDistance, wallHeight, wallThickness));
-        const wallBody = new CANNON.Body({
-            mass: 0,
-            shape: wallShape,
-            material: wallMaterial
-        });
-        wallBody.position.set(0, wallHeight, i === 0 ? -wallDistance : wallDistance);
-        world.add(wallBody);
-        
-        // Three.js 벽 메시 (투명)
-        const wallGeometry = new THREE.BoxGeometry(wallDistance * 2, wallHeight * 2, wallThickness * 2);
-        const wallMesh = new THREE.Mesh(wallGeometry, new THREE.MeshStandardMaterial({
-            color: 0x00ff88,
-            transparent: true,
-            opacity: 0.1
-        }));
-        wallMesh.position.copy(wallBody.position);
-        scene.add(wallMesh);
-    }
+    // 4개의 벽
+    const walls = [
+        { pos: [0, wallHeight, -wallDistance], size: [wallDistance, wallHeight, wallThickness] },
+        { pos: [0, wallHeight, wallDistance], size: [wallDistance, wallHeight, wallThickness] },
+        { pos: [-wallDistance, wallHeight, 0], size: [wallThickness, wallHeight, wallDistance] },
+        { pos: [wallDistance, wallHeight, 0], size: [wallThickness, wallHeight, wallDistance] }
+    ];
     
-    // 좌우 벽
-    for (let i = 0; i < 2; i++) {
-        const wallShape = new CANNON.Box(new CANNON.Vec3(wallThickness, wallHeight, wallDistance));
+    walls.forEach((wall, index) => {
+        const wallShape = new CANNON.Box(new CANNON.Vec3(...wall.size));
         const wallBody = new CANNON.Body({
             mass: 0,
             shape: wallShape,
             material: wallMaterial
         });
-        wallBody.position.set(i === 0 ? -wallDistance : wallDistance, wallHeight, 0);
+        wallBody.position.set(...wall.pos);
         world.add(wallBody);
         
-        // Three.js 벽 메시 (투명)
-        const wallGeometry = new THREE.BoxGeometry(wallThickness * 2, wallHeight * 2, wallDistance * 2);
+        // 투명한 벽 시각화
+        const wallGeometry = new THREE.BoxGeometry(wall.size[0] * 2, wall.size[1] * 2, wall.size[2] * 2);
         const wallMesh = new THREE.Mesh(wallGeometry, new THREE.MeshStandardMaterial({
-            color: 0x00d4ff,
+            color: index < 2 ? 0x00ff88 : 0x00d4ff,
             transparent: true,
             opacity: 0.1
         }));
-        wallMesh.position.copy(wallBody.position);
+        wallMesh.position.set(...wall.pos);
         scene.add(wallMesh);
+    });
+}
+
+// 컨트롤 초기화
+function initControls() {
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 20;
+    controls.maxDistance = 100;
+    controls.maxPolarAngle = Math.PI / 2 - 0.1;
+    
+    // 이벤트 리스너
+    document.getElementById('throw-btn').addEventListener('click', throwDice);
+    
+    window.addEventListener('resize', onWindowResize);
+}
+
+// 주사위 텍스처 생성
+function createDiceTexture(text, bgColor, textColor, fontSize) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    
+    // 배경
+    ctx.fillStyle = bgColor || '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    
+    // 테두리
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.lineWidth = 8;
+    ctx.strokeRect(4, 4, size - 8, size - 8);
+    
+    // 텍스트
+    ctx.fillStyle = textColor || '#000000';
+    ctx.font = `bold ${fontSize || 60}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // 텍스트가 길면 줄바꿈
+    const words = text.toString().split(' ');
+    const lines = [];
+    let line = '';
+    
+    const maxWidth = size - 40;
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && n > 0) {
+            lines.push(line);
+            line = words[n] + ' ';
+        } else {
+            line = testLine;
+        }
     }
+    lines.push(line);
+    
+    // 여러 줄 텍스트 그리기
+    const lineHeight = fontSize || 60;
+    const startY = size / 2 - (lines.length - 1) * lineHeight / 2;
+    
+    lines.forEach((line, index) => {
+        ctx.fillText(line.trim(), size / 2, startY + index * lineHeight);
+    });
+    
+    return new THREE.CanvasTexture(canvas);
+}
+
+// 숫자 주사위 텍스처
+function createNumberDiceTexture(number) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    
+    // 배경
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    
+    // 테두리
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(5, 5, size - 10, size - 10);
+    
+    // 점 그리기
+    ctx.fillStyle = '#000000';
+    const dotSize = 40;
+    const positions = {
+        1: [[size/2, size/2]],
+        2: [[size/3, size/3], [2*size/3, 2*size/3]],
+        3: [[size/3, size/3], [size/2, size/2], [2*size/3, 2*size/3]],
+        4: [[size/3, size/3], [2*size/3, size/3], [size/3, 2*size/3], [2*size/3, 2*size/3]],
+        5: [[size/3, size/3], [2*size/3, size/3], [size/2, size/2], [size/3, 2*size/3], [2*size/3, 2*size/3]],
+        6: [[size/3, size/4], [size/3, size/2], [size/3, 3*size/4], [2*size/3, size/4], [2*size/3, size/2], [2*size/3, 3*size/4]]
+    };
+    
+    positions[number].forEach(([x, y]) => {
+        ctx.beginPath();
+        ctx.arc(x, y, dotSize/2, 0, 2 * Math.PI);
+        ctx.fill();
+    });
+    
+    return new THREE.CanvasTexture(canvas);
 }
 
 // 주사위 생성
@@ -257,70 +276,51 @@ function createDice(position) {
     });
     body.position.copy(position);
     
-    // 랜덤 회전 적용
+    // 랜덤 회전
     body.quaternion.setFromEuler(
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2
     );
     
-    // 랜덤 속도 적용
+    // 랜덤 속도
     body.velocity.set(
-        (Math.random() - 0.5) * 30,
-        Math.random() * 20 + 10,
-        (Math.random() - 0.5) * 30
+        (Math.random() - 0.5) * 20,
+        Math.random() * 10 + 20,
+        (Math.random() - 0.5) * 20
     );
     
-    // 랜덤 각속도 적용
+    // 랜덤 각속도
     body.angularVelocity.set(
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10
     );
     
     world.add(body);
     
     // Three.js 메시
     const materials = [];
-    
-    // 주사위 타입에 따른 텍스처 생성
     const diceType = document.getElementById('dice-type').value;
     
-    if (diceType === 'custom' && customDiceData) {
-        // 커스텀 주사위 텍스처 생성
-        customDiceData.faces.forEach(faceData => {
+    if (diceType === 'custom' && customCubeData) {
+        // 커스텀 주사위
+        customCubeData.faces.forEach(face => {
             materials.push(new THREE.MeshStandardMaterial({
-                map: createDiceFaceTexture(faceData),
+                map: createDiceTexture(face.text, face.backgroundColor, face.textColor, face.fontSize),
                 roughness: 0.4,
                 metalness: 0.1
             }));
         });
     } else {
-        // 표준 주사위 텍스처 생성
+        // 숫자 주사위
         for (let i = 1; i <= 6; i++) {
             materials.push(new THREE.MeshStandardMaterial({
-                map: createDiceFaceCanvas(i),
+                map: createNumberDiceTexture(i),
                 roughness: 0.4,
                 metalness: 0.1
             }));
         }
-    }
-    
-    const geometry = new THREE.BoxGeometry(size, size, size);
-    const mesh = new THREE.Mesh(geometry, materials);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    scene.add(mesh);
-    
-    return { body, mesh };
-}
-    
-    for (let i = 1; i <= 6; i++) {
-        materials.push(new THREE.MeshStandardMaterial({
-            map: createDiceFaceCanvas(i),
-            metalness: 0.3,
-            roughness: 0.4
-        }));
     }
     
     const geometry = new THREE.BoxGeometry(size, size, size);
@@ -336,6 +336,7 @@ function throwDice() {
     if (isRolling) return;
     
     isRolling = true;
+    const throwBtn = document.getElementById('throw-btn');
     throwBtn.disabled = true;
     throwBtn.textContent = '굴리는 중...';
     
@@ -345,12 +346,13 @@ function throwDice() {
         scene.remove(die.mesh);
     });
     dice = [];
+    diceValues = [];
     
     // 결과 숨기기
     document.getElementById('results').style.display = 'none';
     
     // 새 주사위 생성
-    const count = parseInt(diceCountSelect.value);
+    const count = parseInt(document.getElementById('dice-count').value);
     for (let i = 0; i < count; i++) {
         const position = new CANNON.Vec3(
             (Math.random() - 0.5) * 10,
@@ -360,11 +362,11 @@ function throwDice() {
         dice.push(createDice(position));
     }
     
-    // 일정 시간 후 결과 확인
-    setTimeout(checkResults, 4000);
+    // 결과 확인
+    setTimeout(checkResults, 3000);
 }
 
-// 주사위 상단면 확인
+// 주사위 값 확인
 function getDiceValue(die) {
     const quaternion = die.body.quaternion;
     const euler = new THREE.Euler();
@@ -377,12 +379,12 @@ function getDiceValue(die) {
     
     // 각 면의 법선 벡터
     const faces = [
-        { normal: new THREE.Vector3(1, 0, 0), value: 1 },  // +X
-        { normal: new THREE.Vector3(-1, 0, 0), value: 6 }, // -X
-        { normal: new THREE.Vector3(0, 1, 0), value: 2 },  // +Y
-        { normal: new THREE.Vector3(0, -1, 0), value: 5 }, // -Y
-        { normal: new THREE.Vector3(0, 0, 1), value: 3 },  // +Z
-        { normal: new THREE.Vector3(0, 0, -1), value: 4 }  // -Z
+        { normal: new THREE.Vector3(1, 0, 0), value: 1 },   // +X (오른쪽)
+        { normal: new THREE.Vector3(-1, 0, 0), value: 2 },  // -X (왼쪽)
+        { normal: new THREE.Vector3(0, 1, 0), value: 3 },   // +Y (위)
+        { normal: new THREE.Vector3(0, -1, 0), value: 4 },  // -Y (아래)
+        { normal: new THREE.Vector3(0, 0, 1), value: 5 },   // +Z (앞)
+        { normal: new THREE.Vector3(0, 0, -1), value: 6 }   // -Z (뒤)
     ];
     
     // 위쪽을 향하는 벡터
@@ -390,9 +392,9 @@ function getDiceValue(die) {
     
     // 각 면의 현재 방향 계산
     let maxDot = -1;
-    let topFaceIndex = 0;
+    let topFace = 1;
     
-    faces.forEach((face, index) => {
+    faces.forEach(face => {
         const rotatedNormal = face.normal.clone();
         rotatedNormal.applyQuaternion(new THREE.Quaternion(
             quaternion.x,
@@ -404,51 +406,56 @@ function getDiceValue(die) {
         const dot = rotatedNormal.dot(upVector);
         if (dot > maxDot) {
             maxDot = dot;
-            topFaceIndex = index;
+            topFace = face.value;
         }
     });
     
-    // 커스텀 주사위인 경우 실제 면 내용 반환
-    const diceType = document.getElementById('dice-type').value;
-    if (diceType === 'custom' && customDiceData) {
-        return customDiceData.faces[topFaceIndex];
-    }
-    
-    return faces[topFaceIndex].value;
+    return topFace;
 }
 
 // 결과 확인
 function checkResults() {
-    const results = [];
     let allStopped = true;
     
     dice.forEach(die => {
         const velocity = die.body.velocity;
         const angularVelocity = die.body.angularVelocity;
         
-        // 움직임 확인
         if (velocity.length() > 0.1 || angularVelocity.length() > 0.1) {
             allStopped = false;
         }
     });
     
     if (!allStopped) {
-        // 아직 움직이고 있으면 다시 확인
         setTimeout(checkResults, 500);
         return;
     }
     
-    // 모든 주사위가 멈췄으면 결과 계산
+    // 결과 계산
+    const diceType = document.getElementById('dice-type').value;
+    const results = [];
+    
     dice.forEach((die, index) => {
         const value = getDiceValue(die);
-        results.push(value);
+        if (diceType === 'custom' && customCubeData) {
+            results.push({
+                type: 'custom',
+                value: customCubeData.faces[value - 1]
+            });
+        } else {
+            results.push({
+                type: 'number',
+                value: value
+            });
+        }
     });
     
     displayResults(results);
     
     isRolling = false;
+    const throwBtn = document.getElementById('throw-btn');
     throwBtn.disabled = false;
-    throwBtn.textContent = '주사위 던지기';
+    throwBtn.textContent = '🎲 던지기!';
 }
 
 // 결과 표시
@@ -458,23 +465,34 @@ function displayResults(results) {
     const totalSum = document.getElementById('total-sum');
     
     resultList.innerHTML = '';
+    let sum = 0;
     
-    results.forEach((value, index) => {
+    results.forEach((result, index) => {
         const resultItem = document.createElement('div');
         resultItem.className = 'result-item';
-        resultItem.innerHTML = `
-            <div class="dice-icon">${value}</div>
-            <span>주사위 ${index + 1}: ${value}</span>
-        `;
+        
+        if (result.type === 'custom') {
+            resultItem.innerHTML = `
+                <div class="dice-number" style="background: ${result.value.backgroundColor}; color: ${result.value.textColor}">
+                    ${index + 1}
+                </div>
+                <div class="dice-text">${result.value.text}</div>
+            `;
+        } else {
+            resultItem.innerHTML = `
+                <div class="dice-number">${result.value}</div>
+                <div class="dice-text">주사위 ${index + 1}</div>
+            `;
+            sum += result.value;
+        }
+        
         resultList.appendChild(resultItem);
     });
     
-    // 커스텀 주사위인 경우 합계 표시 안함
-    const diceType = document.getElementById('dice-type').value;
-    if (diceType === 'standard') {
-        const sum = results.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        totalSum.textContent = `합계: ${sum}`;
+    // 숫자 주사위일 때만 합계 표시
+    if (results.length > 0 && results[0].type === 'number') {
         totalSum.style.display = 'block';
+        totalSum.textContent = `합계: ${sum}`;
     } else {
         totalSum.style.display = 'none';
     }
@@ -486,7 +504,7 @@ function displayResults(results) {
 function animate() {
     requestAnimationFrame(animate);
     
-    // 물리 엔진 업데이트
+    // 물리엔진 업데이트
     world.step(1/60);
     
     // 주사위 위치 동기화
@@ -495,176 +513,146 @@ function animate() {
         die.mesh.quaternion.copy(die.body.quaternion);
     });
     
-    // OrbitControls 업데이트
-    if (orbitControls) {
-        orbitControls.update();
+    // 컨트롤 업데이트
+    if (controls) {
+        controls.update();
     }
     
-    // 렌더링
     renderer.render(scene, camera);
 }
 
-// 윈도우 리사이즈 처리
-function handleResize() {
+// 윈도우 리사이즈
+function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// 커스텀 주사위 로드
-function loadCustomDice() {
-    const selectedDice = localStorage.getItem('selectedCustomDice');
-    if (selectedDice) {
-        customDiceData = JSON.parse(selectedDice);
+// OrbitControls 간단 구현
+class OrbitControls {
+    constructor(camera, domElement) {
+        this.camera = camera;
+        this.domElement = domElement;
+        this.enabled = true;
         
-        // 알림 표시
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            left: 30px;
-            background: linear-gradient(45deg, #00ff88, #00d4ff);
-            color: #000;
-            padding: 15px 20px;
-            border-radius: 15px;
-            font-weight: bold;
-            z-index: 1000;
-            animation: slideIn 0.5s ease;
-        `;
-        notification.textContent = `커스텀 주사위 "${customDiceData.name}" 로드됨`;
+        this.target = new THREE.Vector3();
+        this.minDistance = 20;
+        this.maxDistance = 100;
+        this.enableDamping = true;
+        this.dampingFactor = 0.05;
+        this.maxPolarAngle = Math.PI / 2 - 0.1;
         
-        document.body.appendChild(notification);
+        this.spherical = new THREE.Spherical();
+        this.sphericalDelta = new THREE.Spherical();
+        this.scale = 1;
+        this.panOffset = new THREE.Vector3();
         
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
+        this.rotateStart = new THREE.Vector2();
+        this.rotateEnd = new THREE.Vector2();
+        this.rotateDelta = new THREE.Vector2();
         
-        // 주사위 타입을 커스텀으로 설정
-        diceTypeSelect.value = 'custom';
-    }
-}
-
-// 주사위 타입 변경 처리
-function handleDiceTypeChange() {
-    const diceType = diceTypeSelect.value;
-    
-    if (diceType === 'custom' && !customDiceData) {
-        // 커스텀 주사위가 없는 경우
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            left: 30px;
-            background: rgba(255, 100, 100, 0.9);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 15px;
-            font-weight: bold;
-            z-index: 1000;
-        `;
-        notification.innerHTML = `
-            커스텀 주사위가 없습니다.<br>
-            <a href="../03-dice-maker/" style="color: white; text-decoration: underline;">주사위 만들기로 이동</a>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-        
-        // 표준 주사위로 되돌리기
-        diceTypeSelect.value = 'standard';
-    }
-}
-
-// 초기화
-function init() {
-    console.log('초기화 시작');
-    
-    try {
-        initThree();
-        console.log('Three.js 초기화 완료');
-    } catch (e) {
-        console.error('Three.js 초기화 실패:', e);
-        document.getElementById('loading').innerHTML = '<p style="color: red;">Three.js 초기화 실패</p>';
-        return;
+        this.init();
     }
     
-    try {
-        initCannon();
-        console.log('Cannon.js 초기화 완료');
-    } catch (e) {
-        console.error('Cannon.js 초기화 실패:', e);
-        document.getElementById('loading').innerHTML = '<p style="color: red;">물리엔진 초기화 실패</p>';
-        return;
+    init() {
+        this.domElement.addEventListener('mousedown', this.onMouseDown.bind(this));
+        this.domElement.addEventListener('wheel', this.onMouseWheel.bind(this));
+        this.domElement.addEventListener('contextmenu', e => e.preventDefault());
+        
+        this.update();
     }
     
-    // DOM 요소 참조
-    throwBtn = document.getElementById('throw-btn');
-    diceCountSelect = document.getElementById('dice-count');
-    diceTypeSelect = document.getElementById('dice-type');
+    onMouseDown(event) {
+        if (!this.enabled) return;
+        
+        event.preventDefault();
+        
+        this.rotateStart.set(event.clientX, event.clientY);
+        
+        this.domElement.addEventListener('mousemove', this.onMouseMove.bind(this));
+        this.domElement.addEventListener('mouseup', this.onMouseUp.bind(this));
+    }
     
-    // 커스텀 주사위 로드
-    loadCustomDice();
+    onMouseMove(event) {
+        if (!this.enabled) return;
+        
+        event.preventDefault();
+        
+        this.rotateEnd.set(event.clientX, event.clientY);
+        this.rotateDelta.subVectors(this.rotateEnd, this.rotateStart).multiplyScalar(0.002 * cameraSpeed); // 전역 속도 변수 사용
+        
+        this.sphericalDelta.theta -= this.rotateDelta.x;
+        this.sphericalDelta.phi -= this.rotateDelta.y;
+        
+        this.rotateStart.copy(this.rotateEnd);
+        
+        this.update();
+    }
     
-    // 이벤트 리스너
-    throwBtn.addEventListener('click', throwDice);
-    diceTypeSelect.addEventListener('change', handleDiceTypeChange);
-    window.addEventListener('resize', handleResize);
+    onMouseUp() {
+        this.domElement.removeEventListener('mousemove', this.onMouseMove.bind(this));
+        this.domElement.removeEventListener('mouseup', this.onMouseUp.bind(this));
+    }
     
-    // 로딩 화면 숨기기
-    document.getElementById('loading').style.display = 'none';
-    
-    // 애니메이션 시작
-    animate();
-    
-    // 초기 주사위 던지기
-    setTimeout(() => {
-        throwDice();
-    }, 500);
-    
-    console.log('초기화 완료');
-}
-
-// CSS 애니메이션 추가
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
+    onMouseWheel(event) {
+        if (!this.enabled) return;
+        
+        event.preventDefault();
+        
+        if (event.deltaY < 0) {
+            this.scale *= 0.95;
+        } else if (event.deltaY > 0) {
+            this.scale /= 0.95;
         }
-        to {
-            opacity: 1;
-            transform: translateX(0);
+        
+        this.update();
+    }
+    
+    update() {
+        const offset = new THREE.Vector3();
+        const quat = new THREE.Quaternion().setFromUnitVectors(
+            this.camera.up,
+            new THREE.Vector3(0, 1, 0)
+        );
+        const quatInverse = quat.clone().invert();
+        
+        const lastPosition = new THREE.Vector3();
+        const lastQuaternion = new THREE.Quaternion();
+        
+        const position = this.camera.position;
+        
+        offset.copy(position).sub(this.target);
+        offset.applyQuaternion(quat);
+        
+        this.spherical.setFromVector3(offset);
+        
+        this.spherical.theta += this.sphericalDelta.theta;
+        this.spherical.phi += this.sphericalDelta.phi;
+        
+        this.spherical.phi = Math.max(0, Math.min(this.maxPolarAngle, this.spherical.phi));
+        
+        this.spherical.makeSafe();
+        
+        this.spherical.radius *= this.scale;
+        this.spherical.radius = Math.max(this.minDistance, Math.min(this.maxDistance, this.spherical.radius));
+        
+        this.target.add(this.panOffset);
+        
+        offset.setFromSpherical(this.spherical);
+        offset.applyQuaternion(quatInverse);
+        
+        position.copy(this.target).add(offset);
+        
+        this.camera.lookAt(this.target);
+        
+        if (this.enableDamping) {
+            this.sphericalDelta.theta *= (1 - this.dampingFactor);
+            this.sphericalDelta.phi *= (1 - this.dampingFactor);
+        } else {
+            this.sphericalDelta.set(0, 0, 0);
         }
+        
+        this.scale = 1;
+        this.panOffset.set(0, 0, 0);
     }
-`;
-document.head.appendChild(style);
-
-// 페이지 로드 완료 시 초기화
-window.addEventListener('DOMContentLoaded', () => {
-    // 라이브러리 로드 확인
-    if (typeof THREE === 'undefined') {
-        console.error('Three.js가 로드되지 않았습니다.');
-        document.getElementById('loading').innerHTML = '<p style="color: red;">Three.js 로드 실패</p>';
-        return;
-    }
-    
-    if (typeof CANNON === 'undefined') {
-        console.error('Cannon.js가 로드되지 않았습니다.');
-        document.getElementById('loading').innerHTML = '<p style="color: red;">Cannon.js 로드 실패</p>';
-        return;
-    }
-    
-    // OrbitControls 확인
-    if (!THREE.OrbitControls) {
-        console.error('OrbitControls가 로드되지 않았습니다.');
-        document.getElementById('loading').innerHTML = '<p style="color: red;">OrbitControls 로드 실패</p>';
-        return;
-    }
-    
-    // 모든 라이브러리가 로드되면 초기화
-    setTimeout(init, 100);
-});
+}

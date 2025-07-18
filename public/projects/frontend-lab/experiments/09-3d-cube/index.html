@@ -3,70 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D 큐브 애니메이션</title>
+    <title>3D 큐브 커스터마이저</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <a href="../../" class="back-link">← 실험실로 돌아가기</a>
-        <h1>3D 큐브 애니메이션</h1>
-        <p class="subtitle">각 면을 클릭하여 텍스트를 편집할 수 있습니다</p>
+        <h1>3D 큐브 커스터마이저</h1>
+        <p class="subtitle">각 면을 클릭하여 텍스트를 편집하고, 물리엔진으로 던져보세요!</p>
         
         <div class="scene">
-            <div class="cube">
-                <div class="face front" data-face="front">
-                    <div class="face-content" contenteditable="true">Front</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+            <div class="cube" id="cube">
+                <div class="face front" data-face="1">
+                    <div class="face-content" contenteditable="true">1</div>
                 </div>
-                <div class="face back" data-face="back">
-                    <div class="face-content" contenteditable="true">Back</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+                <div class="face back" data-face="2">
+                    <div class="face-content" contenteditable="true">2</div>
                 </div>
-                <div class="face left" data-face="left">
-                    <div class="face-content" contenteditable="true">Left</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+                <div class="face right" data-face="3">
+                    <div class="face-content" contenteditable="true">3</div>
                 </div>
-                <div class="face right" data-face="right">
-                    <div class="face-content" contenteditable="true">Right</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+                <div class="face left" data-face="4">
+                    <div class="face-content" contenteditable="true">4</div>
                 </div>
-                <div class="face top" data-face="top">
-                    <div class="face-content" contenteditable="true">Top</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+                <div class="face top" data-face="5">
+                    <div class="face-content" contenteditable="true">5</div>
                 </div>
-                <div class="face bottom" data-face="bottom">
-                    <div class="face-content" contenteditable="true">Bottom</div>
-                    <div class="face-toolbar">
-                        <button class="tool-btn" data-action="bold" title="굵게">B</button>
-                        <button class="tool-btn" data-action="italic" title="기울임">I</button>
-                        <input type="color" class="color-picker" title="글자색">
-                        <button class="tool-btn emoji-btn" title="이모지">😀</button>
-                    </div>
+                <div class="face bottom" data-face="6">
+                    <div class="face-content" contenteditable="true">6</div>
                 </div>
             </div>
         </div>
@@ -85,52 +49,38 @@
                 <label>Z축 회전: <span id="rotateZ">0</span>°</label>
                 <input type="range" id="rotateZSlider" min="0" max="360" value="0">
             </div>
+            
+            <h3>텍스트 스타일</h3>
             <div class="control-group">
-                <label>크기: <span id="scale">1</span></label>
-                <input type="range" id="scaleSlider" min="0.5" max="2" step="0.1" value="1">
+                <label>글자 크기:</label>
+                <input type="range" id="fontSizeSlider" min="20" max="80" value="40">
+                <span id="fontSize">40px</span>
             </div>
+            <div class="control-group">
+                <label>글자 색상:</label>
+                <input type="color" id="textColor" value="#000000">
+            </div>
+            <div class="control-group">
+                <label>배경 색상:</label>
+                <input type="color" id="bgColor" value="#ffffff">
+            </div>
+            
             <div class="button-group">
                 <button id="autoRotate">자동 회전</button>
                 <button id="reset">리셋</button>
-                <button id="resetText">텍스트 초기화</button>
+                <button id="resetText">숫자로 초기화</button>
             </div>
             
-            <h3 style="margin-top: 30px;">주사위 기능</h3>
+            <h3>물리엔진 테스트</h3>
             <div class="button-group">
-                <button id="rollDice" class="roll-btn">🎲 주사위 던지기!</button>
-                <button id="saveCube">큐브 저장</button>
-                <button id="loadCube">큐브 불러오기</button>
+                <button id="testPhysics" class="primary-btn">🎲 물리엔진으로 던지기</button>
+                <button id="saveCube">현재 큐브 저장</button>
             </div>
+            
             <div id="savedCubes" class="saved-cubes"></div>
         </div>
-
-        <!-- 이모지 선택 팝업 -->
-        <div class="emoji-popup" id="emojiPopup">
-            <div class="emoji-grid">
-                <span class="emoji-item">😀</span>
-                <span class="emoji-item">😎</span>
-                <span class="emoji-item">🎉</span>
-                <span class="emoji-item">❤️</span>
-                <span class="emoji-item">🌟</span>
-                <span class="emoji-item">🔥</span>
-                <span class="emoji-item">💡</span>
-                <span class="emoji-item">🚀</span>
-                <span class="emoji-item">🎨</span>
-                <span class="emoji-item">🎯</span>
-                <span class="emoji-item">💎</span>
-                <span class="emoji-item">🌈</span>
-            </div>
-        </div>
-        
-        <!-- 주사위 결과 모달 -->
-        <div class="dice-result-modal" id="diceResultModal">
-            <div class="dice-result-content">
-                <h2>주사위 결과</h2>
-                <div class="result-face" id="resultFace"></div>
-                <button class="close-modal" id="closeModal">닫기</button>
-            </div>
-        </div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
