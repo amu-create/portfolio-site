@@ -68,11 +68,12 @@ export const portfolioData = {
   },
   
   projects: [
+    
     {
       title: "AI 헬스케어 어시스턴트 - HealthWise AI",
       type: "1인 개발",
-      period: "2024.11 - 2024.12",
-      award: "🏆 프로젝트 우수상",
+      period: "2025.5 - 2025.7",
+      
       description: "Claude MCP를 활용한 개인 맞춤형 건강 관리 AI 서비스 - 신입 개발자 중 최초로 MCP 기술 적용",
       achievements: [
         "Claude MCP를 활용한 고급 프롬프트 엔지니어링으로 응답 품질 40% 향상",
@@ -125,7 +126,7 @@ export const portfolioData = {
     {
       title: "HealthWise AI Pro - Docker 기반 풀스택 시스템",
       type: "팀 프로젝트 (기여도 70%)",
-      period: "2025.06 - 2025.07",
+      period: "2025.05 - 2025.07",
       award: "🏅 최우수 팀 프로젝트",
       description: "MediaPipe 기반 실시간 운동 자세 분석 및 AI 건강 상담 플랫폼",
       achievements: [
@@ -175,12 +176,54 @@ export const portfolioData = {
           ]
         }
       ]
+    },{
+      title: "종합 프론트엔드 실험실",
+      type: "개인 프로젝트",
+      period: "2025.07.10~20",
+      award: "🔬 실험적 웹 기술 쇼케이스",
+      description: "최신 웹 기술과 창의적인 인터랙션을 실험하는 종합 프론트엔드 실험실. 다크모드, 드래그앤드롭, Canvas 파티클, CSS 3D, WebGL 셰이더 등 5가지 핵심 기술 데모 포함",
+      achievements: [
+        "CSS Variables와 LocalStorage를 활용한 다크모드 시스템 구현",
+        "HTML5 Drag & Drop API로 직관적인 인터랙션 디자인",
+        "Canvas API를 활용한 파티클 물리 시뮬레이션 구현",
+        "CSS 3D Transform으로 인터랙티브 3D 큐브 애니메이션 제작",
+        "WebGL과 GLSL 셰이더로 GPU 가속 비주얼 이펙트 구현"
+      ],
+      technologies: ["WebGL", "GLSL", "Canvas API", "CSS 3D", "Web APIs", "JavaScript"],
+      link: "/projects/frontend-lab",
+      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
+      frontendShowcase: [
+        {
+          title: "다크모드 시스템",
+          description: "CSS 변수와 LocalStorage를 활용한 테마 전환",
+          gradient: "from-gray-800 to-gray-900",
+          icon: "moon",
+          features: [
+            "CSS Custom Properties로 동적 테마 관리",
+            "LocalStorage로 사용자 설정 영구 저장",
+            "부드러운 전환 애니메이션",
+            "시스템 설정 자동 감지"
+          ]
+        },
+        {
+          title: "WebGL 셰이더",
+          description: "GPU 가속을 활용한 실시간 비주얼 이펙트",
+          gradient: "from-purple-600 to-pink-600",
+          icon: "cpu",
+          features: [
+            "GLSL Fragment Shader로 실시간 렌더링",
+            "시간 기반 애니메이션 유니폼 변수",
+            "모바일 GPU 최적화",
+            "60FPS 부드러운 성능"
+          ]
+        }
+      ]
     }
   ],
   
   experience: [
     {
-      position: "보라카이 현지 여행 가이드",
+      position: "보라카이(+팔라완) 현지 여행 가이드",
       company: "프리랜서",
       period: "2019.03 - 2022.02",
       duration: "3년",

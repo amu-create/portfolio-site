@@ -1,0 +1,93 @@
+# 커스텀 주사위 연동 구현 완료 보고서
+
+## 작업 일시
+2025년 1월 27일
+
+## 작업 내용
+포트폴리오 사이트의 프론트엔드 실험실에 커스텀 주사위 만들기 도구를 추가하고, 물리 엔진 주사위 던지기와 연동했습니다.
+
+## 수정/생성된 파일
+
+### 1. 커스텀 주사위 만들기 (새로 생성)
+- **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\03-dice-maker\index.html**
+  - 커스텀 주사위 디자인 도구 UI
+  - 실시간 3D 미리보기
+  - 저장/불러오기 기능
+
+- **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\03-dice-maker\dice-maker.js**
+  - 주사위 커스터마이징 로직
+  - LocalStorage 저장/관리
+  - 물리 엔진 연동 기능
+
+### 2. 물리 엔진 주사위 (기존 파일 수정)
+- **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\index.html**
+  - 주사위 타입 선택 드롭다운 추가 (표준/커스텀)
+  - 주사위 만들기 페이지 링크 추가
+
+- **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\dice.js**
+  - 커스텀 주사위 텍스처 생성 함수 추가
+  - 커스텀 주사위 데이터 로드 기능
+  - 결과 표시 로직 수정 (커스텀 주사위는 합계 표시 안함)
+  - 문법 오류 수정 (중복 함수 제거)
+
+### 3. 메인 실험실 페이지 업데이트
+- **C:\Users\User\portfolio-site\public\projects\frontend-lab\index.html**
+  - 03번 실험으로 커스텀 주사위 만들기 추가
+  - 실험 개수 6개에서 7개로 업데이트
+
+## 주요 기능
+
+### 커스텀 주사위 만들기
+1. **주사위 타입 선택**
+   - 숫자형: 기본 1-6 숫자
+   - 텍스트형: 각 면에 원하는 텍스트
+   - 이모지형: 각 면에 이모지 설정
+
+2. **디자인 커스터마이징**
+   - 배경색/텍스트색 자유 설정
+   - 각 면의 내용 개별 설정
+   - 실시간 3D 미리보기
+
+3. **저장 및 관리**
+   - 여러 개의 커스텀 주사위 저장
+   - 저장된 주사위 목록 관리
+   - 물리 엔진으로 바로 전송 기능
+
+### 물리 엔진 연동
+1. **주사위 타입 선택**
+   - 표준 주사위 (1-6)
+   - 커스텀 주사위
+
+2. **자동 로드**
+   - 주사위 만들기에서 선택한 주사위 자동 로드
+   - 커스텀 주사위 이름 표시 알림
+
+3. **결과 표시**
+   - 표준 주사위: 개별 값과 합계 표시
+   - 커스텀 주사위: 개별 면 내용만 표시
+
+## 사용 방법
+1. 주사위 만들기 페이지에서 커스텀 주사위 디자인
+2. "주사위 저장" 버튼으로 저장
+3. 저장된 주사위에서 "물리 엔진에서 사용" 클릭
+4. 물리 엔진 페이지로 이동하면 자동으로 해당 주사위 로드
+5. 주사위 타입을 "커스텀 주사위"로 선택하여 던지기
+
+## 기술 스택
+- **Three.js**: 3D 그래픽 렌더링
+- **Cannon.js**: 물리 엔진
+- **Canvas API**: 주사위 면 텍스처 생성
+- **LocalStorage**: 커스텀 주사위 데이터 저장
+
+## 접근 경로
+- 주사위 만들기: `http://localhost:3002/projects/frontend-lab/experiments/03-dice-maker/`
+- 물리 엔진: `http://localhost:3002/projects/frontend-lab/experiments/11-physics-dice/`
+
+## 해결된 문제
+- getDiceValue 함수 중복으로 인한 문법 오류 수정
+- 파일 구조 정리 및 최적화
+
+## 특징
+- 사용자가 만든 커스텀 주사위를 실제 물리 엔진에서 던질 수 있음
+- 텍스트, 이모지 등 다양한 형태의 주사위 지원
+- 두 페이지 간 seamless한 데이터 연동

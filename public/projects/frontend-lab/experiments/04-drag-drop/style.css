@@ -1,0 +1,233 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    color: #4ecdc4;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background: rgba(78, 205, 196, 0.2);
+    border-color: #4ecdc4;
+    transform: translateY(-2px);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 40px 0;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 1.2em;
+}
+
+.main-content {
+    margin-bottom: 50px;
+}
+
+.todo-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.column {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.column h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drop-zone {
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.drop-zone.drag-over {
+    background: rgba(78, 205, 196, 0.1);
+    border-color: #4ecdc4;
+    transform: scale(1.02);
+}
+
+.task-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: move;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.task-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    cursor: grabbing;
+}
+
+.task-icon {
+    font-size: 2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.task-item h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.task-item p {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.priority {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.priority.high {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.4);
+}
+
+.priority.medium {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.4);
+}
+
+.priority.low {
+    background: rgba(78, 205, 196, 0.2);
+    color: #4ecdc4;
+    border: 1px solid rgba(78, 205, 196, 0.4);
+}
+
+.controls {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.btn {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.stat-card h3 {
+    margin-bottom: 20px;
+    color: #4ecdc4;
+}
+
+.stat-card p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.stat-card span {
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.task-item {
+    animation: fadeIn 0.3s ease-out;
+}

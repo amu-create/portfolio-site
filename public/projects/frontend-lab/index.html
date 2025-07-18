@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종합 프론트엔드 실험실</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #00ff88;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .experiments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .experiment-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experiment-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff, #ff00ff);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .experiment-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .experiment-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #000;
+        }
+
+        .experiment-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .experiment-description {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tech-tag {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #00ff88;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .view-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← 포트폴리오로 돌아가기</a>
+            <h1>종합 프론트엔드 실험실</h1>
+            <p class="subtitle">7가지 핵심 웹 기술 데모</p>
+        </header>
+
+        <div class="experiments-grid" id="experimentsGrid">
+            <!-- JavaScript로 동적 생성 -->
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Frontend Lab. Built with passion for web experimentation.</p>
+        </footer>
+    </div>
+
+    <script>
+        const experiments = [
+            {
+                number: '02',
+                title: '다크 모드',
+                description: 'CSS 변수와 JavaScript를 활용한 테마 전환 시스템',
+                tags: ['CSS Variables', 'LocalStorage', 'Theme'],
+                path: 'experiments/02-dark-mode/index.html'
+            },
+            {
+                number: '03',
+                title: '커스텀 주사위 만들기',
+                description: '나만의 특별한 주사위를 디자인하고 저장하는 도구',
+                tags: ['Canvas', 'LocalStorage', 'Design'],
+                path: 'experiments/03-dice-maker/index.html'
+            },
+            {
+                number: '04',
+                title: '드래그 & 드롭',
+                description: 'HTML5 Drag and Drop API를 활용한 인터랙티브 UI',
+                tags: ['Drag & Drop', 'JavaScript', 'Interactive'],
+                path: 'experiments/04-drag-drop/index.html'
+            },
+            {
+                number: '07',
+                title: '캔버스 파티클',
+                description: 'Canvas API를 활용한 파티클 시스템과 물리 시뮬레이션',
+                tags: ['Canvas', 'Animation', 'Physics'],
+                path: 'experiments/07-canvas-particles/index.html'
+            },
+            {
+                number: '09',
+                title: '3D 큐브',
+                description: 'CSS 3D 변환을 활용한 인터랙티브 3D 큐브 애니메이션',
+                tags: ['CSS 3D', 'Transform', 'Animation'],
+                path: 'experiments/09-3d-cube/index.html'
+            },
+            {
+                number: '10',
+                title: 'WebGL Shader',
+                description: 'WebGL과 GLSL을 활용한 실시간 셰이더 애니메이션',
+                tags: ['WebGL', 'GLSL', 'GPU', 'Shader'],
+                path: 'experiments/10-webgl-shader/index.html'
+            },
+            {
+                number: '11',
+                title: '물리 엔진 주사위',
+                description: 'Three.js와 Cannon.js를 활용한 실제 물리 법칙이 적용되는 3D 주사위 던지기',
+                tags: ['Three.js', 'Cannon.js', 'Physics', '3D'],
+                path: 'experiments/11-physics-dice/index.html'
+            }
+        ];
+
+        const grid = document.getElementById('experimentsGrid');
+
+        function createExperimentCard(experiment) {
+            return `
+                <div class="experiment-card">
+                    <div class="experiment-number">${experiment.number}</div>
+                    <h2 class="experiment-title">${experiment.title}</h2>
+                    <p class="experiment-description">${experiment.description}</p>
+                    <div class="tech-tags">
+                        ${experiment.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="${experiment.path}" class="view-btn">실험 보기</a>
+                </div>
+            `;
+        }
+
+        function renderExperiments() {
+            grid.innerHTML = experiments.map(exp => createExperimentCard(exp)).join('');
+        }
+
+        // 초기 렌더링
+        renderExperiments();
+    </script>
+</body>
+</html>

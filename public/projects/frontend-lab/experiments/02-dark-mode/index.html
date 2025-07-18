@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다크 모드 토글</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← 실험실로 돌아가기</a>
+        <header>
+            <h1>다크 모드 시스템</h1>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <span class="icon moon">🌙</span>
+                        <span class="icon sun">☀️</span>
+                    </div>
+                </label>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h2>CSS 변수를 활용한 테마 시스템</h2>
+                <p>토글 버튼을 클릭하여 테마를 변경해보세요!</p>
+            </section>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>자동 저장</h3>
+                    <p>LocalStorage를 사용하여 선택한 테마가 자동으로 저장됩니다.</p>
+                </div>
+                <div class="card">
+                    <h3>부드러운 전환</h3>
+                    <p>CSS transition을 활용한 자연스러운 테마 전환 효과</p>
+                </div>
+                <div class="card">
+                    <h3>시스템 연동</h3>
+                    <p>prefers-color-scheme을 통한 시스템 테마 감지</p>
+                </div>
+            </div>
+
+            <section class="content">
+                <h2>다크 모드의 장점</h2>
+                <ul>
+                    <li>눈의 피로 감소</li>
+                    <li>배터리 절약 (OLED 디스플레이)</li>
+                    <li>저조도 환경에서 편안함</li>
+                    <li>모던한 UI/UX 트렌드</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

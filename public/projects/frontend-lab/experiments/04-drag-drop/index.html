@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>드래그 & 드롭 - 프론트엔드 실험실</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← 실험실로 돌아가기</a>
+        <header>
+            <h1>드래그 & 드롭 인터페이스</h1>
+            <p class="subtitle">아이템을 드래그하여 그룹을 재구성해보세요</p>
+        </header>
+
+        <div class="main-content">
+            <div class="todo-container">
+                <div class="column" data-status="todo">
+                    <h2>📋 할 일</h2>
+                    <div class="drop-zone" id="todoZone">
+                        <div class="task-item" draggable="true" data-id="1">
+                            <span class="task-icon">🎯</span>
+                            <h3>프로젝트 기획</h3>
+                            <p>새 프로젝트의 요구사항 정의</p>
+                            <span class="priority high">높음</span>
+                        </div>
+                        <div class="task-item" draggable="true" data-id="2">
+                            <span class="task-icon">💻</span>
+                            <h3>UI 디자인</h3>
+                            <p>와이어프레임 및 목업 제작</p>
+                            <span class="priority medium">중간</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column" data-status="progress">
+                    <h2>🚀 진행 중</h2>
+                    <div class="drop-zone" id="progressZone">
+                        <div class="task-item" draggable="true" data-id="3">
+                            <span class="task-icon">⚡</span>
+                            <h3>프론트엔드 개발</h3>
+                            <p>React 컴포넌트 구현</p>
+                            <span class="priority high">높음</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column" data-status="done">
+                    <h2>✅ 완료</h2>
+                    <div class="drop-zone" id="doneZone">
+                        <div class="task-item" draggable="true" data-id="4">
+                            <span class="task-icon">📊</span>
+                            <h3>데이터베이스 설계</h3>
+                            <p>ERD 작성 및 테이블 생성</p>
+                            <span class="priority low">낮음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn add-task">+ 새 작업 추가</button>
+                <button class="btn reset">🔄 초기화</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>통계</h3>
+                    <p>총 작업: <span id="totalTasks">4</span></p>
+                    <p>완료율: <span id="completionRate">25%</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

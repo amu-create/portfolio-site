@@ -1,0 +1,225 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #2c3e50;
+    --card-bg: #f8f9fa;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --accent-color: #3498db;
+    --border-color: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a2e;
+    --text-color: #eee;
+    --card-bg: #16213e;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --accent-color: #4a9eff;
+    --border-color: #2c3e50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+/* Theme Switch */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.icon {
+    font-size: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.icon.moon {
+    opacity: 0;
+}
+
+.icon.sun {
+    opacity: 1;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .slider .moon {
+    opacity: 1;
+}
+
+input:checked + .slider .sun {
+    opacity: 0;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider:before {
+    background-color: white;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+}
+
+/* Main Content */
+.hero {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.hero h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.hero p {
+    font-size: 1.2em;
+    opacity: 0.8;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin: 50px 0;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--card-shadow);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px var(--card-shadow);
+}
+
+.card h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.content {
+    margin-top: 60px;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.content h2 {
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.content ul {
+    list-style-position: inside;
+    line-height: 2;
+}
+
+.content li {
+    padding: 5px 0;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+}

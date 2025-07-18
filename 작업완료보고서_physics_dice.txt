@@ -1,0 +1,64 @@
+# 물리 엔진 주사위 던지기 구현 완료 보고서
+
+## 작업 일시
+2025년 1월 27일
+
+## 작업 내용
+포트폴리오 사이트의 프론트엔드 실험실에 물리 엔진 기반 3D 주사위 던지기 시뮬레이션을 구현했습니다.
+
+## 수정/생성된 파일
+1. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\index.html**
+   - 물리 엔진 주사위 던지기 메인 HTML 파일
+   - Three.js와 Cannon.js 라이브러리 로드
+   - UI 컨트롤 및 정보 패널 구현
+
+2. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\dice.js**
+   - Three.js 3D 렌더링 엔진 초기화
+   - Cannon.js 물리 엔진 설정
+   - 주사위 생성 및 물리 시뮬레이션 로직
+   - 결과 계산 및 표시 기능
+
+3. **C:\Users\User\portfolio-site\public\projects\frontend-lab\index.html**
+   - 새로운 실험 항목 추가 (11번: 물리 엔진 주사위)
+   - 실험 개수 5개에서 6개로 업데이트
+
+## 주요 기능
+1. **실제 물리 법칙 적용**
+   - 중력, 마찰력, 반발력 시뮬레이션
+   - 주사위 간 충돌 처리
+   - 벽과의 충돌로 주사위가 공간 밖으로 나가지 않도록 처리
+
+2. **다양한 주사위 개수 선택**
+   - 1개, 2개, 3개, 5개, 10개, 20개 선택 가능
+   - 각 주사위마다 랜덤한 초기 위치와 회전값 적용
+
+3. **3D 카메라 컨트롤**
+   - OrbitControls를 통한 360도 카메라 회전
+   - 마우스 휠로 확대/축소 가능
+   - 카메라가 바닥 아래로 가지 않도록 제한
+
+4. **주사위 결과 표시**
+   - 각 주사위의 상단면 자동 계산
+   - 개별 결과 및 합계 표시
+   - 주사위가 완전히 정지한 후에만 결과 표시
+
+5. **시각적 효과**
+   - 그림자 효과 (Shadow Mapping)
+   - 주사위 면에 1~6 숫자 텍스처
+   - 투명한 벽으로 공간 경계 시각화
+   - 로딩 애니메이션
+
+## 기술 스택
+- **Three.js**: 3D 그래픽 렌더링
+- **Cannon.js**: 물리 엔진
+- **OrbitControls**: 3D 카메라 컨트롤
+- **Canvas API**: 주사위 면 텍스처 생성
+
+## 접근 방법
+`http://localhost:3000/projects/frontend-lab/experiments/11-physics-dice/`
+
+## 특징
+- 넓은 물리 공간 (100x100 단위)에서 자유로운 주사위 던지기
+- 실시간 물리 시뮬레이션으로 자연스러운 움직임
+- 최대 20개의 주사위를 동시에 던질 수 있는 대규모 시뮬레이션
+- 모바일 반응형 디자인
