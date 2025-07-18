@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="music-player">
+        <!-- Background Effects -->
+        <div class="neon-grid"></div>
+        <div class="glitch-overlay"></div>
+        
+        <!-- Album Art -->
+        <div class="album-section">
+            <div class="album-art" id="albumArt">
+                <div class="vinyl-record">
+                    <div class="vinyl-label"></div>
+                </div>
+                <div class="album-cover">
+                    <img src="https://via.placeholder.com/400x400/FF006E/FFFFFF?text=CYBER" alt="Album">
+                </div>
+            </div>
+            <div class="visualizer" id="visualizer">
+                <canvas id="audioCanvas"></canvas>
+            </div>
+        </div>
+        
+        <!-- Player Controls -->        <div class="player-section">
+            <div class="track-info">
+                <h1 class="track-title glitch" data-text="Neon Dreams">Neon Dreams</h1>
+                <p class="track-artist">Cyber Artist</p>
+            </div>
+            
+            <!-- Waveform -->
+            <div class="waveform-container">
+                <canvas id="waveform"></canvas>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <!-- Time Display -->
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">3:45</span>
+            </div>
+            
+            <!-- Control Buttons -->
+            <div class="controls">
+                <button class="control-btn" id="shuffleBtn">
+                    <span class="icon">🔀</span>
+                </button>
+                <button class="control-btn" id="prevBtn">
+                    <span class="icon">⏮️</span>
+                </button>
+                <button class="control-btn main-btn" id="playPauseBtn">
+                    <span class="icon" id="playPauseIcon">▶️</span>
+                </button>
