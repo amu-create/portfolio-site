@@ -117,7 +117,7 @@ function initCannon() {
 // 벽 생성
 function createWalls() {
     const wallThickness = 1;
-    const wallHeight = 15;  // 높이도 줄임
+    const wallHeight = 20;  // 높이를 더 높임
     const wallDistance = 12.5;  // 거리를 1/4로
     
     const wallMaterial = new CANNON.Material({
@@ -412,18 +412,18 @@ function createDice(position) {
         Math.random() * Math.PI * 2
     );
     
-    // 랜덤 속도
+    // 랜덤 속도 (높이와 속도를 크게 줄임)
     body.velocity.set(
-        (Math.random() - 0.5) * 20,
-        Math.random() * 10 + 20,
-        (Math.random() - 0.5) * 20
+        (Math.random() - 0.5) * 10,  // 수평 속도 절반으로
+        Math.random() * 5 + 10,      // 수직 속도 크게 감소 (20->10)
+        (Math.random() - 0.5) * 10
     );
     
-    // 랜덤 각속도
+    // 랜덤 각속도 (회전도 줄임)
     body.angularVelocity.set(
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10
+        (Math.random() - 0.5) * 5,   // 각속도도 절반으로
+        (Math.random() - 0.5) * 5,
+        (Math.random() - 0.5) * 5
     );
     
     world.add(body);
@@ -517,7 +517,7 @@ function throwDice() {
     for (let i = 0; i < count; i++) {
         const position = new CANNON.Vec3(
             (Math.random() - 0.5) * 5,  // 범위를 줄임
-            10 + i * 2,  // 높이도 줄임
+            5 + i * 1.5,  // 높이를 크게 줄임 (10->5)
             (Math.random() - 0.5) * 5
         );
         dice.push(createDice(position));
@@ -715,6 +715,8 @@ class OrbitControls {
         this.rotateEnd = new THREE.Vector2();
         this.rotateDelta = new THREE.Vector2();
         
+        this.isMouseDown = false;
+        
         this.init();
     }
     
@@ -723,22 +725,30 @@ class OrbitControls {
         this.domElement.addEventListener('wheel', this.onMouseWheel.bind(this));
         this.domElement.addEventListener('contextmenu', e => e.preventDefault());
         
+        // 마우스 이벤트 핸들러를 바인딩하여 저장
+        this.boundMouseMove = this.onMouseMove.bind(this);
+        this.boundMouseUp = this.onMouseUp.bind(this);
+        
         this.update();
     }
     
     onMouseDown(event) {
-        if (!this.enabled) return;
+        if (!this.enabled || this.isMouseDown) return;
+        
+        // 왼쪽 버튼만 처리 (0: 왼쪽, 1: 가운데, 2: 오른쪽)
+        if (event.button !== 0) return;
         
         event.preventDefault();
         
+        this.isMouseDown = true;
         this.rotateStart.set(event.clientX, event.clientY);
         
-        this.domElement.addEventListener('mousemove', this.onMouseMove.bind(this));
-        this.domElement.addEventListener('mouseup', this.onMouseUp.bind(this));
+        document.addEventListener('mousemove', this.boundMouseMove);
+        document.addEventListener('mouseup', this.boundMouseUp);
     }
     
     onMouseMove(event) {
-        if (!this.enabled) return;
+        if (!this.enabled || !this.isMouseDown) return;
         
         event.preventDefault();
         
@@ -754,8 +764,9 @@ class OrbitControls {
     }
     
     onMouseUp() {
-        this.domElement.removeEventListener('mousemove', this.onMouseMove.bind(this));
-        this.domElement.removeEventListener('mouseup', this.onMouseUp.bind(this));
+        this.isMouseDown = false;
+        document.removeEventListener('mousemove', this.boundMouseMove);
+        document.removeEventListener('mouseup', this.boundMouseUp);
     }
     
     onMouseWheel(event) {
