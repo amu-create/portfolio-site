@@ -2,11 +2,43 @@
 let scene, camera, renderer;
 let world;
 let dice = [];
-let throwBtn, diceCountSelect;
+let throwBtn, diceCountSelect, diceTypeSelect;
 let isRolling = false;
 let orbitControls;
+let customDiceData = null;
 
-// 주사위 면 텍스처 생성
+// 커스텀 주사위 면 텍스처 생성
+function createDiceFaceTexture(faceData) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+    
+    // 배경색
+    context.fillStyle = faceData.backgroundColor || '#ffffff';
+    context.fillRect(0, 0, size, size);
+    
+    // 텍스트 설정
+    context.fillStyle = faceData.textColor || '#000000';
+    context.font = `bold ${faceData.fontSize || 60}px Arial`;
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    
+    // 여러 줄 텍스트 지원
+    const text = faceData.text || '';
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    
+    const maxWidth = size - 40;
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && n > 0) {
+            lines.push(line);
             line = words[n] + ' ';
         } else {
             line = testLine;
@@ -87,12 +119,16 @@ function initThree() {
     document.getElementById('canvas-container').appendChild(renderer.domElement);
     
     // OrbitControls 추가
-    orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControls.enableDamping = true;
-    orbitControls.dampingFactor = 0.05;
-    orbitControls.minDistance = 20;
-    orbitControls.maxDistance = 80;
-    orbitControls.maxPolarAngle = Math.PI / 2 - 0.1; // 바닥 아래로 카메라가 가지 않도록
+    if (THREE.OrbitControls) {
+        orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+        orbitControls.enableDamping = true;
+        orbitControls.dampingFactor = 0.05;
+        orbitControls.minDistance = 20;
+        orbitControls.maxDistance = 80;
+        orbitControls.maxPolarAngle = Math.PI / 2 - 0.1; // 바닥 아래로 카메라가 가지 않도록
+    } else {
+        console.warn('OrbitControls를 사용할 수 없습니다. 마우스 컨트롤이 비활성화됩니다.');
+    }
     
     // 조명 설정
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -247,18 +283,18 @@ function createDice(position) {
     // Three.js 메시
     const materials = [];
     
-    // 표준 주사위 텍스처 생성
-    for (let i = 1; i <= 6; i++) {
-        materials.push(new THREE.MeshStandardMaterial({
-            map: createDiceFaceTexture(i),
-            metalness: 0.7,
-            roughness: 0.25
-        }));
-    }
+    // 주사위 타입에 따른 텍스처 생성
+    const diceType = document.getElementById('dice-type').value;
+    
+    if (diceType === 'custom' && customDiceData) {
+        // 커스텀 주사위 텍스처 생성
+        customDiceData.faces.forEach(faceData => {
+            materials.push(new THREE.MeshStandardMaterial({
+                map: createDiceFaceTexture(faceData),
                 roughness: 0.4,
                 metalness: 0.1
             }));
-        }
+        });
     } else {
         // 표준 주사위 텍스처 생성
         for (let i = 1; i <= 6; i++) {
@@ -268,6 +304,23 @@ function createDice(position) {
                 metalness: 0.1
             }));
         }
+    }
+    
+    const geometry = new THREE.BoxGeometry(size, size, size);
+    const mesh = new THREE.Mesh(geometry, materials);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+    
+    return { body, mesh };
+}
+    
+    for (let i = 1; i <= 6; i++) {
+        materials.push(new THREE.MeshStandardMaterial({
+            map: createDiceFaceCanvas(i),
+            metalness: 0.3,
+            roughness: 0.4
+        }));
     }
     
     const geometry = new THREE.BoxGeometry(size, size, size);
@@ -443,7 +496,9 @@ function animate() {
     });
     
     // OrbitControls 업데이트
-    orbitControls.update();
+    if (orbitControls) {
+        orbitControls.update();
+    }
     
     // 렌더링
     renderer.render(scene, camera);
@@ -525,15 +580,37 @@ function handleDiceTypeChange() {
 
 // 초기화
 function init() {
-    initThree();
-    initCannon();
+    console.log('초기화 시작');
+    
+    try {
+        initThree();
+        console.log('Three.js 초기화 완료');
+    } catch (e) {
+        console.error('Three.js 초기화 실패:', e);
+        document.getElementById('loading').innerHTML = '<p style="color: red;">Three.js 초기화 실패</p>';
+        return;
+    }
+    
+    try {
+        initCannon();
+        console.log('Cannon.js 초기화 완료');
+    } catch (e) {
+        console.error('Cannon.js 초기화 실패:', e);
+        document.getElementById('loading').innerHTML = '<p style="color: red;">물리엔진 초기화 실패</p>';
+        return;
+    }
     
     // DOM 요소 참조
     throwBtn = document.getElementById('throw-btn');
     diceCountSelect = document.getElementById('dice-count');
+    diceTypeSelect = document.getElementById('dice-type');
+    
+    // 커스텀 주사위 로드
+    loadCustomDice();
     
     // 이벤트 리스너
     throwBtn.addEventListener('click', throwDice);
+    diceTypeSelect.addEventListener('change', handleDiceTypeChange);
     window.addEventListener('resize', handleResize);
     
     // 로딩 화면 숨기기
@@ -546,6 +623,8 @@ function init() {
     setTimeout(() => {
         throwDice();
     }, 500);
+    
+    console.log('초기화 완료');
 }
 
 // CSS 애니메이션 추가
@@ -565,4 +644,27 @@ style.textContent = `
 document.head.appendChild(style);
 
 // 페이지 로드 완료 시 초기화
-window.addEventListener('load', init);
+window.addEventListener('DOMContentLoaded', () => {
+    // 라이브러리 로드 확인
+    if (typeof THREE === 'undefined') {
+        console.error('Three.js가 로드되지 않았습니다.');
+        document.getElementById('loading').innerHTML = '<p style="color: red;">Three.js 로드 실패</p>';
+        return;
+    }
+    
+    if (typeof CANNON === 'undefined') {
+        console.error('Cannon.js가 로드되지 않았습니다.');
+        document.getElementById('loading').innerHTML = '<p style="color: red;">Cannon.js 로드 실패</p>';
+        return;
+    }
+    
+    // OrbitControls 확인
+    if (!THREE.OrbitControls) {
+        console.error('OrbitControls가 로드되지 않았습니다.');
+        document.getElementById('loading').innerHTML = '<p style="color: red;">OrbitControls 로드 실패</p>';
+        return;
+    }
+    
+    // 모든 라이브러리가 로드되면 초기화
+    setTimeout(init, 100);
+});

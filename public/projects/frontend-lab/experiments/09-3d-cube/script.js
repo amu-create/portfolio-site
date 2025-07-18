@@ -298,6 +298,20 @@ function displaySavedCubes() {
                 id: Date.now(),
                 name: cube.name,
                 type: 'text',
+                faces: [
+                    { text: state.front?.text || 'Front', backgroundColor: '#ffffff', textColor: state.front?.color || '#000000', fontSize: 60 },
+                    { text: state.right?.text || 'Right', backgroundColor: '#ffffff', textColor: state.right?.color || '#000000', fontSize: 60 },
+                    { text: state.back?.text || 'Back', backgroundColor: '#ffffff', textColor: state.back?.color || '#000000', fontSize: 60 },
+                    { text: state.left?.text || 'Left', backgroundColor: '#ffffff', textColor: state.left?.color || '#000000', fontSize: 60 },
+                    { text: state.top?.text || 'Top', backgroundColor: '#ffffff', textColor: state.top?.color || '#000000', fontSize: 60 },
+                    { text: state.bottom?.text || 'Bottom', backgroundColor: '#ffffff', textColor: state.bottom?.color || '#000000', fontSize: 60 }
+                ],
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('selectedCustomDice', JSON.stringify(cubeData));
+            window.location.href = '../11-physics-dice/index.html';
+        });
                 bgColor: '#ffffff',
                 textColor: '#000000',
                 faces: [
@@ -334,23 +348,13 @@ saveCubeBtn.addEventListener('click', () => {
             id: Date.now(),
             name: name,
             type: 'text',
-            bgColor: '#ffffff',
-            textColor: '#000000',
             faces: [
-                state.front?.text || 'Front',
-                state.right?.text || 'Right',
-                state.back?.text || 'Back',
-                state.left?.text || 'Left',
-                state.top?.text || 'Top',
-                state.bottom?.text || 'Bottom'
-            ],
-            faceColors: [
-                state.front?.color || '#000000',
-                state.right?.color || '#000000',
-                state.back?.color || '#000000',
-                state.left?.color || '#000000',
-                state.top?.color || '#000000',
-                state.bottom?.color || '#000000'
+                { text: state.front?.text || 'Front', backgroundColor: '#ffffff', textColor: state.front?.color || '#000000', fontSize: 60 },
+                { text: state.right?.text || 'Right', backgroundColor: '#ffffff', textColor: state.right?.color || '#000000', fontSize: 60 },
+                { text: state.back?.text || 'Back', backgroundColor: '#ffffff', textColor: state.back?.color || '#000000', fontSize: 60 },
+                { text: state.left?.text || 'Left', backgroundColor: '#ffffff', textColor: state.left?.color || '#000000', fontSize: 60 },
+                { text: state.top?.text || 'Top', backgroundColor: '#ffffff', textColor: state.top?.color || '#000000', fontSize: 60 },
+                { text: state.bottom?.text || 'Bottom', backgroundColor: '#ffffff', textColor: state.bottom?.color || '#000000', fontSize: 60 }
             ],
             createdAt: new Date().toISOString()
         };
@@ -415,12 +419,28 @@ savedCubesDiv.addEventListener('click', (e) => {
 
 // 주사위 던지기
 rollDiceBtn.addEventListener('click', () => {
-    // 현재 큐브 상태를 임시로 저장
-    const tempState = getCubeState();
-    localStorage.setItem('tempDiceState', JSON.stringify(tempState));
+    // 현재 큐브 상태를 저장
+    const state = getCubeState();
+    const cubeData = {
+        id: Date.now(),
+        name: '현재 큐브',
+        type: 'text',
+        faces: [
+            { text: state.front?.text || 'Front', backgroundColor: '#ffffff', textColor: state.front?.color || '#000000', fontSize: 60 },
+            { text: state.right?.text || 'Right', backgroundColor: '#ffffff', textColor: state.right?.color || '#000000', fontSize: 60 },
+            { text: state.back?.text || 'Back', backgroundColor: '#ffffff', textColor: state.back?.color || '#000000', fontSize: 60 },
+            { text: state.left?.text || 'Left', backgroundColor: '#ffffff', textColor: state.left?.color || '#000000', fontSize: 60 },
+            { text: state.top?.text || 'Top', backgroundColor: '#ffffff', textColor: state.top?.color || '#000000', fontSize: 60 },
+            { text: state.bottom?.text || 'Bottom', backgroundColor: '#ffffff', textColor: state.bottom?.color || '#000000', fontSize: 60 }
+        ],
+        createdAt: new Date().toISOString()
+    };
     
-    // 주사위 게임 페이지로 이동
-    window.location.href = 'dice-game.html';
+    // 물리 엔진용 데이터 저장
+    localStorage.setItem('selectedCustomDice', JSON.stringify(cubeData));
+    
+    // 물리 엔진 페이지로 이동
+    window.location.href = '../11-physics-dice/index.html';
 });
 
 // 모달 닫기

@@ -1,0 +1,51 @@
+## 물리엔진 주사위 수정 완료 보고서 v2
+
+작업 일시: 2025-01-18
+작업 내용: 물리엔진 주사위 배포 환경 문제 해결
+
+### 주요 문제점:
+1. Vercel 배포 환경에서 외부 CDN 스크립트 로딩 실패
+2. OrbitControls 스크립트가 제대로 로드되지 않음
+3. 문법 오류로 인한 초기화 실패
+
+### 수정된 파일:
+
+1. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\dice.js**
+   - 라이브러리 로드 확인 로직 추가
+   - 에러 처리 및 디버그 로그 추가
+   - OrbitControls 존재 여부 체크 및 폴백 처리
+   - DOMContentLoaded 이벤트로 초기화 타이밍 변경
+
+2. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\index.html**
+   - CDN 링크를 더 안정적인 버전으로 변경
+   - integrity 속성 추가로 보안 강화
+   - OrbitControls를 인라인 스크립트로 포함 (CDN 로딩 실패 대비)
+   - 에러 메시지 스타일 추가
+
+### 해결 방안:
+
+1. **CDN 로딩 문제**
+   - HTTPS 프로토콜 사용 확인
+   - integrity 해시 추가로 보안 및 캐싱 개선
+   - OrbitControls를 인라인으로 포함하여 외부 의존성 제거
+
+2. **초기화 순서 문제**
+   - DOMContentLoaded 이벤트 사용
+   - 각 라이브러리 로드 확인 후 초기화
+   - 에러 발생 시 사용자에게 명확한 메시지 표시
+
+3. **디버깅 개선**
+   - console.log로 각 단계별 진행 상황 추적
+   - try-catch로 에러 포착 및 처리
+   - 로딩 화면에 에러 메시지 표시 기능
+
+### 테스트 필요사항:
+1. 배포 환경에서 물리엔진이 정상 작동하는지 확인
+2. 커스텀 주사위가 올바르게 로드되는지 확인
+3. 마우스 컨트롤이 작동하는지 확인
+4. 콘솔에 에러가 없는지 확인
+
+### 추가 개선사항:
+- OrbitControls를 완전히 인라인으로 포함하여 외부 CDN 의존성 제거
+- 에러 처리 강화로 문제 발생 시 사용자에게 명확한 피드백 제공
+- 디버그 로그로 문제 추적 용이

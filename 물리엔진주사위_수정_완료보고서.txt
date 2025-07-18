@@ -1,0 +1,44 @@
+## 물리엔진 주사위 수정 완료 보고서
+
+작업 일시: 2025-01-18
+작업 내용: 물리엔진 주사위 기능 수정 및 제자리 주사위 기능 제거
+
+### 수정된 파일:
+
+1. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\11-physics-dice\dice.js**
+   - 전역 변수 선언 추가 (customDiceData, diceTypeSelect)
+   - createDiceFaceTexture 함수 구현
+   - createDice 함수 수정 (커스텀/표준 주사위 타입 지원)
+   - 초기화 함수 수정 (커스텀 주사위 로드 및 타입 변경 이벤트 추가)
+   - 잘못된 함수 호출 수정 (createDiceFaceTexture → createDiceFaceCanvas)
+
+2. **C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\09-3d-cube\script.js**
+   - rollDiceBtn 이벤트 리스너 수정 (dice-game.html → 11-physics-dice/index.html)
+   - 저장된 큐브의 물리 엔진 버튼 이벤트 수정
+   - 큐브 저장 시 데이터 구조 통일 (faces 배열 형식 변경)
+   - 커스텀 주사위 데이터 형식 표준화
+
+3. **삭제된 파일**
+   - C:\Users\User\portfolio-site\public\projects\frontend-lab\experiments\09-3d-cube\dice-game.html
+
+### 주요 변경사항:
+
+1. **제자리 주사위 기능 제거**
+   - 09-3d-cube 페이지의 "주사위 던지기!" 버튼이 이제 물리엔진 페이지로 직접 이동
+   - 불필요한 dice-game.html 파일 삭제
+
+2. **커스텀 주사위 데이터 형식 개선**
+   - faces 배열이 이제 각 면의 상세 정보를 포함하는 객체 배열로 변경
+   - 각 면마다 text, backgroundColor, textColor, fontSize 속성 포함
+   - 물리엔진에서 커스텀 주사위를 올바르게 렌더링할 수 있도록 수정
+
+3. **물리엔진 주사위 안정성 개선**
+   - 누락된 변수 선언 추가
+   - 함수 호출 오류 수정
+   - 커스텀 주사위 로드 기능 구현
+
+### 테스트 필요사항:
+1. 09-3d-cube 페이지에서 주사위 만들기
+2. "주사위 던지기!" 버튼 클릭 시 물리엔진 페이지로 이동 확인
+3. 커스텀 주사위가 물리엔진에서 올바르게 표시되는지 확인
+4. 표준/커스텀 주사위 전환 기능 동작 확인
