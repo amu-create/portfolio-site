@@ -7,6 +7,8 @@ let isRolling = false;
 let controls;
 let customCubeData = null;
 let cameraSpeed = 1.0;
+let particles = [];
+let diceTheme = 'classic';  // 주사위 테마
 
 // 초기화
 window.addEventListener('DOMContentLoaded', init);
@@ -49,7 +51,7 @@ function initThree() {
         0.1,
         1000
     );
-    camera.position.set(30, 40, 50);
+    camera.position.set(15, 20, 25);  // 카메라 위치를 절반으로
     camera.lookAt(0, 0, 0);
     
     // 렌더러 설정
@@ -67,10 +69,10 @@ function initThree() {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(20, 40, 20);
     directionalLight.castShadow = true;
-    directionalLight.shadow.camera.left = -50;
-    directionalLight.shadow.camera.right = 50;
-    directionalLight.shadow.camera.top = 50;
-    directionalLight.shadow.camera.bottom = -50;
+    directionalLight.shadow.camera.left = -25;  // 작아진 맵에 맞게 조정
+    directionalLight.shadow.camera.right = 25;
+    directionalLight.shadow.camera.top = 25;
+    directionalLight.shadow.camera.bottom = -25;
     directionalLight.shadow.mapSize.width = 2048;
     directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
@@ -83,8 +85,8 @@ function initCannon() {
     world.broadphase = new CANNON.NaiveBroadphase();
     world.solver.iterations = 10;
     
-    // 바닥 생성
-    const groundShape = new CANNON.Box(new CANNON.Vec3(50, 0.5, 50));
+    // 바닥 생성 (크기를 1/4로 줄임)
+    const groundShape = new CANNON.Box(new CANNON.Vec3(12.5, 0.5, 12.5));
     const groundBody = new CANNON.Body({
         mass: 0,
         shape: groundShape,
@@ -97,7 +99,7 @@ function initCannon() {
     world.add(groundBody);
     
     // Three.js 바닥
-    const groundGeometry = new THREE.BoxGeometry(100, 1, 100);
+    const groundGeometry = new THREE.BoxGeometry(25, 1, 25);
     const groundMaterial = new THREE.MeshStandardMaterial({
         color: 0x1a1a1a,
         roughness: 0.8,
@@ -115,8 +117,8 @@ function initCannon() {
 // 벽 생성
 function createWalls() {
     const wallThickness = 1;
-    const wallHeight = 30;
-    const wallDistance = 50;
+    const wallHeight = 15;  // 높이도 줄임
+    const wallDistance = 12.5;  // 거리를 1/4로
     
     const wallMaterial = new CANNON.Material({
         friction: 0.1,
@@ -125,10 +127,10 @@ function createWalls() {
     
     // 4개의 벽
     const walls = [
-        { pos: [0, wallHeight, -wallDistance], size: [wallDistance, wallHeight, wallThickness] },
-        { pos: [0, wallHeight, wallDistance], size: [wallDistance, wallHeight, wallThickness] },
-        { pos: [-wallDistance, wallHeight, 0], size: [wallThickness, wallHeight, wallDistance] },
-        { pos: [wallDistance, wallHeight, 0], size: [wallThickness, wallHeight, wallDistance] }
+        { pos: [0, wallHeight/2, -wallDistance], size: [wallDistance, wallHeight/2, wallThickness] },
+        { pos: [0, wallHeight/2, wallDistance], size: [wallDistance, wallHeight/2, wallThickness] },
+        { pos: [-wallDistance, wallHeight/2, 0], size: [wallThickness, wallHeight/2, wallDistance] },
+        { pos: [wallDistance, wallHeight/2, 0], size: [wallThickness, wallHeight/2, wallDistance] }
     ];
     
     walls.forEach((wall, index) => {
@@ -166,6 +168,74 @@ function initControls() {
     document.getElementById('throw-btn').addEventListener('click', throwDice);
     
     window.addEventListener('resize', onWindowResize);
+}
+
+// 파티클 생성
+function createParticles(position, velocity) {
+    const particleCount = 20;
+    const geometry = new THREE.BufferGeometry();
+    const positions = [];
+    const velocities = [];
+    const lifetimes = [];
+    
+    for (let i = 0; i < particleCount; i++) {
+        positions.push(position.x + (Math.random() - 0.5) * 0.5);
+        positions.push(position.y);
+        positions.push(position.z + (Math.random() - 0.5) * 0.5);
+        
+        velocities.push((Math.random() - 0.5) * 5);
+        velocities.push(Math.random() * 5 + velocity * 0.5);
+        velocities.push((Math.random() - 0.5) * 5);
+        
+        lifetimes.push(1.0);
+    }
+    
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
+    geometry.setAttribute('lifetime', new THREE.Float32BufferAttribute(lifetimes, 1));
+    
+    const material = new THREE.PointsMaterial({
+        color: 0x00ff88,
+        size: 0.2,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
+    
+    const particleSystem = new THREE.Points(geometry, material);
+    scene.add(particleSystem);
+    particles.push({ mesh: particleSystem, startTime: Date.now() });
+}
+
+// 파티클 업데이트
+function updateParticles() {
+    const currentTime = Date.now();
+    
+    particles = particles.filter(particle => {
+        const age = (currentTime - particle.startTime) / 1000;
+        
+        if (age > 1) {
+            scene.remove(particle.mesh);
+            particle.mesh.geometry.dispose();
+            particle.mesh.material.dispose();
+            return false;
+        }
+        
+        const positions = particle.mesh.geometry.attributes.position.array;
+        const velocities = particle.mesh.geometry.attributes.velocity.array;
+        
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i] += velocities[i] * 0.016;
+            positions[i + 1] += velocities[i + 1] * 0.016;
+            positions[i + 2] += velocities[i + 2] * 0.016;
+            velocities[i + 1] -= 9.8 * 0.016;
+        }
+        
+        particle.mesh.geometry.attributes.position.needsUpdate = true;
+        particle.mesh.material.opacity = 0.8 * (1 - age);
+        
+        return true;
+    });
 }
 
 // 주사위 텍스처 생성
@@ -230,17 +300,71 @@ function createNumberDiceTexture(number) {
     canvas.height = size;
     const ctx = canvas.getContext('2d');
     
+    const theme = document.getElementById('dice-theme').value;
+    let bgColor, dotColor, borderColor;
+    
+    // 테마별 색상 설정
+    switch(theme) {
+        case 'neon':
+            bgColor = '#000000';
+            dotColor = '#00ff88';
+            borderColor = '#00ff88';
+            break;
+        case 'wood':
+            bgColor = '#8b6914';
+            dotColor = '#3d2f0a';
+            borderColor = '#5d4e10';
+            break;
+        case 'metal':
+            bgColor = '#c0c0c0';
+            dotColor = '#333333';
+            borderColor = '#808080';
+            break;
+        default: // classic
+            bgColor = '#ffffff';
+            dotColor = '#000000';
+            borderColor = '#000000';
+    }
+    
     // 배경
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, size, size);
     
+    // 테마별 효과
+    if (theme === 'wood') {
+        // 나무 무늬
+        ctx.strokeStyle = 'rgba(61, 47, 10, 0.2)';
+        for (let i = 0; i < 10; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, i * 30);
+            ctx.quadraticCurveTo(size/2, i * 30 + 10, size, i * 30);
+            ctx.stroke();
+        }
+    } else if (theme === 'metal') {
+        // 메탈 그라데이션
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#e0e0e0');
+        gradient.addColorStop(0.5, '#c0c0c0');
+        gradient.addColorStop(1, '#a0a0a0');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+    }
+    
     // 테두리
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 10;
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = theme === 'neon' ? 3 : 10;
     ctx.strokeRect(5, 5, size - 10, size - 10);
     
+    // 네온 효과
+    if (theme === 'neon') {
+        ctx.shadowColor = '#00ff88';
+        ctx.shadowBlur = 10;
+        ctx.strokeRect(5, 5, size - 10, size - 10);
+        ctx.shadowBlur = 0;
+    }
+    
     // 점 그리기
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = dotColor;
     const dotSize = 40;
     const positions = {
         1: [[size/2, size/2]],
@@ -250,6 +374,11 @@ function createNumberDiceTexture(number) {
         5: [[size/3, size/3], [2*size/3, size/3], [size/2, size/2], [size/3, 2*size/3], [2*size/3, 2*size/3]],
         6: [[size/3, size/4], [size/3, size/2], [size/3, 3*size/4], [2*size/3, size/4], [2*size/3, size/2], [2*size/3, 3*size/4]]
     };
+    
+    if (theme === 'neon') {
+        ctx.shadowColor = dotColor;
+        ctx.shadowBlur = 15;
+    }
     
     positions[number].forEach(([x, y]) => {
         ctx.beginPath();
@@ -299,17 +428,50 @@ function createDice(position) {
     
     world.add(body);
     
+    // 충돌 이벤트 리스너
+    body.addEventListener('collide', function(e) {
+        const relativeVelocity = Math.abs(e.contact.getImpactVelocityAlongNormal());
+        if (relativeVelocity > 5) {  // 충돌 강도가 5 이상일 때만
+            const contactPoint = new THREE.Vector3();
+            contactPoint.copy(e.contact.bi.position);
+            contactPoint.vadd(e.contact.ri);
+            
+            createParticles(
+                { x: contactPoint.x, y: contactPoint.y, z: contactPoint.z },
+                relativeVelocity
+            );
+        }
+    });
+    
     // Three.js 메시
     const materials = [];
     const diceType = document.getElementById('dice-type').value;
+    const theme = document.getElementById('dice-theme').value;
+    
+    // 테마별 재질 속성
+    let materialProps = {
+        roughness: 0.4,
+        metalness: 0.1
+    };
+    
+    switch(theme) {
+        case 'neon':
+            materialProps = { roughness: 0.2, metalness: 0.3, emissive: 0x00ff88, emissiveIntensity: 0.2 };
+            break;
+        case 'wood':
+            materialProps = { roughness: 0.8, metalness: 0 };
+            break;
+        case 'metal':
+            materialProps = { roughness: 0.3, metalness: 0.9 };
+            break;
+    }
     
     if (diceType === 'custom' && customCubeData) {
         // 커스텀 주사위
         customCubeData.faces.forEach(face => {
             materials.push(new THREE.MeshStandardMaterial({
                 map: createDiceTexture(face.text, face.backgroundColor, face.textColor, face.fontSize),
-                roughness: 0.4,
-                metalness: 0.1
+                ...materialProps
             }));
         });
     } else {
@@ -317,8 +479,7 @@ function createDice(position) {
         for (let i = 1; i <= 6; i++) {
             materials.push(new THREE.MeshStandardMaterial({
                 map: createNumberDiceTexture(i),
-                roughness: 0.4,
-                metalness: 0.1
+                ...materialProps
             }));
         }
     }
@@ -355,9 +516,9 @@ function throwDice() {
     const count = parseInt(document.getElementById('dice-count').value);
     for (let i = 0; i < count; i++) {
         const position = new CANNON.Vec3(
-            (Math.random() - 0.5) * 10,
-            15 + i * 3,
-            (Math.random() - 0.5) * 10
+            (Math.random() - 0.5) * 5,  // 범위를 줄임
+            10 + i * 2,  // 높이도 줄임
+            (Math.random() - 0.5) * 5
         );
         dice.push(createDice(position));
     }
@@ -513,6 +674,9 @@ function animate() {
         die.mesh.quaternion.copy(die.body.quaternion);
     });
     
+    // 파티클 업데이트
+    updateParticles();
+    
     // 컨트롤 업데이트
     if (controls) {
         controls.update();
@@ -536,8 +700,8 @@ class OrbitControls {
         this.enabled = true;
         
         this.target = new THREE.Vector3();
-        this.minDistance = 20;
-        this.maxDistance = 100;
+        this.minDistance = 10;  // 최소 거리도 줄임
+        this.maxDistance = 50;  // 최대 거리도 줄임
         this.enableDamping = true;
         this.dampingFactor = 0.05;
         this.maxPolarAngle = Math.PI / 2 - 0.1;

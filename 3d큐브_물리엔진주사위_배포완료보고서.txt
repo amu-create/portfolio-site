@@ -1,0 +1,57 @@
+## 3D 큐브 & 물리엔진 주사위 수정 및 배포 완료 보고서
+
+작업 일시: 2025-01-18
+작업 내용: 3D 큐브와 물리엔진 주사위 완전 재작성 및 카메라 속도 개선
+
+### 수정된 파일:
+1. **09-3d-cube/index.html** - 3D 큐브 커스터마이저 HTML
+2. **09-3d-cube/style.css** - 3D 큐브 스타일시트
+3. **09-3d-cube/script.js** - 3D 큐브 기능 구현
+4. **11-physics-dice/index.html** - 물리엔진 주사위 HTML
+5. **11-physics-dice/dice.js** - 물리엔진 주사위 기능 구현
+
+### 주요 변경사항:
+
+#### 1. 3D 큐브 커스터마이저
+- ✅ 각 면 텍스트 편집 가능
+- ✅ 글자 크기, 색상, 배경색 커스터마이징
+- ✅ 마우스 드래그 회전 지원
+- ✅ 큐브 저장/불러오기 기능
+- ✅ 물리엔진으로 직접 전달 기능
+
+#### 2. 물리엔진 주사위
+- ✅ 주사위 개수 선택 (1~10개)
+- ✅ 숫자 주사위 / 커스텀 주사위 선택
+- ✅ Three.js + Cannon.js 물리 시뮬레이션
+- ✅ **카메라 회전 속도 개선** (5배 느리게)
+- ✅ **카메라 속도 조절 슬라이더 추가** (0.1~2.0배)
+- ✅ OrbitControls 자체 구현으로 CDN 의존성 제거
+
+### 카메라 컨트롤 개선:
+- 기본 회전 속도를 0.01에서 0.002로 감소
+- 사용자가 0.1~2.0배 범위에서 속도 조절 가능
+- 슬라이더로 실시간 조절 가능
+
+### 배포 정보:
+- GitHub 저장소: https://github.com/amu-create/portfolio-site
+- Vercel 배포 URL: https://portfolio-site-7x9gygmyh-amu-creates-projects.vercel.app
+- 커밋 해시: aeb5537
+- 커밋 메시지: "Fix: 3D cube and physics dice - improved camera control speed and rebuilt from scratch"
+
+### 테스트 URL:
+- 3D 큐브: /projects/frontend-lab/experiments/09-3d-cube/
+- 물리엔진 주사위: /projects/frontend-lab/experiments/11-physics-dice/
+
+### 앞으로 추천하는 작업:
+1. 🎮 **게임 기능 추가**
+   - 주사위 게임 룰 적용 (야추, 다이스 포커 등)
+   - 점수 시스템 및 리더보드
+
+2. 🎨 **시각적 개선**
+   - 주사위 던지기 사운드 효과
+   - 파티클 효과 추가
+   - 다양한 주사위 텍스처 템플릿
+
+3. 🌐 **멀티플레이어 기능**
+   - 실시간 주사위 공유
+   - 친구와 함께 주사위 게임
