@@ -10,6 +10,13 @@ let cameraSpeed = 1.0;
 let particles = [];
 let diceTheme = 'classic';  // 주사위 테마
 
+// 드래그 던지기 관련 변수
+let isDragging = false;
+let dragStart = { x: 0, y: 0 };
+let dragEnd = { x: 0, y: 0 };
+let throwArrow = null;
+let throwPowerText = null;
+
 // 초기화
 window.addEventListener('DOMContentLoaded', init);
 
@@ -138,6 +145,9 @@ function initCannon() {
     ceilingMesh.position.y = 25;
     ceilingMesh.receiveShadow = true;
     scene.add(ceilingMesh);
+    
+    // 던지기 화살표 생성
+    createThrowArrow();
 }
 
 // 벽 생성
@@ -191,7 +201,12 @@ function initControls() {
     controls.maxPolarAngle = Math.PI / 2 - 0.1;
     
     // 이벤트 리스너
-    document.getElementById('throw-btn').addEventListener('click', throwDice);
+    document.getElementById('throw-btn').addEventListener('click', throwDiceButton);
+    
+    // 드래그 던지기 이벤트
+    renderer.domElement.addEventListener('mousedown', onDragStart);
+    renderer.domElement.addEventListener('mousemove', onDragMove);
+    renderer.domElement.addEventListener('mouseup', onDragEnd);
     
     window.addEventListener('resize', onWindowResize);
 }
@@ -275,6 +290,37 @@ function updateParticles() {
         
         return true;
     });
+}
+
+// 던지기 화살표 생성
+function createThrowArrow() {
+    // 화살표 그룹
+    throwArrow = new THREE.Group();
+    
+    // 화살표 몸통 (실린더)
+    const shaftGeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 8);
+    const shaftMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0x00ff88,
+        transparent: true,
+        opacity: 0.8
+    });
+    const shaft = new THREE.Mesh(shaftGeometry, shaftMaterial);
+    shaft.position.y = 2.5;
+    
+    // 화살표 머리 (원뿔)
+    const headGeometry = new THREE.ConeGeometry(0.3, 1, 8);
+    const headMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0x00ff88,
+        transparent: true,
+        opacity: 0.8
+    });
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.y = 5.5;
+    
+    throwArrow.add(shaft);
+    throwArrow.add(head);
+    throwArrow.visible = false;
+    scene.add(throwArrow);
 }
 
 // 주사위 텍스처 생성
@@ -539,6 +585,244 @@ function createDice(position) {
     
     return { body, mesh };
 }
+// 드래그 시작
+function onDragStart(event) {
+    if (isRolling || event.button !== 2) return; // 오른쪽 버튼만
+    
+    event.preventDefault();
+    isDragging = true;
+    controls.enabled = false; // 카메라 컨트롤 비활성화
+    
+    dragStart.x = event.clientX;
+    dragStart.y = event.clientY;
+    dragEnd.x = event.clientX;
+    dragEnd.y = event.clientY;
+    
+    throwArrow.visible = true;
+    updateThrowArrow();
+}
+
+// 드래그 중
+function onDragMove(event) {
+    if (!isDragging) return;
+    
+    dragEnd.x = event.clientX;
+    dragEnd.y = event.clientY;
+    
+    updateThrowArrow();
+}
+
+// 드래그 끝
+function onDragEnd(event) {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    controls.enabled = true; // 카메라 컨트롤 활성화
+    throwArrow.visible = false;
+    document.getElementById('power-gauge').style.display = 'none';
+    
+    // 드래그 거리 계산
+    const dragDistance = Math.sqrt(
+        Math.pow(dragEnd.x - dragStart.x, 2) + 
+        Math.pow(dragEnd.y - dragStart.y, 2)
+    );
+    
+    if (dragDistance > 20) { // 최소 드래그 거리
+        throwDiceWithDirection();
+    }
+}
+
+// 화살표 업데이트
+function updateThrowArrow() {
+    const deltaX = dragEnd.x - dragStart.x;
+    const deltaY = dragEnd.y - dragStart.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    if (distance < 10) {
+        throwArrow.visible = false;
+        document.getElementById('power-gauge').style.display = 'none';
+        return;
+    }
+    
+    // 파워 게이지 표시
+    document.getElementById('power-gauge').style.display = 'block';
+    
+    // 화면 좌표를 3D 방향으로 변환
+    const angle = Math.atan2(-deltaX, deltaY);
+    const power = Math.min(distance / 200, 1); // 최대 파워 1
+    
+    // 파워 게이지 업데이트
+    document.getElementById('power-fill').style.width = (power * 100) + '%';
+    document.getElementById('power-percent').textContent = Math.round(power * 100) + '%';
+    
+    // 화살표 위치와 회전 설정
+    throwArrow.position.set(0, 5, 0);
+    throwArrow.rotation.z = angle;
+    throwArrow.scale.set(power, power * 2, power);
+    
+    // 화살표 색상 변경 (파워에 따라)
+    const color = new THREE.Color();
+    color.setHSL(0.3 - power * 0.3, 1, 0.5); // 녹색에서 빨간색으로
+    throwArrow.children.forEach(child => {
+        child.material.color = color;
+    });
+}
+
+// 방향과 세기로 주사위 던지기
+function throwDiceWithDirection() {
+    if (isRolling) return;
+    
+    isRolling = true;
+    const throwBtn = document.getElementById('throw-btn');
+    throwBtn.disabled = true;
+    throwBtn.textContent = '굴리는 중...';
+    
+    // 기존 주사위 제거
+    dice.forEach(die => {
+        world.remove(die.body);
+        scene.remove(die.mesh);
+    });
+    dice = [];
+    diceValues = [];
+    
+    // 결과 숨기기
+    document.getElementById('results').style.display = 'none';
+    
+    // 드래그 방향과 파워 계산
+    const deltaX = dragEnd.x - dragStart.x;
+    const deltaY = dragEnd.y - dragStart.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const power = Math.min(distance / 200, 1);
+    
+    // 새 주사위 생성
+    const count = parseInt(document.getElementById('dice-count').value);
+    for (let i = 0; i < count; i++) {
+        const position = new CANNON.Vec3(
+            (Math.random() - 0.5) * 8,
+            15 + i * 3,
+            (Math.random() - 0.5) * 8
+        );
+        const die = createDiceWithVelocity(position, deltaX, deltaY, power);
+        dice.push(die);
+    }
+    
+    // 결과 확인
+    setTimeout(checkResults, 3000);
+}
+
+// 속도가 지정된 주사위 생성
+function createDiceWithVelocity(position, deltaX, deltaY, power) {
+    const size = 2;
+    
+    // Cannon.js 바디
+    const shape = new CANNON.Box(new CANNON.Vec3(size/2, size/2, size/2));
+    const body = new CANNON.Body({
+        mass: 1,
+        shape: shape,
+        material: new CANNON.Material({
+            friction: 0.4,
+            restitution: 0.2
+        })
+    });
+    body.position.copy(position);
+    
+    // 랜덤 회전
+    body.quaternion.setFromEuler(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+    );
+    
+    // 드래그 방향에 따른 속도 설정
+    const baseSpeed = 50 * power;
+    body.velocity.set(
+        -deltaX * 0.1 * power + (Math.random() - 0.5) * 10,
+        Math.random() * 10 + 20,
+        deltaY * 0.1 * power + (Math.random() - 0.5) * 10
+    );
+    
+    // 랜덤 각속도
+    body.angularVelocity.set(
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 20
+    );
+    
+    world.add(body);
+    
+    // 충돌 이벤트 리스너
+    body.addEventListener('collide', function(e) {
+        const v1 = body.velocity;
+        const v2 = e.body.velocity;
+        const relativeVelocity = Math.sqrt(
+            Math.pow(v1.x - v2.x, 2) + 
+            Math.pow(v1.y - v2.y, 2) + 
+            Math.pow(v1.z - v2.z, 2)
+        );
+        
+        if (relativeVelocity > 5) {
+            const contactPoint = {
+                x: (body.position.x + e.body.position.x) / 2,
+                y: (body.position.y + e.body.position.y) / 2,
+                z: (body.position.z + e.body.position.z) / 2
+            };
+            
+            createParticles(contactPoint, relativeVelocity);
+        }
+    });
+    
+    // Three.js 메시
+    const materials = [];
+    const diceType = document.getElementById('dice-type').value;
+    const theme = document.getElementById('dice-theme').value;
+    
+    let materialProps = {
+        roughness: 0.4,
+        metalness: 0.1
+    };
+    
+    switch(theme) {
+        case 'neon':
+            materialProps = { roughness: 0.2, metalness: 0.3, emissive: 0x00ff88, emissiveIntensity: 0.2 };
+            break;
+        case 'wood':
+            materialProps = { roughness: 0.8, metalness: 0 };
+            break;
+        case 'metal':
+            materialProps = { roughness: 0.3, metalness: 0.9 };
+            break;
+    }
+    
+    if (diceType === 'custom' && customCubeData) {
+        customCubeData.faces.forEach(face => {
+            materials.push(new THREE.MeshStandardMaterial({
+                map: createDiceTexture(face.text, face.backgroundColor, face.textColor, face.fontSize),
+                ...materialProps
+            }));
+        });
+    } else {
+        for (let i = 1; i <= 6; i++) {
+            materials.push(new THREE.MeshStandardMaterial({
+                map: createNumberDiceTexture(i),
+                ...materialProps
+            }));
+        }
+    }
+    
+    const geometry = new THREE.BoxGeometry(size, size, size);
+    const mesh = new THREE.Mesh(geometry, materials);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+    
+    return { body, mesh };
+}
+
+// 버튼으로 주사위 던지기 (기존 함수명 변경)
+function throwDiceButton() {
+    throwDice();
+}
+
 // 주사위 던지기
 function throwDice() {
     if (isRolling) return;

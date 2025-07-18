@@ -210,6 +210,40 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        .power-gauge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            text-align: center;
+            pointer-events: none;
+        }
+        
+        .power-bar {
+            width: 200px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px auto;
+        }
+        
+        .power-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00ff88, #ff0088);
+            transition: width 0.1s ease;
+            width: 0%;
+        }
+        
+        .power-text {
+            color: #00ff88;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -261,7 +295,16 @@
         </label>
     </div>
 
-    <div class="camera-hint">마우스로 카메라를 회전하고, 휠로 확대/축소하세요</div>
+    <div class="camera-hint">마우스로 카메라를 회전하고, 휠로 확대/축소하세요<br>
+    <span style="color: #00ff88;">오른쪽 클릭 + 드래그로 주사위를 던질 수 있습니다!</span></div>
+    
+    <div class="power-gauge" id="power-gauge">
+        <div class="power-text">파워: <span id="power-percent">0%</span></div>
+        <div class="power-bar">
+            <div class="power-fill" id="power-fill"></div>
+        </div>
+        <div class="power-text" style="font-size: 14px;">드래그 방향으로 던집니다</div>
+    </div>
 
     <a href="../../" class="back-link">← 실험실로 돌아가기</a>
 
