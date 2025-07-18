@@ -56,4 +56,53 @@
                 </button>
                 <button class="control-btn main-btn" id="playPauseBtn">
                     <span class="icon" id="playPauseIcon">▶️</span>
+                </button>                <button class="control-btn" id="nextBtn">
+                    <span class="icon">⏭️</span>
                 </button>
+                <button class="control-btn" id="repeatBtn">
+                    <span class="icon">🔁</span>
+                </button>
+            </div>
+            
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <span class="icon">🔊</span>
+                <input type="range" id="volumeSlider" min="0" max="100" value="70">
+            </div>
+        </div>
+        
+        <!-- Playlist -->
+        <div class="playlist-section">
+            <h2 class="playlist-title">Playlist</h2>
+            <ul class="playlist" id="playlist">
+                <li class="playlist-item active">
+                    <span class="track-number">01</span>
+                    <div class="track-details">
+                        <span class="name">Neon Dreams</span>
+                        <span class="artist">Cyber Artist</span>
+                    </div>
+                    <span class="duration">3:45</span>
+                </li>
+                <li class="playlist-item">
+                    <span class="track-number">02</span>
+                    <div class="track-details">                        <span class="name">Digital Rain</span>
+                        <span class="artist">Synth Master</span>
+                    </div>
+                    <span class="duration">4:12</span>
+                </li>
+                <li class="playlist-item">
+                    <span class="track-number">03</span>
+                    <div class="track-details">
+                        <span class="name">Chrome Hearts</span>
+                        <span class="artist">Future Punk</span>
+                    </div>
+                    <span class="duration">3:28</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <audio id="audioPlayer" src=""></audio>
+    <script src="script.js"></script>
+</body>
+</html>

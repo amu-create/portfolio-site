@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Feed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            color: #1c1e21;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-icon:hover {
+            background: #e4e6eb;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .create-post {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .create-post-input {
+            flex: 1;
+            padding: 12px 20px;
+            background: #f0f2f5;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .create-post-input:hover {
+            background: #e4e6eb;
+        }
+        
+        .create-post-actions {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #e4e6eb;
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+        
+        .post-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #65676b;
+            font-weight: 500;
+        }
+        
+        .post-action-btn:hover {
+            background: #f0f2f5;
+        }
+        
+        .post {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .post-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .author-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .post-time {
+            font-size: 13px;
+            color: #65676b;
+        }
+        
+        .post-content {
+            padding: 0 20px 15px;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+        
+        .post-stats {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e4e6eb;
+            color: #65676b;
+            font-size: 15px;
+        }
+        
+        .reactions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .reaction-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .like-icon {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .love-icon {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .post-actions {
+            display: flex;
+            padding: 5px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #65676b;
+            font-weight: 500;
+        }
+        
+        .action-btn:hover {
+            background: #f0f2f5;
+        }
+        
+        .action-btn.liked {
+            color: #3b82f6;
+        }
+        
+        .comments-section {
+            padding: 15px 20px;
+            border-top: 1px solid #e4e6eb;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .comment-content {
+            flex: 1;
+            background: #f0f2f5;
+            padding: 10px 15px;
+            border-radius: 18px;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .comment-text {
+            font-size: 14px;
+        }
+        
+        .comment-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 10px 15px;
+            background: #f0f2f5;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+        }
+        
+        .stories-container {
+            display: flex;
+            gap: 10px;
+            padding: 20px 0;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        .story {
+            position: relative;
+            width: 120px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .story-content {
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            width: 100%;
+            color: white;
+        }
+        
+        .story-avatar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #3b82f6;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .post-action-btn span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>👥</span>
+                <span>Social Feed</span>
+            </div>
+            <div class="nav-icons">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-icon">👤</div>
+                <div class="nav-icon">💬</div>
+                <div class="nav-icon">🔔</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Stories -->
+        <div class="stories-container">
+            <div class="story">
+                <div class="story-avatar">➕</div>
+                <div class="story-content">
+                    <strong>스토리 추가</strong>
+                </div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">🎨</div>
+                <div class="story-content">
+                    <strong>디자인팀</strong>
+                </div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">💻</div>
+                <div class="story-content">
+                    <strong>개발팀</strong>
+                </div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">📱</div>
+                <div class="story-content">
+                    <strong>모바일팀</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Create Post -->
+        <div class="create-post">
+            <div class="create-post-header">
+                <div class="avatar">JS</div>
+                <input type="text" class="create-post-input" placeholder="무슨 생각을 하고 계신가요?">
+            </div>
+            <div class="create-post-actions">
+                <div class="post-action-btn">
+                    <span>📹</span>
+                    <span>라이브 방송</span>
+                </div>
+                <div class="post-action-btn">
+                    <span>📷</span>
+                    <span>사진/동영상</span>
+                </div>
+                <div class="post-action-btn">
+                    <span>😊</span>
+                    <span>기분/활동</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Posts -->
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="avatar">🎨</div>
+                    <div class="author-info">
+                        <h3>디자인 팀</h3>
+                        <div class="post-time">2시간 전</div>
+                    </div>
+                </div>
+                <div class="nav-icon">⋯</div>
+            </div>
+            <div class="post-content">
+                <p>새로운 UI 디자인 시스템을 공개합니다! 🎉 더 일관되고 아름다운 사용자 경험을 제공하기 위해 노력했습니다.</p>
+            </div>
+            <div class="post-image">🎨</div>
+            <div class="post-stats">
+                <div class="reactions">
+                    <div class="reaction-icon like-icon">👍</div>
+                    <div class="reaction-icon love-icon">❤️</div>
+                    <span>좋아요 128개</span>
+                </div>
+                <div>댓글 23개 · 공유 5회</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-btn liked">
+                    <span>👍</span>
+                    <span>좋아요</span>
+                </div>
+                <div class="action-btn">
+                    <span>💬</span>
+                    <span>댓글</span>
+                </div>
+                <div class="action-btn">
+                    <span>📤</span>
+                    <span>공유</span>
+                </div>
+            </div>
+            <div class="comments-section">
+                <div class="comment">
+                    <div class="avatar">👨‍💻</div>
+                    <div class="comment-content">
+                        <div class="comment-author">개발자</div>
+                        <div class="comment-text">정말 멋진 디자인이네요! 구현이 기대됩니다.</div>
+                    </div>
+                </div>
+                <div class="comment-input-wrapper">
+                    <div class="avatar">JS</div>
+                    <input type="text" class="comment-input" placeholder="댓글을 입력하세요...">
+                </div>
+            </div>
+        </div>
+        
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="avatar">🚀</div>
+                    <div class="author-info">
+                        <h3>프로덕트 팀</h3>
+                        <div class="post-time">5시간 전</div>
+                    </div>
+                </div>
+                <div class="nav-icon">⋯</div>
+            </div>
+            <div class="post-content">
+                <p>이번 주 업데이트 내용입니다:</p>
+                <p>✅ 실시간 동기화 기능 추가</p>
+                <p>✅ 성능 최적화 (30% 속도 향상)</p>
+                <p>✅ 다크 모드 지원</p>
+                <p>✅ 새로운 이모지 반응 추가</p>
+            </div>
+            <div class="post-stats">
+                <div class="reactions">
+                    <div class="reaction-icon like-icon">👍</div>
+                    <span>좋아요 256개</span>
+                </div>
+                <div>댓글 45개 · 공유 12회</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-btn">
+                    <span>👍</span>
+                    <span>좋아요</span>
+                </div>
+                <div class="action-btn">
+                    <span>💬</span>
+                    <span>댓글</span>
+                </div>
+                <div class="action-btn">
+                    <span>📤</span>
+                    <span>공유</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="avatar">📱</div>
+                    <div class="author-info">
+                        <h3>모바일 개발팀</h3>
+                        <div class="post-time">1일 전</div>
+                    </div>
+                </div>
+                <div class="nav-icon">⋯</div>
+            </div>
+            <div class="post-content">
+                <p>React Native로 개발한 새로운 모바일 앱이 곧 출시됩니다! 📱✨</p>
+                <p>주요 기능:</p>
+                <p>• 오프라인 모드 지원</p>
+                <p>• 푸시 알림</p>
+                <p>• 제스처 기반 인터페이스</p>
+                <p>• 크로스 플랫폼 동기화</p>
+            </div>
+            <div class="post-image">📱</div>
+            <div class="post-stats">
+                <div class="reactions">
+                    <div class="reaction-icon like-icon">👍</div>
+                    <div class="reaction-icon love-icon">❤️</div>
+                    <span>좋아요 342개</span>
+                </div>
+                <div>댓글 67개 · 공유 23회</div>
+            </div>
+            <div class="post-actions">
+                <div class="action-btn">
+                    <span>👍</span>
+                    <span>좋아요</span>
+                </div>
+                <div class="action-btn">
+                    <span>💬</span>
+                    <span>댓글</span>
+                </div>
+                <div class="action-btn">
+                    <span>📤</span>
+                    <span>공유</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Like button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            if (btn.textContent.includes('좋아요')) {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('liked');
+                    
+                    // Update stats
+                    const post = this.closest('.post');
+                    const statsText = post.querySelector('.reactions span');
+                    const currentLikes = parseInt(statsText.textContent.match(/\d+/)[0]);
+                    
+                    if (this.classList.contains('liked')) {
+                        statsText.textContent = `좋아요 ${currentLikes + 1}개`;
+                    } else {
+                        statsText.textContent = `좋아요 ${currentLikes - 1}개`;
+                    }
+                });
+            }
+        });
+        
+        // Comment input focus
+        document.querySelectorAll('.comment-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.background = '#e4e6eb';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.background = '#f0f2f5';
+            });
+        });
+        
+        // Infinite scroll simulation
+        let postCount = 3;
+        
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                // Add more posts when scrolling to bottom
+                console.log('Loading more posts...');
+            }
+        });
+    </script>
+</body>
+</html>

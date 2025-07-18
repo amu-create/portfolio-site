@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import Image from 'next/image'
 
 export default function About() {
   const ref = useRef(null)
@@ -35,8 +35,14 @@ export default function About() {
             </div>
             
             <div className="relative">
-              <div className="w-full h-80 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-lg flex items-center justify-center">
-                <span className="text-6xl">👨‍💻</span>
+              <div className="w-full h-80 relative rounded-lg overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop"
+                  alt="Developer workspace"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
               </div>
             </div>
           </div>
