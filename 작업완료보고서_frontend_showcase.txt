@@ -1,0 +1,77 @@
+# 포트폴리오 프로젝트 팝업 기능 구현 보고서
+
+## 작업 일시
+- 2025년 1월 18일 오후
+
+## 작업 내용
+### 1. 프로젝트 카드 클릭 시 Frontend Showcase 팝업 구현
+
+### 2. 구현된 기능
+- **ProjectModal 컴포넌트 생성** (`components/ui/ProjectModal.tsx`)
+  - Framer Motion을 활용한 부드러운 애니메이션
+  - ESC 키로 모달 닫기 기능
+  - 반응형 디자인 적용
+  - 백드롭 블러 효과
+  - 아이콘 매핑 시스템 구현
+
+### 3. 수정된 파일
+- `components/ui/ProjectModal.tsx` - 새로 생성
+- `components/sections/ProjectsSection.tsx` - 클릭 이벤트 추가
+- `lib/data.ts` - frontendShowcase 데이터 추가 (아이콘을 문자열로 저장)
+
+### 4. 해결된 이슈
+- TypeScript 파일에서 JSX 직접 사용 불가 문제 해결
+- 아이콘을 문자열로 저장하고 컴포넌트에서 매핑하는 방식으로 변경
+
+### 4. Frontend Showcase 내용
+#### HealthWise AI 프로젝트
+1. **AI 채팅 인터페이스**
+   - Claude MCP API 실시간 스트리밍
+   - 마크다운 렌더링 & 코드 하이라이팅
+   - 대화 히스토리 자동 저장
+   - 음성 입력/출력 지원
+
+2. **반응형 디자인 & 다크모드**
+   - Tailwind CSS 반응형 레이아웃
+   - 시스템 설정 연동 다크모드
+   - Framer Motion 마이크로 인터랙션
+   - WCAG 2.1 AAA 접근성 준수
+
+3. **고급 상태 관리**
+   - Zustand 전역 상태 관리
+   - React Query 서버 상태 캐싱
+   - 낙관적 업데이트
+   - PWA 오프라인 지원
+
+#### HealthWise AI Pro 프로젝트
+1. **실시간 모션 트래킹**
+   - 30FPS 실시간 관절 인식
+   - Canvas API 스켈레톤 시각화
+   - 운동 카운트 & 자세 정확도 피드백
+   - WebGL 가속 모바일 최적화
+
+2. **인터랙티브 대시보드**
+   - Chart.js & D3.js 데이터 시각화
+   - 히트맵 주간 운동 패턴
+   - 애니메이션 진행률 표시
+   - CSV/PDF 리포트 내보내기
+
+3. **소셜 피트니스 기능**
+   - 실시간 그룹 운동 세션
+   - 리더보드 & 배지 시스템
+   - 운동 영상 공유 & 피드백
+   - 친구 초대 및 챌린지
+
+## 사용 방법
+프로젝트 이미지를 클릭하면 Frontend Showcase 팝업이 열립니다.
+
+## 시각화 다이어그램
+```mermaid
+graph TD
+    A[프로젝트 카드] -->|클릭| B[Frontend Showcase 팝업]
+    B --> C[3가지 프론트엔드 기능 표시]
+    C --> D[AI 채팅 인터페이스]
+    C --> E[반응형 디자인]
+    C --> F[고급 상태 관리]
+    B -->|ESC 또는 X 버튼| G[팝업 닫기]
+```

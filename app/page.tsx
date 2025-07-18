@@ -1,47 +1,27 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Hero from '@/components/sections/Hero'
-import About from '@/components/sections/About'
-import Projects from '@/components/sections/Projects'
-import Skills from '@/components/sections/Skills'
-import Contact from '@/components/sections/Contact'
-import Navigation from '@/components/Navigation'
-import LoadingScreen from '@/components/LoadingScreen'
+import Navigation from '@/components/Navigation';
+import HeroSection from '@/components/sections/HeroSection';
+import AboutSection from '@/components/sections/AboutSection';
+import SkillsSection from '@/components/sections/SkillsSection';
+import ProjectsSection from '@/components/sections/ProjectsSection';
+import FrontendShowcase from '@/components/sections/FrontendShowcase';
+import ExperienceSection from '@/components/sections/ExperienceSection';
+import ContactSection from '@/components/sections/ContactSection';
+import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingScreen key="loading" />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Navigation />
-            <main className="overflow-hidden">
-              <Hero />
-              <About />
-              <Projects />
-              <Skills />
-              <Contact />
-            </main>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  )
+    <main className="min-h-screen">
+      <Navigation />
+      <HeroSection />
+      <AboutSection />
+      <SkillsSection />
+      <ProjectsSection />
+      <FrontendShowcase />
+      <ExperienceSection />
+      <ContactSection />
+      <Footer />
+    </main>
+  );
 }
