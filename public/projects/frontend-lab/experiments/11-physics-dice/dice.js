@@ -2,52 +2,11 @@
 let scene, camera, renderer;
 let world;
 let dice = [];
-let throwBtn, diceCountSelect, diceTypeSelect;
+let throwBtn, diceCountSelect;
 let isRolling = false;
 let orbitControls;
-let customDiceData = null;
 
-// 커스텀 주사위 면 텍스처 생성
-function createCustomDiceFaceCanvas(content, bgColor, textColor) {
-    const size = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const context = canvas.getContext('2d');
-    
-    // 배경
-    context.fillStyle = bgColor;
-    context.fillRect(0, 0, size, size);
-    
-    // 테두리
-    context.strokeStyle = textColor;
-    context.lineWidth = 10;
-    context.strokeRect(5, 5, size - 10, size - 10);
-    
-    // HTML 태그 제거하고 텍스트만 추출
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    const plainText = tempDiv.textContent || tempDiv.innerText || content;
-    
-    // 텍스트/이모지
-    context.fillStyle = textColor;
-    context.font = 'bold 60px Arial';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    
-    // 긴 텍스트는 줄바꿈 처리
-    const maxWidth = size - 40;
-    const words = plainText.split(' ');
-    let line = '';
-    let lines = [];
-    
-    for (let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + ' ';
-        const metrics = context.measureText(testLine);
-        const testWidth = metrics.width;
-        
-        if (testWidth > maxWidth && n > 0) {
-            lines.push(line);
+// 주사위 면 텍스처 생성
             line = words[n] + ' ';
         } else {
             line = testLine;
@@ -288,17 +247,14 @@ function createDice(position) {
     // Three.js 메시
     const materials = [];
     
-    // 커스텀 주사위인지 확인
-    const diceType = document.getElementById('dice-type').value;
-    if (diceType === 'custom' && customDiceData) {
-        // 커스텀 주사위 텍스처 생성
-        for (let i = 0; i < 6; i++) {
-            materials.push(new THREE.MeshStandardMaterial({
-                map: createCustomDiceFaceCanvas(
-                    customDiceData.faces[i], 
-                    customDiceData.bgColor, 
-                    customDiceData.textColor
-                ),
+    // 표준 주사위 텍스처 생성
+    for (let i = 1; i <= 6; i++) {
+        materials.push(new THREE.MeshStandardMaterial({
+            map: createDiceFaceTexture(i),
+            metalness: 0.7,
+            roughness: 0.25
+        }));
+    }
                 roughness: 0.4,
                 metalness: 0.1
             }));
@@ -575,14 +531,9 @@ function init() {
     // DOM 요소 참조
     throwBtn = document.getElementById('throw-btn');
     diceCountSelect = document.getElementById('dice-count');
-    diceTypeSelect = document.getElementById('dice-type');
-    
-    // 커스텀 주사위 데이터 로드
-    loadCustomDice();
     
     // 이벤트 리스너
     throwBtn.addEventListener('click', throwDice);
-    diceTypeSelect.addEventListener('change', handleDiceTypeChange);
     window.addEventListener('resize', handleResize);
     
     // 로딩 화면 숨기기
