@@ -4,7 +4,7 @@ export const portfolioData = {
     title: "AI 개발자 | LLM 전문가",
     subtitle: "사용자 중심 서비스 개발",
     email: "jsg5080@gmail.com",
-    phone: "010-2000-1288",
+    phone: "010-2000-6637",
     github: "https://github.com/amu-create",
     location: "대한민국",
     about: `컴퓨터공학 전공자로서 2025년 7월 AI 전문가 과정을 성적 상위권으로 우수 수료했습니다. 
@@ -225,8 +225,8 @@ export const portfolioData = {
     {
       position: "보라카이(+팔라완) 현지 여행 가이드",
       company: "프리랜서",
-      period: "2019.03 - 2022.02",
-      duration: "3년",
+      period: "2016.04 - 2019.07",
+      duration: "4년",
       details: [
         "한국인 관광객 대상 투어 가이드 및 현지 정보 제공",
         "고객 응대를 통한 서비스 마인드 및 커뮤니케이션 스킬 향상",

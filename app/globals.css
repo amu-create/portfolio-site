@@ -26,4 +26,41 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 모바일 터치 하이라이트 제거 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 모바일 스크롤 성능 향상 */
+.scroll-smooth {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 텍스트 가독성 향상 */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* 버튼 및 인터랙티브 요소 모바일 최적화 */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 모바일에서 그라디언트 텍스트 가독성 개선 */
+@media (max-width: 768px) {
+  .gradient-text {
+    background: linear-gradient(to right, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
 }
