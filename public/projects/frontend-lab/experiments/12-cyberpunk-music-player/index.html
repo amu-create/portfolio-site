@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이버펑크 뮤직플레이어 2025</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-btn">← 실험실로 돌아가기</a>
+        
+        <div class="player-container">
+            <!-- 홀로그램 배경 효과 -->
+            <div class="hologram-bg"></div>
+            <div class="glitch-lines"></div>
+            
+            <!-- 메인 플레이어 -->
+            <div class="music-player">
+                <!-- 헤더 -->
+                <div class="player-header">
+                    <div class="logo">
+                        <span class="logo-text">NEON</span>
+                        <span class="logo-sub">WAVE</span>
+                    </div>
+                    <div class="system-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">SYSTEM ONLINE</span>
+                    </div>
+                </div>
+
+                <!-- 비주얼라이저 -->
+                <div class="visualizer-container">
+                    <canvas id="visualizer"></canvas>
+                    <div class="visualizer-overlay"></div>
+                </div>
+
+                <!-- 트랙 정보 -->
+                <div class="track-info">
+                    <div class="track-title" id="trackTitle">Neon Dreams</div>
+                    <div class="track-artist" id="trackArtist">Cyber Artist</div>
+                    <div class="track-meta">
+                        <span class="track-genre">SYNTHWAVE</span>
+                        <span class="track-bpm">128 BPM</span>
+                        <span class="track-key">Am</span>
+                    </div>
+                </div>
+
+                <!-- 프로그레스 바 -->
+                <div class="progress-container">
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="totalTime">3:45</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-track"></div>
+                        <div class="progress-fill" id="progressFill"></div>
+                        <div class="progress-glow"></div>
+                    </div>
+                </div>
+
+                <!-- 컨트롤 패널 -->
+                <div class="controls">
+                    <button class="control-btn secondary" id="shuffleBtn">
+                        <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                    </button>
+                    <button class="control-btn" id="prevBtn">
+                        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    </button>
+                    <button class="control-btn primary" id="playBtn">
+                        <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button class="control-btn" id="nextBtn">
+                        <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    </button>
+                    <button class="control-btn secondary" id="repeatBtn">
+                        <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                    </button>
+                </div>
+
+                <!-- 볼륨 컨트롤 -->
+                <div class="volume-control">
+                    <svg class="volume-icon" viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                    <span class="volume-value">70%</span>
+                </div>
+
+                <!-- 이퀄라이저 -->
+                <div class="equalizer">
+                    <div class="eq-label">EQUALIZER</div>
+                    <div class="eq-bars">
+                        <div class="eq-bar" data-freq="60Hz">
+                            <input type="range" min="-12" max="12" value="0" orient="vertical">
+                            <span>60</span>
+                        </div>
+                        <div class="eq-bar" data-freq="230Hz">
+                            <input type="range" min="-12" max="12" value="2" orient="vertical">
+                            <span>230</span>
+                        </div>
+                        <div class="eq-bar" data-freq="910Hz">
+                            <input type="range" min="-12" max="12" value="0" orient="vertical">
+                            <span>910</span>
+                        </div>
+                        <div class="eq-bar" data-freq="4kHz">
+                            <input type="range" min="-12" max="12" value="3" orient="vertical">
+                            <span>4k</span>
+                        </div>
+                        <div class="eq-bar" data-freq="14kHz">
+                            <input type="range" min="-12" max="12" value="1" orient="vertical">
+                            <span>14k</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 플레이리스트 -->
+                <div class="playlist">
+                    <div class="playlist-header">
+                        <span>PLAYLIST</span>
+                        <span class="track-count">8 TRACKS</span>
+                    </div>
+                    <div class="playlist-items" id="playlistItems">
+                        <!-- 동적으로 생성됨 -->
+                    </div>
+                </div>
+
+                <!-- 추가 기능 버튼들 -->
+                <div class="extra-controls">
+                    <button class="extra-btn" id="visualizerBtn" title="Visualizer Mode">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </button>
+                    <button class="extra-btn" id="lyricsBtn" title="Show Lyrics">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    </button>
+                    <button class="extra-btn active" id="spectrumBtn" title="Spectrum Analyzer">
+                        <svg viewBox="0 0 24 24"><path d="M4 15h2v-5H4v5zm4 2h2V7H8v10zm4-6h2v6h-2v-6zm4 8h2V5h-2v14z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 숨겨진 오디오 엘리먼트 -->
+        <audio id="audioPlayer" crossorigin="anonymous"></audio>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
