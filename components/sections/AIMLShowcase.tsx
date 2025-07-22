@@ -6,19 +6,50 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 const aimlProjects = [
+  
+    
   {
     id: 1,
+    title: "LangChain LLM 통합 플랫폼",
+    subtitle: "최신 AI 기술을 활용한 차세대 대화형 AI",
+    description: "LangChain과 최신 LLM을 통합하여 기업용 AI 어시스턴트를 구축한 플랫폼",
+    videoId: "DW9xuorMC08",
+    thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+    icon: <Cpu className="w-8 h-8" />,
+    color: "from-green-500 to-emerald-500",
+    stats: [
+      { label: "응답 정확도", value: "95%" },
+      { label: "처리 속도", value: "<2초" }
+    ],
+    technologies: [
+      "LangChain", "GPT-4", "Claude", "Pinecone",
+      "FastAPI", "React", "Redis", "Docker"
+    ],
+    features: [
+      "RAG (검색 증강 생성) 시스템 구현",
+      "멀티모달 AI 지원 (텍스트, 이미지, 코드)",
+      "컨텍스트 유지 대화 관리",
+      "커스텀 프롬프트 엔지니어링"
+    ],
+    achievements: [
+      "응답 정확도 95%로 업계 최고 수준 달성",
+      "토큰 사용량 최적화로 비용 60% 절감",
+      "엔터프라이즈급 보안 및 확장성 확보"
+    ]
+  },
+  {
+    id: 2,
     title: "기업 재고 판매 예측 시스템",
     subtitle: "AI 기반 수요 예측으로 재고 최적화",
     description: "시계열 분석과 머신러닝을 활용하여 기업의 재고 관리를 최적화하고 판매를 예측하는 시스템",
     videoId: "baJXYFqhmGc",
-    thumbnail: "https://img.youtube.com/vi/baJXYFqhmGc/maxresdefault.jpg",
+    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
     icon: <BarChart3 className="w-8 h-8" />,
     color: "from-blue-500 to-cyan-500",
     stats: [
       { label: "예측 정확도", value: "92%" },
-      { label: "재고 비용 절감", value: "30%" },
-      { label: "처리 데이터", value: "100만건+" }
+      { label: "재고 비용 절감", value: "30%" }
+      
     ],
     technologies: [
       "Python", "TensorFlow", "Prophet", "LSTM",
@@ -37,18 +68,18 @@ const aimlProjects = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     title: "아동학대 예측 방지 AI 시스템",
     subtitle: "머신러닝으로 아동을 보호하는 사회적 가치 창출",
     description: "빅데이터와 AI를 활용하여 아동학대 위험을 사전에 감지하고 예방하는 시스템",
     videoId: "fmlhbJH3Vrc",
-    thumbnail: "https://img.youtube.com/vi/fmlhbJH3Vrc/maxresdefault.jpg",
+    thumbnail: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80",
     icon: <Shield className="w-8 h-8" />,
     color: "from-purple-500 to-pink-500",
     stats: [
       { label: "위험 감지율", value: "87%" },
-      { label: "조기 개입", value: "150건+" },
-      { label: "처리 시간", value: "실시간" }
+      { label: "조기 개입", value: "150건+" }
+      
     ],
     technologies: [
       "Python", "Scikit-learn", "XGBoost", "Random Forest",
@@ -64,36 +95,6 @@ const aimlProjects = [
       "False Positive를 25%로 낮춰 신뢰도 향상",
       "조기 개입으로 150건 이상의 사례 예방",
       "관련 기관과의 협업 시스템 구축"
-    ]
-  },
-  {
-    id: 3,
-    title: "LangChain LLM 통합 플랫폼",
-    subtitle: "최신 AI 기술을 활용한 차세대 대화형 AI",
-    description: "LangChain과 최신 LLM을 통합하여 기업용 AI 어시스턴트를 구축한 플랫폼",
-    videoId: "DW9xuorMC08",
-    thumbnail: "https://img.youtube.com/vi/DW9xuorMC08/maxresdefault.jpg",
-    icon: <Cpu className="w-8 h-8" />,
-    color: "from-green-500 to-emerald-500",
-    stats: [
-      { label: "응답 정확도", value: "95%" },
-      { label: "처리 속도", value: "<2초" },
-      { label: "일일 쿼리", value: "10K+" }
-    ],
-    technologies: [
-      "LangChain", "GPT-4", "Claude", "Pinecone",
-      "FastAPI", "React", "Redis", "Docker"
-    ],
-    features: [
-      "RAG (검색 증강 생성) 시스템 구현",
-      "멀티모달 AI 지원 (텍스트, 이미지, 코드)",
-      "컨텍스트 유지 대화 관리",
-      "커스텀 프롬프트 엔지니어링"
-    ],
-    achievements: [
-      "응답 정확도 95%로 업계 최고 수준 달성",
-      "토큰 사용량 최적화로 비용 60% 절감",
-      "엔터프라이즈급 보안 및 확장성 확보"
     ]
   }
 ];

@@ -33,7 +33,7 @@ export const portfolioData = {
     {
       degree: "컴퓨터공학과",
       school: "유한대학교",
-      period: "2012.03 - 2017.02",
+      period: "2012.03 - 2016.02",
       status: "학사 졸업",
       details: []
     }
