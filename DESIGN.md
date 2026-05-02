@@ -20,6 +20,7 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 - Capability section: RAG, LLM evaluation, CS automation, content workflow, office automation.
 - Submission pack section: concise copy for resume/interview.
 - 2026-05-02 density correction: cap hero type below poster scale, treat screenshots as evidence thumbnails, and avoid oversized cards that slow recruiter scanning.
+- 2026-05-02 visual distinction pass: do not repeat one diagram template across projects. Use different forms by project: module hub, lead funnel, risk screen, and route guide.
 
 ## Visual System
 

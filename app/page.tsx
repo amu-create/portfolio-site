@@ -1,4 +1,23 @@
-const primaryProjects = [
+type VisualType = 'lab' | 'funnel' | 'risk' | 'transit';
+
+type PrimaryProject = {
+  title: string;
+  role: string;
+  href: string;
+  stack: string[];
+  summary: string;
+  proof: string;
+  caveat: string;
+  visual: {
+    type: VisualType;
+    label: string;
+    headline: string;
+    items: string[];
+    metrics: string[];
+  };
+};
+
+const primaryProjects: PrimaryProject[] = [
   {
     title: 'AI Portfolio Lab',
     role: '포트폴리오 보강 데모',
@@ -8,10 +27,10 @@ const primaryProjects = [
     proof: 'Vercel production 배포, desktop/mobile browser QA 통과',
     caveat: '외부 LLM/API 호출 없는 deterministic demo입니다.',
     visual: {
+      type: 'lab',
       label: 'AI Workbench',
-      input: '문서, 질문, 티켓, 브리프, CSV',
-      output: '근거 답변, 평가표, 응대 초안, 자동화 결과',
-      steps: ['RAG 검색', 'LLM 평가', 'AI CS', '콘텐츠', '자동화'],
+      headline: '5개 AI 업무 흐름을 한 데모에 묶음',
+      items: ['RAG', 'Eval', 'CS', 'Content', 'Automation'],
       metrics: ['5 modules', 'No API cost', 'QA pass']
     }
   },
@@ -24,10 +43,10 @@ const primaryProjects = [
     proof: '실제 배포 URL 200 확인',
     caveat: '고객 트랙션이나 운영 지표는 주장하지 않습니다.',
     visual: {
+      type: 'funnel',
       label: 'Lead Funnel',
-      input: '학원 문의와 상담 기록',
-      output: '상담 단계, AI 분석, 후속 행동 추천',
-      steps: ['문의 수집', 'AI 분석', '단계 관리', '후속 액션'],
+      headline: '문의부터 후속 액션까지 전환 흐름 관리',
+      items: ['문의', '상담', '분석', '후속', '등록'],
       metrics: ['8-stage', 'Gemini', 'Export']
     }
   },
@@ -40,11 +59,11 @@ const primaryProjects = [
     proof: '실제 배포 URL 200 확인',
     caveat: '법률 자문이 아닌 rule-based screening입니다.',
     visual: {
+      type: 'risk',
       label: 'Risk Screen',
-      input: '계약서 텍스트와 OCR 입력',
-      output: '위험 조항, 점수, 카테고리, PDF 리포트',
-      steps: ['계약서 입력', '105 패턴', '위험 점수', '리포트'],
-      metrics: ['Rule-based', 'PDF', 'Korean']
+      headline: '계약서 문구를 위험 신호와 리포트로 정리',
+      items: ['독소조항', '지급 지연', '권리 양도', '해지 조건'],
+      metrics: ['105 rules', 'PDF', 'Korean']
     }
   },
   {
@@ -56,10 +75,10 @@ const primaryProjects = [
     proof: '실제 배포 URL 200 확인',
     caveat: '현재 mock fallback이 기본이라 실시간 교통 정확도는 주장하지 않습니다.',
     visual: {
+      type: 'transit',
       label: 'Transit Guide',
-      input: '출발지, 목적지, 언어 선택',
-      output: '경로 비교, 막차 안내, 다국어 설명',
-      steps: ['장소 입력', '경로 비교', '언어 안내', 'TTS'],
+      headline: '방문자를 위한 경로 후보와 다국어 안내',
+      items: ['Start', 'Transfer', 'Last train', 'Voice'],
       metrics: ['Mobile', 'EN/JA/ZH', 'Mock safe']
     }
   }
@@ -80,33 +99,71 @@ const capabilities = [
   ['Automation', 'CSV 요약, 회의록 액션 추출, 이메일 초안, 파일명 정리 같은 반복 업무를 자동화했습니다.']
 ];
 
-function ProjectVisual({ project }: { project: (typeof primaryProjects)[number] }) {
+function ProjectVisual({ project }: { project: PrimaryProject }) {
+  const visual = project.visual;
+
   return (
-    <div className="project-visual" aria-label={`${project.title} 요약 시각화`}>
+    <div className={`project-visual visual-${visual.type}`} aria-label={`${project.title} 요약 시각화`}>
       <div className="visual-topline">
-        <span>{project.visual.label}</span>
+        <span>{visual.label}</span>
         <strong>{project.title}</strong>
       </div>
-      <div className="visual-lane" aria-hidden="true">
-        {project.visual.steps.map((step, index) => (
-          <div className="visual-step" key={step}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <strong>{step}</strong>
+
+      {visual.type === 'lab' && (
+        <div className="lab-visual" aria-hidden="true">
+          <div className="lab-core">
+            <span>Portfolio</span>
+            <strong>AI Lab</strong>
           </div>
-        ))}
-      </div>
-      <div className="visual-io">
-        <div>
-          <span>Input</span>
-          <strong>{project.visual.input}</strong>
+          <div className="lab-modules">
+            {visual.items.map((item) => <span key={item}>{item}</span>)}
+          </div>
         </div>
-        <div>
-          <span>Output</span>
-          <strong>{project.visual.output}</strong>
+      )}
+
+      {visual.type === 'funnel' && (
+        <div className="funnel-visual" aria-hidden="true">
+          {visual.items.map((item, index) => (
+            <div className="funnel-row" key={item}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{item}</strong>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
+
+      {visual.type === 'risk' && (
+        <div className="risk-visual" aria-hidden="true">
+          <div className="risk-score">
+            <span>Rule scan</span>
+            <strong>Risk signals</strong>
+            <div className="risk-bars">
+              <i />
+              <i />
+              <i />
+            </div>
+          </div>
+          <div className="risk-items">
+            {visual.items.map((item) => <span key={item}>{item}</span>)}
+          </div>
+        </div>
+      )}
+
+      {visual.type === 'transit' && (
+        <div className="transit-visual" aria-hidden="true">
+          <div className="route-line">
+            {visual.items.map((item) => <span key={item}>{item}</span>)}
+          </div>
+          <div className="route-summary">
+            <strong>Route options</strong>
+            <span>compare · explain · speak</span>
+          </div>
+        </div>
+      )}
+
+      <p className="visual-headline">{visual.headline}</p>
       <div className="visual-metrics">
-        {project.visual.metrics.map((metric) => <span key={metric}>{metric}</span>)}
+        {visual.metrics.map((metric) => <span key={metric}>{metric}</span>)}
       </div>
     </div>
   );
