@@ -73,7 +73,7 @@ export default function Home() {
       <section id="top" className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">New AI Service Developer</p>
-          <h1>AI 기능을 만들고, 검증하고, 배포 가능한 데모로 정리하는 신입 개발자</h1>
+          <h1>AI 기능을 검증 가능한 서비스 데모로 만드는 신입 개발자</h1>
           <p className="lead">
             RAG, LLM 평가, AI 고객응대, 콘텐츠 제작, 업무 자동화를 직접 구현해본 경험을 바탕으로
             작은 기능부터 책임 있게 완성하는 AI 서비스 개발자를 지향합니다.
@@ -89,17 +89,40 @@ export default function Home() {
             <span>Python · JavaScript</span>
           </div>
         </div>
-        <figure className="hero-visual">
-          <Image
-            src="/project-screens/ai-portfolio-lab.png"
-            alt="AI Portfolio Lab 화면"
-            width={1366}
-            height={850}
-            priority
-            unoptimized
-          />
-          <figcaption>대표 데모: RAG, LLM 평가, CS, 콘텐츠, 자동화 워크벤치</figcaption>
-        </figure>
+        <aside className="hero-proof-panel" aria-label="대표 포트폴리오 증빙">
+          <p className="eyebrow">Main proof</p>
+          <h2>AI Portfolio Lab</h2>
+          <p>
+            RAG 검색, LLM 평가, AI CS, 콘텐츠 제작, 업무 자동화 흐름을 하나의 정적 데모로 묶었습니다.
+          </p>
+          <div className="hero-thumbs">
+            <Image
+              src="/project-screens/ai-portfolio-lab.png"
+              alt="AI Portfolio Lab 화면"
+              width={1366}
+              height={850}
+              priority
+              unoptimized
+            />
+            <Image
+              src="/project-screens/consult-flow.png"
+              alt="ConsultFlow 화면"
+              width={1366}
+              height={850}
+              unoptimized
+            />
+          </div>
+          <dl className="proof-stack">
+            <div>
+              <dt>검증</dt>
+              <dd>desktop/mobile browser QA 통과</dd>
+            </div>
+            <div>
+              <dt>범위</dt>
+              <dd>외부 API 과금 없는 deterministic demo</dd>
+            </div>
+          </dl>
+        </aside>
       </section>
 
       <section id="projects" className="section-block">
@@ -148,7 +171,7 @@ export default function Home() {
       <section id="capabilities" className="section-block split-section">
         <div className="section-head sticky-head">
           <p className="eyebrow">Why this is enough</p>
-          <h2>지금 포트폴리오가 보여주는 것</h2>
+          <h2>포트폴리오가 보여주는 것</h2>
           <p>
             단순히 AI를 써본 수준이 아니라, 기능 설계, 실패 방지, 검증, 배포 링크까지
             채용 담당자가 확인할 수 있는 형태로 묶었습니다.
@@ -182,7 +205,7 @@ export default function Home() {
       <section id="contact" className="contact-section">
         <div>
           <p className="eyebrow">Next step</p>
-          <h2>작게 맡겨도 끝까지 검증해서 넘기는 개발자</h2>
+          <h2>작게 맡겨도 끝까지 검증하는 개발자</h2>
           <p>
             신입으로서 회사의 코드베이스와 업무 방식을 빠르게 익히고,
             반복 업무 자동화와 AI 기능 검증부터 실무 결과로 연결하겠습니다.

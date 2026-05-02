@@ -29,7 +29,7 @@ def run(url: str) -> int:
             page.screenshot(path=str(screenshot), full_page=True)
 
             required_text = [
-                "AI 기능을 만들고",
+                "AI 기능을 검증 가능한",
                 "AI Portfolio Lab",
                 "ConsultFlow",
                 "FairSign",
