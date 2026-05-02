@@ -1,45 +1,67 @@
-import Image from 'next/image';
-
 const primaryProjects = [
   {
     title: 'AI Portfolio Lab',
     role: '포트폴리오 보강 데모',
     href: 'https://ai-portfolio-lab.vercel.app',
-    image: '/project-screens/ai-portfolio-lab.png',
     stack: ['Static Web', 'RAG Demo', 'LLM Eval', 'Automation'],
     summary: 'RAG 검색, LLM 답변 평가, AI CS CRM, 콘텐츠 제작, 업무 자동화를 한 링크에서 조작할 수 있게 만든 정적 포트폴리오 데모입니다.',
     proof: 'Vercel production 배포, desktop/mobile browser QA 통과',
-    caveat: '외부 LLM/API 호출 없는 deterministic demo입니다.'
+    caveat: '외부 LLM/API 호출 없는 deterministic demo입니다.',
+    visual: {
+      label: 'AI Workbench',
+      input: '문서, 질문, 티켓, 브리프, CSV',
+      output: '근거 답변, 평가표, 응대 초안, 자동화 결과',
+      steps: ['RAG 검색', 'LLM 평가', 'AI CS', '콘텐츠', '자동화'],
+      metrics: ['5 modules', 'No API cost', 'QA pass']
+    }
   },
   {
     title: 'ConsultFlow',
     role: 'AI 상담 전환 OS',
     href: 'https://consult-flow-app.vercel.app',
-    image: '/project-screens/consult-flow.png',
     stack: ['Next.js', 'Prisma', 'Gemini', 'Analytics'],
     summary: '학원 문의부터 등록까지의 상담 퍼널을 관리하고 AI 분석과 후속 행동 추천으로 전환 관리를 돕는 서비스입니다.',
     proof: '실제 배포 URL 200 확인',
-    caveat: '고객 트랙션이나 운영 지표는 주장하지 않습니다.'
+    caveat: '고객 트랙션이나 운영 지표는 주장하지 않습니다.',
+    visual: {
+      label: 'Lead Funnel',
+      input: '학원 문의와 상담 기록',
+      output: '상담 단계, AI 분석, 후속 행동 추천',
+      steps: ['문의 수집', 'AI 분석', '단계 관리', '후속 액션'],
+      metrics: ['8-stage', 'Gemini', 'Export']
+    }
   },
   {
     title: 'FairSign',
     role: '계약서 위험 조항 분석',
     href: 'https://fairsign-topaz.vercel.app',
-    image: '/project-screens/fairsign.png',
     stack: ['Next.js', 'OCR Intake', 'Rule Scoring', 'PDF'],
     summary: '프리랜서 계약서의 위험 문구를 패턴 기반으로 점검하고 위험 점수와 리포트로 정리하는 법률 리스크 스크리닝 도구입니다.',
     proof: '실제 배포 URL 200 확인',
-    caveat: '법률 자문이 아닌 rule-based screening입니다.'
+    caveat: '법률 자문이 아닌 rule-based screening입니다.',
+    visual: {
+      label: 'Risk Screen',
+      input: '계약서 텍스트와 OCR 입력',
+      output: '위험 조항, 점수, 카테고리, PDF 리포트',
+      steps: ['계약서 입력', '105 패턴', '위험 점수', '리포트'],
+      metrics: ['Rule-based', 'PDF', 'Korean']
+    }
   },
   {
     title: 'K-Transit',
     role: '외국인 대상 교통 안내',
     href: 'https://k-transit.vercel.app',
-    image: '/project-screens/k-transit.png',
     stack: ['Next.js', 'Localization', 'Route UX', 'TTS Flow'],
     summary: '한국 방문자가 경로 후보, 공항 이동, 막차, 음성 안내 흐름을 이해할 수 있도록 만든 모바일 우선 교통 웹앱입니다.',
     proof: '실제 배포 URL 200 확인',
-    caveat: '현재 mock fallback이 기본이라 실시간 교통 정확도는 주장하지 않습니다.'
+    caveat: '현재 mock fallback이 기본이라 실시간 교통 정확도는 주장하지 않습니다.',
+    visual: {
+      label: 'Transit Guide',
+      input: '출발지, 목적지, 언어 선택',
+      output: '경로 비교, 막차 안내, 다국어 설명',
+      steps: ['장소 입력', '경로 비교', '언어 안내', 'TTS'],
+      metrics: ['Mobile', 'EN/JA/ZH', 'Mock safe']
+    }
   }
 ];
 
@@ -57,6 +79,38 @@ const capabilities = [
   ['AI Content', '상품 목표를 카피, 이미지 프롬프트, 쇼츠 대본, TTS 스크립트로 연결했습니다.'],
   ['Automation', 'CSV 요약, 회의록 액션 추출, 이메일 초안, 파일명 정리 같은 반복 업무를 자동화했습니다.']
 ];
+
+function ProjectVisual({ project }: { project: (typeof primaryProjects)[number] }) {
+  return (
+    <div className="project-visual" aria-label={`${project.title} 요약 시각화`}>
+      <div className="visual-topline">
+        <span>{project.visual.label}</span>
+        <strong>{project.title}</strong>
+      </div>
+      <div className="visual-lane" aria-hidden="true">
+        {project.visual.steps.map((step, index) => (
+          <div className="visual-step" key={step}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{step}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="visual-io">
+        <div>
+          <span>Input</span>
+          <strong>{project.visual.input}</strong>
+        </div>
+        <div>
+          <span>Output</span>
+          <strong>{project.visual.output}</strong>
+        </div>
+      </div>
+      <div className="visual-metrics">
+        {project.visual.metrics.map((metric) => <span key={metric}>{metric}</span>)}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -95,23 +149,7 @@ export default function Home() {
           <p>
             RAG 검색, LLM 평가, AI CS, 콘텐츠 제작, 업무 자동화 흐름을 하나의 정적 데모로 묶었습니다.
           </p>
-          <div className="hero-thumbs">
-            <Image
-              src="/project-screens/ai-portfolio-lab.png"
-              alt="AI Portfolio Lab 화면"
-              width={1366}
-              height={850}
-              priority
-              unoptimized
-            />
-            <Image
-              src="/project-screens/consult-flow.png"
-              alt="ConsultFlow 화면"
-              width={1366}
-              height={850}
-              unoptimized
-            />
-          </div>
+          <ProjectVisual project={primaryProjects[0]} />
           <dl className="proof-stack">
             <div>
               <dt>검증</dt>
@@ -134,15 +172,8 @@ export default function Home() {
         <div className="project-grid">
           {primaryProjects.map((project) => (
             <article className="project-card" key={project.title}>
-              <a className="project-image-link" href={project.href} target="_blank" rel="noreferrer">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} 화면`}
-                  width={1366}
-                  height={850}
-                  sizes="(max-width: 920px) 100vw, 50vw"
-                  unoptimized
-                />
+              <a className="project-visual-link" href={project.href} target="_blank" rel="noreferrer">
+                <ProjectVisual project={project} />
               </a>
               <div className="project-body">
                 <p className="project-role">{project.role}</p>

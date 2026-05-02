@@ -195,23 +195,6 @@ img {
   line-height: 1.65;
 }
 
-.hero-thumbs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.hero-thumbs img {
-  width: 100%;
-  height: 148px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface-muted);
-  object-fit: cover;
-  object-position: top;
-}
-
 .proof-stack {
   display: grid;
   gap: 8px;
@@ -238,13 +221,6 @@ img {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.45;
-}
-
-.project-image-link img {
-  width: 100%;
-  height: 172px;
-  object-fit: cover;
-  object-position: top;
 }
 
 .section-block {
@@ -291,9 +267,150 @@ img {
   overflow: hidden;
 }
 
-.project-image-link {
+.project-visual-link {
   display: block;
-  background: var(--surface-muted);
+  background: #f3f6fb;
+}
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 212px;
+  padding: 16px;
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(22, 163, 74, 0.07)),
+    #f8fafc;
+}
+
+.hero-proof-panel .project-visual {
+  min-height: 232px;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.project-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(17, 24, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 39, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, black, transparent 86%);
+  pointer-events: none;
+}
+
+.visual-topline,
+.visual-lane,
+.visual-io,
+.visual-metrics {
+  position: relative;
+  z-index: 1;
+}
+
+.visual-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.visual-topline span {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.visual-topline strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.visual-lane {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.visual-step {
+  min-height: 68px;
+  padding: 10px;
+  border: 1px solid rgba(216, 222, 232, 0.95);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.06);
+}
+
+.visual-step span {
+  display: block;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.visual-step strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.25;
+  word-break: keep-all;
+}
+
+.visual-io {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.visual-io div {
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.visual-io span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.visual-io strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.visual-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.visual-metrics span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid rgba(216, 222, 232, 0.95);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #374151;
+  font-size: 11px;
+  font-weight: 900;
 }
 
 .project-body {
@@ -446,18 +563,26 @@ img {
     font-size: 16px;
   }
 
-  .hero-thumbs {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-thumbs img,
-  .project-image-link img {
-    height: 150px;
-  }
-
   .section-head h2,
   .contact-section h2 {
     font-size: 28px;
+  }
+
+  .project-visual {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .visual-lane {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .visual-step {
+    min-height: 58px;
+  }
+
+  .visual-io {
+    grid-template-columns: 1fr;
   }
 
   .support-grid {

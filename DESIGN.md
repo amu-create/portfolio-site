@@ -8,7 +8,7 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 
 - First viewport must say: new AI service developer and AI content automation builder.
 - The page should feel like a clean product dossier, not a flashy hero page.
-- Use actual project screenshots as visual proof.
+- Use clean project-summary visualizations on the home page; keep screenshots only as secondary evidence when they are large enough to read.
 - Lead with deployed links and verified work.
 - Avoid overclaiming production traction, legal advice, or live API accuracy.
 
@@ -32,7 +32,7 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 ## Components
 
 - Proof chips for status, stack, and verification.
-- Project cards with screenshot, role, stack, proof link, and honest caveat.
+- Project cards with summary visualization, role, stack, proof link, and honest caveat.
 - Compact tables for capabilities and evidence.
 - Buttons are clear commands: View demo, Open GitHub, Read copy pack.
 
