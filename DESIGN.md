@@ -1,0 +1,43 @@
+# Portfolio Site Design
+
+Reference slug: `linear.app`
+
+Reason: this portfolio should be evaluated quickly by recruiters. The site needs a calm, precise, product-oriented layout that emphasizes deployed proof, project scope, and honest limitations instead of decorative motion.
+
+## Direction
+
+- First viewport must say: new AI service developer and AI content automation builder.
+- The page should feel like a clean product dossier, not a flashy hero page.
+- Use actual project screenshots as visual proof.
+- Lead with deployed links and verified work.
+- Avoid overclaiming production traction, legal advice, or live API accuracy.
+
+## Layout
+
+- Single-page dossier with compact navigation.
+- First screen: identity, core pitch, primary CTA to AI Portfolio Lab, proof metrics, and one live screenshot.
+- Project grid: 4 representative deployed projects first, then support projects.
+- Capability section: RAG, LLM evaluation, CS automation, content workflow, office automation.
+- Submission pack section: concise copy for resume/interview.
+
+## Visual System
+
+- Base: near-black text on white and soft gray panels.
+- Accent: restrained blue `#2563eb` and green `#16a34a`.
+- Border: `#d8dee8`.
+- Radius: 8px.
+- No heavy gradients, no decorative blobs, no excessive animation.
+
+## Components
+
+- Proof chips for status, stack, and verification.
+- Project cards with screenshot, role, stack, proof link, and honest caveat.
+- Compact tables for capabilities and evidence.
+- Buttons are clear commands: View demo, Open GitHub, Read copy pack.
+
+## Mobile
+
+- Cards stack.
+- Screenshots keep fixed aspect ratio.
+- No horizontal overflow.
+- CTA buttons wrap cleanly.
