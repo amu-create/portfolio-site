@@ -6,7 +6,7 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 
 ## Direction
 
-- First viewport must say: new AI service developer and AI content automation builder.
+- First viewport must say: Android / AI service developer who can turn AI features into verified user flows.
 - The page should feel like a clean product dossier, not a flashy hero page.
 - Use clean project-summary visualizations on the home page; keep screenshots only as secondary evidence when they are large enough to read.
 - Lead with deployed links and verified work.
@@ -15,12 +15,13 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 ## Layout
 
 - Single-page dossier with compact navigation.
-- First screen: identity, core pitch, primary CTA to AI Portfolio Lab, proof chips, and a compact evidence panel.
-- Project grid: 4 representative deployed projects first, then support projects.
+- First screen: identity, core pitch, primary CTA to the LensOverlay case study PDF, proof chips, and a compact evidence panel.
+- Project grid: LensOverlay Translate first as the current flagship Android/AI case, then 4 supporting deployed demos.
 - Capability section: RAG, LLM evaluation, CS automation, content workflow, office automation.
-- Submission pack section: concise copy for resume/interview.
+- Evidence package section: concise resume/interview assets, screenshot proof, and honest limitations.
 - 2026-05-02 density correction: cap hero type below poster scale, treat screenshots as evidence thumbnails, and avoid oversized cards that slow recruiter scanning.
 - 2026-05-02 visual distinction pass: do not repeat one diagram template across projects. Use different forms by project: module hub, lead funnel, risk screen, and route guide.
+- 2026-05-23 flagship update: LensOverlay uses a mobile screenshot and Android QA evidence visual, while the other projects remain supporting product demos.
 
 ## Visual System
 

@@ -11,10 +11,10 @@ export default function HeroSection() {
   const { personal } = portfolioData;
 
   const titles = [
-    "AI 개발자",
-    "LLM 연구자",
-    "풀스택 개발자를 향한 노력",
-    "Claude MCP 얼리어답터"
+    "Android AI 서비스 개발자",
+    "OCR 번역 앱 케이스 스터디",
+    "RAG / LLM 평가 데모",
+    "검증 가능한 제품 흐름"
   ];
 
   return (

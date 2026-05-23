@@ -50,15 +50,15 @@ export default function AboutSection() {
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-purple-600 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                 <div>
-                  <p className="font-medium text-gray-800 text-sm sm:text-base">최신 기술 습득</p>
-                  <p className="text-gray-600 text-xs sm:text-sm mt-1">Claude MCP, GPT-4o 등 최신 AI 기술을 빠르게 학습하고 프로젝트에 적용합니다.</p>
+                  <p className="font-medium text-gray-800 text-sm sm:text-base">검증 중심 학습</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mt-1">Android AI, OCR, RAG, LLM 평가 흐름을 작은 데모와 QA 증거로 정리합니다.</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-green-600 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                 <div>
-                  <p className="font-medium text-gray-800 text-sm sm:text-base">실전 경험</p>
-                  <p className="text-gray-600 text-xs sm:text-sm mt-1">3개의 AI 서비스를 실제 배포하여 500명 이상의 사용자를 확보했습니다.</p>
+                  <p className="font-medium text-gray-800 text-sm sm:text-base">실행 증거</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mt-1">배포 링크, APK 설치 기록, 브라우저 QA, 남은 리스크를 분리해 남깁니다.</p>
                 </div>
               </div>
             </div>

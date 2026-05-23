@@ -8,7 +8,10 @@ import { useState } from 'react';
 import ProjectModal from '@/components/ui/ProjectModal';
 
 export default function ProjectsSection() {
-  const { projects } = portfolioData;
+  const projects = portfolioData.projects as Array<(typeof portfolioData.projects)[number] & {
+    award?: string;
+    frontendShowcase?: boolean;
+  }>;
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -35,7 +38,7 @@ export default function ProjectsSection() {
             </span>
           </h2>
           <p className="text-xl text-gray-600">
-            실제 배포하고 운영 중인 AI 서비스들
+            검증 가능한 링크와 범위를 가진 AI/Android 데모들
           </p>
         </motion.div>
 
@@ -187,16 +190,16 @@ export default function ProjectsSection() {
               <div className="text-blue-100">완성된 프로젝트</div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-2">Netlify</div>
-              <div className="text-blue-100">실제 배포 경험</div>
+              <div className="text-3xl font-bold mb-2">Vercel</div>
+              <div className="text-blue-100">배포 링크 관리</div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-2">Docker</div>
-              <div className="text-blue-100">원클릭 배포</div>
+              <div className="text-3xl font-bold mb-2">QA</div>
+              <div className="text-blue-100">브라우저 검증</div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-2">MCP</div>
-              <div className="text-blue-100">최신 AI 기술</div>
+              <div className="text-3xl font-bold mb-2">Scope</div>
+              <div className="text-blue-100">리스크 분리</div>
             </div>
           </div>
         </motion.div>

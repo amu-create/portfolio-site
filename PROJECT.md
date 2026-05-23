@@ -2,7 +2,7 @@
 
 ## 목적
 
-전서기 신입 AI 서비스 개발자 지원용 대표 포트폴리오 사이트.
+전서기 Android / AI 서비스 개발자 지원용 대표 포트폴리오 사이트.
 
 자소서의 주장만으로는 약하므로, 채용 담당자가 실제 링크와 화면으로 확인할 수 있는 프로젝트 증빙을 한 페이지에 정리한다.
 
@@ -48,9 +48,12 @@ py -3 scripts\qa_portfolio_site.py http://127.0.0.1:3000
 
 대표 프로젝트는 다음 순서로 보여준다.
 
-1. AI Portfolio Lab
-2. ConsultFlow
-3. FairSign
-4. K-Transit
+1. LensOverlay Translate
+2. AI Portfolio Lab
+3. ConsultFlow
+4. FairSign
+5. K-Transit
 
-보조 프로젝트는 기술 폭을 증명하는 용도로만 둔다. 과장된 트랙션, 법률 자문, 실시간 API 정확도는 주장하지 않는다.
+LensOverlay는 Android 권한, OCR, 화면 캡처, 번역 라우팅, APK/QA 증거를 묶은 flagship case study로 둔다.
+
+보조 프로젝트는 기술 폭을 증명하는 용도로만 둔다. 과장된 트랙션, 법률 자문, 실시간 API 정확도, 상용 운영 지표는 주장하지 않는다.

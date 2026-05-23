@@ -1,243 +1,129 @@
 export const portfolioData = {
   personal: {
     name: "전서기",
-    title: "AI 개발자 | LLM 전문가",
-    subtitle: "사용자 중심 서비스 개발",
+    title: "Android / AI 서비스 개발자",
+    subtitle: "AI 기능을 실제 사용자 흐름에서 검증 가능한 앱과 서비스로 구현합니다.",
     email: "jsg5080@gmail.com",
     phone: "010-2000-6637",
     github: "https://github.com/amu-create",
     location: "대한민국",
-    about: `컴퓨터공학 전공자로서 2025년 7월 AI 전문가 과정을 성적 상위권으로 우수 수료했습니다. 
-    Claude MCP, GPT-4o, LangChain 등 최신 AI 기술을 신입 개발자 중 가장 앞서 습득하고 활용했으며, 
-    특히 벡터 스토어와 회원 DB를 연동한 고도화된 RAG 시스템을 완성했습니다.`,
+    about: `Android 권한, OCR, 화면 캡처, 번역 라우팅, QA evidence를 하나의 사용자 흐름으로 묶는 데 집중합니다.
+    포트폴리오에서는 검증된 범위와 아직 남은 리스크를 분리해 설명합니다.`,
     achievements: [
-      { icon: "🎓", text: "AI 과정 우수 수료" },
-      { icon: "💯", text: "출석률 100%" },
-      { icon: "🚀", text: "최신 AI 기술 선도" },
-      { icon: "🔥", text: "Claude MCP 최초 적용" },
-      { icon: "🏆", text: "프로젝트 우수상" }
-    ]
+      { icon: "AI", text: "Android AI case study" },
+      { icon: "QA", text: "APK 설치/실행 검증" },
+      { icon: "UX", text: "사용자 행동 중심 화면 설계" },
+      { icon: "EV", text: "증거 패키지 정리" },
+      { icon: "SC", text: "검증 범위와 리스크 분리" },
+    ],
   },
-  
+
   education: [
     {
-      degree: "AI 전문가 양성 과정",
-      school: "AI 아카데미",
-      period: "2025.02 - 2025.07",
-      status: "우수 수료",
+      degree: "AI 서비스 개발 학습 및 프로젝트 과정",
+      school: "프로젝트 기반 학습",
+      period: "2025 - 2026",
+      status: "포트폴리오 프로젝트 진행",
       details: [
-        "성적 상위권, 출석률 100%",
-        "Claude MCP, GPT-4o, LangChain, RAG, Vector DB 등 최신 기술을 신입 중 가장 빠르게 습득"
-      ]
+        "RAG, LLM 평가, OCR, Android 앱, 업무 자동화 프로젝트를 작은 MVP와 검증 로그 중심으로 정리했습니다.",
+      ],
     },
     {
-      degree: "컴퓨터공학과",
-      school: "유한대학교",
-      period: "2012.03 - 2016.02",
-      status: "학사 졸업",
-      details: []
-    }
+      degree: "컴퓨터공학",
+      school: "전공 학습",
+      period: "2012 - 2016",
+      status: "학사 과정",
+      details: [],
+    },
   ],
-  
+
   skills: {
     languages: [
-      { name: "Python", level: 90, category: "expert" },
-      { name: "SQL", level: 75, category: "advanced" },
-      { name: "JavaScript", level: 70, category: "advanced" },
-      { name: "Java", level: 60, category: "intermediate" }
+      { name: "Kotlin", level: 74, category: "applied" },
+      { name: "JavaScript / TypeScript", level: 72, category: "applied" },
+      { name: "Python", level: 70, category: "applied" },
+      { name: "SQL", level: 62, category: "working" },
     ],
     ai: [
-      { name: "PyTorch 2.0", icon: "🔥" },
-      { name: "LangChain", icon: "🔗" },
-      { name: "LlamaIndex", icon: "📚" },
-      { name: "Hugging Face", icon: "🤗" }
+      { name: "ML Kit OCR / Translate", icon: "OCR" },
+      { name: "RAG workflow", icon: "RAG" },
+      { name: "LLM evaluation", icon: "EVAL" },
+      { name: "Prompt workflow", icon: "PROMPT" },
     ],
     llm: [
-      { name: "Claude MCP", icon: "🎭" },
-      { name: "GPT-4o", icon: "🤖" },
-      { name: "Gemini Pro", icon: "💎" },
-      { name: "RAG + Vector Store", icon: "🎯" },
-      { name: "Pinecone DB", icon: "🗄️" }
+      { name: "OpenAI API", icon: "API" },
+      { name: "Gemini integration", icon: "LLM" },
+      { name: "Server proxy boundary", icon: "SEC" },
+      { name: "Evidence logging", icon: "LOG" },
     ],
     devops: [
-      { name: "Docker", icon: "🐳" },
-      { name: "AWS", icon: "☁️" },
-      { name: "Vercel", icon: "▲" },
-      { name: "CI/CD", icon: "🔄" }
-    ]
+      { name: "Vercel", icon: "WEB" },
+      { name: "Gradle / Android build", icon: "APK" },
+      { name: "Browser QA", icon: "QA" },
+      { name: "GitHub", icon: "GIT" },
+    ],
   },
-  
+
   projects: [
-    
     {
-      title: "AI 헬스케어 어시스턴트 - HealthWise AI",
-      type: "1인 개발",
-      period: "2025.5 - 2025.7",
-      
-      description: "Claude MCP를 활용한 개인 맞춤형 건강 관리 AI 서비스 - 신입 개발자 중 최초로 MCP 기술 적용",
+      title: "LensOverlay Translate",
+      type: "개인 프로젝트",
+      period: "2026.05",
+      description:
+        "카메라 촬영, 사진 선택, 화면 위 번역을 하나의 Android 앱 흐름으로 묶은 OCR 번역 MVP입니다.",
       achievements: [
-        "Claude MCP를 활용한 고급 프롬프트 엔지니어링으로 응답 품질 40% 향상",
-        "다국어 지원(한/영/중/일)으로 글로벌 서비스 확장 가능성 확보",
-        "Netlify 배포로 실제 서비스 운영 - 신입으로서 배포까지 완성한 드문 케이스",
-        "Vercel Edge Functions 활용으로 서버 비용 70% 절감"
+        "Kotlin, Compose, CameraX, ML Kit, MediaProjection, Overlay Service 기반 구현",
+        "global/china product flavor와 번역 provider routing 구조 분리",
+        "Medium_Phone_API_35 설치/실행, targetSdk 35, UIAutomator, logcat evidence 확보",
+        "debug demo 범위와 물리폰/release/중국망 미검증 리스크를 명시",
       ],
-      technologies: ["Claude MCP", "Next.js 14", "Vercel", "TypeScript", "Tailwind CSS"],
-      link: "https://healthwiseaipro.netlify.app/",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
-      frontendShowcase: [
-        {
-          title: "AI 채팅 인터페이스",
-          description: "실시간 스트리밍과 타이핑 애니메이션으로 자연스러운 대화 경험 제공",
-          gradient: "from-blue-500 to-purple-500",
-          icon: "sparkles",
-          features: [
-            "Claude MCP API 실시간 스트리밍 응답",
-            "마크다운 렌더링 & 코드 하이라이팅",
-            "대화 히스토리 자동 저장 및 검색",
-            "음성 입력/출력 지원 (Web Speech API)"
-          ]
-        },
-        {
-          title: "반응형 디자인 & 다크모드",
-          description: "모든 디바이스에서 완벽한 사용자 경험",
-          gradient: "from-purple-500 to-pink-500",
-          icon: "palette",
-          features: [
-            "Tailwind CSS로 구현한 반응형 레이아웃",
-            "시스템 설정 연동 자동 다크모드",
-            "Framer Motion 마이크로 인터랙션",
-            "접근성 WCAG 2.1 AAA 준수"
-          ]
-        },
-        {
-          title: "고급 상태 관리",
-          description: "Zustand와 React Query로 최적화된 성능",
-          gradient: "from-green-500 to-blue-500",
-          icon: "zap",
-          features: [
-            "Zustand 전역 상태 관리",
-            "React Query 서버 상태 캐싱",
-            "낙관적 업데이트로 즉각적인 UI 반응",
-            "PWA 오프라인 지원"
-          ]
-        }
-      ]
+      technologies: ["Kotlin", "Compose", "ML Kit", "CameraX", "MediaProjection", "Android QA"],
+      link: "/downloads/lens-overlay-case-study.pdf",
+      image: "/project-screens/lens-overlay-home.webp",
     },
     {
-      title: "HealthWise AI Pro - Docker 기반 풀스택 시스템",
-      type: "팀 프로젝트 (기여도 70%)",
-      period: "2025.05 - 2025.07",
-      award: "🏅 최우수 팀 프로젝트",
-      description: "MediaPipe 기반 실시간 운동 자세 분석 및 AI 건강 상담 플랫폼",
+      title: "AI Portfolio Lab",
+      type: "정적 AI 서비스 데모",
+      period: "2026.05",
+      description: "RAG, LLM 평가, CS, 콘텐츠, 자동화 흐름을 과금 없는 deterministic demo로 정리한 사이트입니다.",
       achievements: [
-        "Docker Compose로 원클릭 설치 환경 구축 - API 키만 있으면 3분 내 실행 가능",
-        "MediaPipe를 활용한 실시간 운동 자세 분석 (스쿼트, 푸쉬업 등 5종)",
-        "벡터 스토어(Pinecone)와 PostgreSQL 회원 DB를 연동한 고도화된 RAG 시스템 구현",
-        "Django REST API + React TypeScript로 견고한 풀스택 아키텍처 구축"
+        "채용 담당자가 빠르게 기능 흐름을 훑을 수 있도록 모듈형 구성",
+        "실시간 모델 정확도 주장을 하지 않고 데모 범위를 명확히 분리",
       ],
-      technologies: ["Docker", "Django", "React", "MediaPipe", "PostgreSQL", "Redis", "OpenAI API"],
-      link: "https://github.com/amu-create/healthwise-ai",
-      image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80",
-      frontendShowcase: [
-        {
-          title: "실시간 모션 트래킹",
-          description: "MediaPipe로 구현한 정확한 운동 자세 분석",
-          gradient: "from-red-500 to-orange-500",
-          icon: "zap",
-          features: [
-            "30FPS 실시간 관절 인식 및 추적",
-            "Canvas API로 스켈레톤 시각화",
-            "운동 카운트 & 자세 정확도 실시간 피드백",
-            "WebGL 가속으로 모바일에서도 부드러운 성능"
-          ]
-        },
-        {
-          title: "인터랙티브 대시보드",
-          description: "Chart.js와 D3.js로 만든 데이터 시각화",
-          gradient: "from-teal-500 to-green-500",
-          icon: "sparkles",
-          features: [
-            "실시간 운동 통계 차트",
-            "히트맵으로 보는 주간 운동 패턴",
-            "애니메이션 진행률 표시",
-            "CSV/PDF 리포트 내보내기"
-          ]
-        },
-        {
-          title: "소셜 피트니스 기능",
-          description: "함께하는 운동의 즐거움",
-          gradient: "from-pink-500 to-purple-500",
-          icon: "palette",
-          features: [
-            "실시간 그룹 운동 세션",
-            "리더보드 & 배지 시스템",
-            "운동 영상 공유 & 피드백",
-            "친구 초대 및 챌린지 기능"
-          ]
-        }
-      ]
-    },{
-      title: "종합 프론트엔드 실험실",
-      type: "개인 프로젝트",
-      period: "2025.07.10~20",
-      award: "🔬 실험적 웹 기술 쇼케이스",
-      description: "최신 웹 기술과 창의적인 인터랙션을 실험하는 종합 프론트엔드 실험실. 다크모드, 드래그앤드롭, Canvas 파티클, CSS 3D, WebGL 셰이더 등 5가지 핵심 기술 데모 포함",
+      technologies: ["Static Web", "RAG demo", "LLM eval", "Vercel"],
+      link: "https://ai-portfolio-lab.vercel.app",
+      image: "/project-screens/ai-portfolio-lab.png",
+    },
+    {
+      title: "ConsultFlow",
+      type: "B2B SaaS 데모",
+      period: "2026.05",
+      description: "상담 문의부터 후속 액션까지의 전환 흐름을 관리하는 AI 상담 OS 시나리오입니다.",
       achievements: [
-        "CSS Variables와 LocalStorage를 활용한 다크모드 시스템 구현",
-        "HTML5 Drag & Drop API로 직관적인 인터랙션 디자인",
-        "Canvas API를 활용한 파티클 물리 시뮬레이션 구현",
-        "CSS 3D Transform으로 인터랙티브 3D 큐브 애니메이션 제작",
-        "WebGL과 GLSL 셰이더로 GPU 가속 비주얼 이펙트 구현"
+        "상담 funnel, 분석, 후속 행동 추천을 하나의 업무 흐름으로 구성",
+        "운영 지표가 아니라 제품 흐름 구현 사례로 제한해 설명",
       ],
-      technologies: ["WebGL", "GLSL", "Canvas API", "CSS 3D", "Web APIs", "JavaScript"],
-      link: "/projects/frontend-lab",
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
-      frontendShowcase: [
-        {
-          title: "다크모드 시스템",
-          description: "CSS 변수와 LocalStorage를 활용한 테마 전환",
-          gradient: "from-gray-800 to-gray-900",
-          icon: "moon",
-          features: [
-            "CSS Custom Properties로 동적 테마 관리",
-            "LocalStorage로 사용자 설정 영구 저장",
-            "부드러운 전환 애니메이션",
-            "시스템 설정 자동 감지"
-          ]
-        },
-        {
-          title: "WebGL 셰이더",
-          description: "GPU 가속을 활용한 실시간 비주얼 이펙트",
-          gradient: "from-purple-600 to-pink-600",
-          icon: "cpu",
-          features: [
-            "GLSL Fragment Shader로 실시간 렌더링",
-            "시간 기반 애니메이션 유니폼 변수",
-            "모바일 GPU 최적화",
-            "60FPS 부드러운 성능"
-          ]
-        }
-      ]
-    }
+      technologies: ["Next.js", "Prisma", "Gemini", "Analytics"],
+      link: "https://consult-flow-app.vercel.app",
+      image: "/project-screens/consult-flow.png",
+    },
   ],
-  
+
   experience: [
     {
-      position: "보라카이(+팔라완) 현지 여행 가이드",
-      company: "프리랜서",
-      period: "2016.04 - 2019.07",
-      duration: "4년",
+      position: "현장 고객 응대 및 커뮤니케이션",
+      company: "관광/서비스 현장 경험",
+      period: "2016 - 2019",
+      duration: "약 4년",
       details: [
-        "한국인 관광객 대상 투어 가이드 및 현지 정보 제공",
-        "고객 응대를 통한 서비스 마인드 및 커뮤니케이션 스킬 향상",
-        "다양한 연령대와 배경의 고객들과의 소통 경험"
-      ]
-    }
+        "외국인 방문객 안내와 고객 커뮤니케이션 경험을 사용자 흐름 설계 감각으로 연결했습니다.",
+      ],
+    },
   ],
-  
+
   military: {
-    service: "육군 병장 만기전역",
-    period: "2014.01 - 2015.10",
-    duration: "21개월"
-  }
+    service: "병역 의무 이행",
+    period: "2014 - 2015",
+    duration: "21개월",
+  },
 };

@@ -1,9 +1,12 @@
-type VisualType = 'lab' | 'funnel' | 'risk' | 'transit';
+import Image from "next/image";
+
+type VisualType = "mobile" | "lab" | "funnel" | "risk" | "transit";
 
 type PrimaryProject = {
   title: string;
   role: string;
   href: string;
+  cta: string;
   stack: string[];
   summary: string;
   proof: string;
@@ -14,89 +17,139 @@ type PrimaryProject = {
     headline: string;
     items: string[];
     metrics: string[];
+    image?: string;
   };
 };
 
 const primaryProjects: PrimaryProject[] = [
   {
-    title: 'AI Portfolio Lab',
-    role: '포트폴리오 보강 데모',
-    href: 'https://ai-portfolio-lab.vercel.app',
-    stack: ['Static Web', 'RAG Demo', 'LLM Eval', 'Automation'],
-    summary: 'RAG 검색, LLM 답변 평가, AI CS CRM, 콘텐츠 제작, 업무 자동화를 한 링크에서 조작할 수 있게 만든 정적 포트폴리오 데모입니다.',
-    proof: 'Vercel production 배포, desktop/mobile browser QA 통과',
-    caveat: '외부 LLM/API 호출 없는 deterministic demo입니다.',
+    title: "LensOverlay Translate",
+    role: "Android / AI translation case study",
+    href: "/downloads/lens-overlay-case-study.pdf",
+    cta: "Case study PDF",
+    stack: ["Kotlin", "Compose", "CameraX", "ML Kit", "MediaProjection", "Overlay"],
+    summary:
+      "카메라 촬영, 사진 선택, 화면 위 번역을 하나의 Android 앱 흐름으로 묶은 번역 보조 앱입니다. AI 호출보다 권한, OCR 후보 선택, 번역 라우팅, 실행 증거를 함께 관리한 점을 대표 역량으로 배치했습니다.",
+    proof:
+      "Medium_Phone_API_35 설치/실행, targetSdk 35, UIAutomator 핵심 텍스트 확인, logcat 앱 FATAL/ANR 미검출, SHA-256 보존.",
+    caveat:
+      "현재 공개 근거는 debug demo와 에뮬레이터 검증입니다. 물리폰 카메라 QA, 중국망/provider 지연, release signing은 다음 검증 항목입니다.",
     visual: {
-      type: 'lab',
-      label: 'AI Workbench',
-      headline: '5개 AI 업무 흐름을 한 데모에 묶음',
-      items: ['RAG', 'Eval', 'CS', 'Content', 'Automation'],
-      metrics: ['5 modules', 'No API cost', 'QA pass']
-    }
+      type: "mobile",
+      label: "Android evidence",
+      headline: "촬영, 사진, 화면 위 번역을 하나의 앱 첫 화면에 정리",
+      items: ["Capture", "OCR", "Translate", "Overlay"],
+      metrics: ["User flows", "APK verified", "Risk stated"],
+      image: "/project-screens/lens-overlay-home.webp",
+    },
   },
   {
-    title: 'ConsultFlow',
-    role: 'AI 상담 전환 OS',
-    href: 'https://consult-flow-app.vercel.app',
-    stack: ['Next.js', 'Prisma', 'Gemini', 'Analytics'],
-    summary: '학원 문의부터 등록까지의 상담 퍼널을 관리하고 AI 분석과 후속 행동 추천으로 전환 관리를 돕는 서비스입니다.',
-    proof: '실제 배포 URL 200 확인',
-    caveat: '고객 트랙션이나 운영 지표는 주장하지 않습니다.',
+    title: "AI Portfolio Lab",
+    role: "AI service demo workbench",
+    href: "https://ai-portfolio-lab.vercel.app",
+    cta: "라이브 데모 보기",
+    stack: ["Static Web", "RAG Demo", "LLM Eval", "Automation"],
+    summary:
+      "RAG 검색, LLM 응답 평가, AI CS CRM, 콘텐츠 제작, 업무 자동화를 한 화면에서 조작 가능한 정적 포트폴리오 데모로 묶었습니다.",
+    proof: "Vercel production 배포와 desktop/mobile 브라우저 QA를 기준으로 제출 가능한 링크를 유지합니다.",
+    caveat: "외부 LLM/API 과금 없이 동작하는 deterministic demo입니다. 실시간 모델 정확도 주장은 하지 않습니다.",
     visual: {
-      type: 'funnel',
-      label: 'Lead Funnel',
-      headline: '문의부터 후속 액션까지 전환 흐름 관리',
-      items: ['문의', '상담', '분석', '후속', '등록'],
-      metrics: ['8-stage', 'Gemini', 'Export']
-    }
+      type: "lab",
+      label: "AI Workbench",
+      headline: "5개 AI 업무 흐름을 한 데모로 압축",
+      items: ["RAG", "Eval", "CS", "Content", "Automation"],
+      metrics: ["5 workflows", "Deterministic", "Browser checked"],
+    },
   },
   {
-    title: 'FairSign',
-    role: '계약서 위험 조항 분석',
-    href: 'https://fairsign-topaz.vercel.app',
-    stack: ['Next.js', 'OCR Intake', 'Rule Scoring', 'PDF'],
-    summary: '프리랜서 계약서의 위험 문구를 패턴 기반으로 점검하고 위험 점수와 리포트로 정리하는 법률 리스크 스크리닝 도구입니다.',
-    proof: '실제 배포 URL 200 확인',
-    caveat: '법률 자문이 아닌 rule-based screening입니다.',
+    title: "ConsultFlow",
+    role: "상담 전환 흐름 데모",
+    href: "https://consult-flow-app.vercel.app",
+    cta: "서비스 열기",
+    stack: ["Next.js", "Prisma", "Gemini", "Analytics"],
+    summary:
+      "상담 문의부터 후속 액션까지의 전환 흐름을 화면으로 구조화한 AI 보조 업무 데모입니다.",
+    proof: "실제 배포 URL을 기준으로 서비스 접근성을 확인할 수 있습니다.",
+    caveat: "고객 운영 지표나 유료 전환 수치가 아니라 제품 흐름 구현 사례로 말합니다.",
     visual: {
-      type: 'risk',
-      label: 'Risk Screen',
-      headline: '계약서 문구를 위험 신호와 리포트로 정리',
-      items: ['독소조항', '지급 지연', '권리 양도', '해지 조건'],
-      metrics: ['105 rules', 'PDF', 'Korean']
-    }
+      type: "funnel",
+      label: "Lead Funnel",
+      headline: "문의부터 후속 액션까지 전환 흐름 관리",
+      items: ["문의", "상담", "분석", "후속", "등록"],
+      metrics: ["8-stage", "Gemini", "Export"],
+    },
   },
   {
-    title: 'K-Transit',
-    role: '외국인 대상 교통 안내',
-    href: 'https://k-transit.vercel.app',
-    stack: ['Next.js', 'Localization', 'Route UX', 'TTS Flow'],
-    summary: '한국 방문자가 경로 후보, 공항 이동, 막차, 음성 안내 흐름을 이해할 수 있도록 만든 모바일 우선 교통 웹앱입니다.',
-    proof: '실제 배포 URL 200 확인',
-    caveat: '현재 mock fallback이 기본이라 실시간 교통 정확도는 주장하지 않습니다.',
+    title: "FairSign",
+    role: "계약 문구 리스크 체크 데모",
+    href: "https://fairsign-topaz.vercel.app",
+    cta: "서비스 열기",
+    stack: ["Next.js", "OCR Intake", "Rule Scoring", "PDF"],
+    summary:
+      "프리랜서 계약서 문구의 위험 신호를 rule 기반으로 빠르게 확인하는 스크리닝 UX입니다.",
+    proof: "배포된 URL에서 계약서 분석 UX와 결과 구조를 확인할 수 있습니다.",
+    caveat: "법률 자문이 아니라 계약서 위험 신호를 빠르게 보는 screening 도구로 제한합니다.",
     visual: {
-      type: 'transit',
-      label: 'Transit Guide',
-      headline: '방문자를 위한 경로 후보와 다국어 안내',
-      items: ['Start', 'Transfer', 'Last train', 'Voice'],
-      metrics: ['Mobile', 'EN/JA/ZH', 'Mock safe']
-    }
-  }
+      type: "risk",
+      label: "Risk Screen",
+      headline: "계약서 문구를 위험 신호와 리포트로 정리",
+      items: ["입소 조항", "지급 지연", "권리 양도", "해지 조건"],
+      metrics: ["Rule-based", "PDF", "Korean"],
+    },
+  },
+  {
+    title: "K-Transit",
+    role: "외국인 대상 교통 안내",
+    href: "https://k-transit.vercel.app",
+    cta: "서비스 열기",
+    stack: ["Next.js", "Localization", "Route UX", "TTS Flow"],
+    summary:
+      "한국 방문자가 공항 이동, 막차, 경로 안내, 음성 안내를 빠르게 이해하도록 만든 모바일 우선 교통 안내 웹앱입니다.",
+    proof: "배포된 URL에서 모바일 경로 UX와 다국어 안내 흐름을 확인할 수 있습니다.",
+    caveat: "현재는 mock fallback 기반입니다. 실시간 교통 정확도는 검증 범위 밖으로 분리합니다.",
+    visual: {
+      type: "transit",
+      label: "Transit Guide",
+      headline: "방문자를 위한 경로 후보와 다국어 안내",
+      items: ["Start", "Transfer", "Last train", "Voice"],
+      metrics: ["Mobile UX", "3 locales", "Fallback stated"],
+    },
+  },
 ];
 
 const supportProjects = [
-  ['Fishing Helper', 'Expo React Native 낚시 출조 MVP. 5탭 구조, 체크리스트, 예약/피드 prototype, AsyncStorage persistence.'],
-  ['Media Node Studio', '이미지/영상 생성 작업을 노드 워크플로우로 조립하는 로컬 AI 콘텐츠 제작 도구.'],
-  ['VoxCPM Local', 'Windows RTX 3070 Ti 환경에서 VoxCPM 1.5/2를 FastAPI TTS 서버로 실행한 로컬 음성 백엔드.'],
-  ['Excel Automation Pro', 'Python/CustomTkinter/PyInstaller 기반 Excel/CSV 보고서 자동화 데스크톱 앱.']
+  ["Fishing Helper", "Expo React Native 낚시 준비 MVP. 체크리스트, 예약/필드 prototype, AsyncStorage persistence를 검증했습니다."],
+  ["Media Node Studio", "이미지/영상 생성 작업을 노드 워크플로우로 조립하는 로컬 AI 콘텐츠 제작 도구입니다."],
+  ["VoxCPM Local", "Windows RTX 3070 Ti 환경에서 VoxCPM 1.5/2를 FastAPI TTS 서버로 실행한 로컬 음성 백엔드 실험입니다."],
+  ["Excel Automation Pro", "Python 기반 Excel/CSV 보고서 자동화 데스크톱 앱 실험입니다."],
 ];
 
 const capabilities = [
-  ['RAG', '문서 입력, chunking, 검색, citation, 근거 기반 답변 UX를 구현했습니다.'],
-  ['LLM Evaluation', '테스트 케이스와 rubric으로 답변 품질을 비교하고 실패 원인을 기록하는 흐름을 만들었습니다.'],
-  ['AI CS', '문의 분류, 긴급도 판단, 답변 초안, 다음 액션 제안을 CRM 카드로 정리했습니다.'],
-  ['AI Content', '상품 목표를 카피, 이미지 프롬프트, 쇼츠 대본, TTS 스크립트로 연결했습니다.'],
-  ['Automation', 'CSV 요약, 회의록 액션 추출, 이메일 초안, 파일명 정리 같은 반복 업무를 자동화했습니다.']
+  ["Android AI", "권한, 카메라, OCR, 화면 캡처, overlay, APK 검증까지 모바일 AI 기능의 실제 사용 흐름을 다룹니다."],
+  ["RAG / LLM Eval", "검색 근거, 응답 평가, 실패 원인 기록을 UI와 QA 기준으로 묶어 보여줍니다."],
+  ["B2B Workflow", "상담, 계약, 고객 응대처럼 구매자가 이해하는 업무 흐름에 AI 기능을 붙입니다."],
+  ["Evidence Packaging", "링크, 스크린샷, 로그, SHA, 테스트 결과를 같은 폴더와 사이트 CTA에서 확인 가능하게 정리합니다."],
+  ["Honest Scope Control", "실제 검증된 것과 아직 위험한 것을 분리해 면접과 POC에서 과장 리스크를 줄입니다."],
+];
+
+const lensEvidence = [
+  ["APK", "com.lensoverlay.translate.china / versionName 0.1.0-china"],
+  ["Build", ":app:testChinaDebugUnitTest, :app:assembleChinaDebug"],
+  ["Device", "Medium_Phone_API_35 / Android SDK 35"],
+  ["Integrity", "SHA-256 preserved across original and demo copies"],
+];
+
+const demoScripts = [
+  ["5분", "문제, 첫 화면, APK 검증, 왜 Android AI 역량인지 설명"],
+  ["15분", "카메라/사진/화면 위 번역 흐름과 QA evidence 패키지 설명"],
+  ["30분", "권한, 로그/캐시, server proxy, release 전 보안 체크리스트 질의 대응"],
+];
+
+const riskRegister = [
+  ["실기기", "물리 Android 기기 2종 카메라/OCR/화면 위 번역 녹화 필요"],
+  ["보안", "release signing, debug entry 제거, proxy auth/rate limit 검증 필요"],
+  ["개인정보", "화면 캡처와 OCR 텍스트의 저장 위치, 보존 기간, 삭제 정책 명시 필요"],
+  ["중국망", "현지망 provider latency, timeout, fallback 성공률 실측 필요"],
 ];
 
 function ProjectVisual({ project }: { project: PrimaryProject }) {
@@ -109,30 +162,50 @@ function ProjectVisual({ project }: { project: PrimaryProject }) {
         <strong>{project.title}</strong>
       </div>
 
-      {visual.type === 'lab' && (
+      {visual.type === "mobile" && (
+        <div className="mobile-visual" aria-hidden="true">
+          <div className="phone-frame">
+            {visual.image ? (
+              <Image src={visual.image} alt="" fill sizes="160px" className="phone-shot" />
+            ) : null}
+          </div>
+          <div className="screen-points">
+            {visual.items.map((item, index) => (
+              <span key={item}>
+                <i>{String(index + 1).padStart(2, "0")}</i>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {visual.type === "lab" && (
         <div className="lab-visual" aria-hidden="true">
           <div className="lab-core">
             <span>Portfolio</span>
             <strong>AI Lab</strong>
           </div>
           <div className="lab-modules">
-            {visual.items.map((item) => <span key={item}>{item}</span>)}
+            {visual.items.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </div>
       )}
 
-      {visual.type === 'funnel' && (
+      {visual.type === "funnel" && (
         <div className="funnel-visual" aria-hidden="true">
           {visual.items.map((item, index) => (
             <div className="funnel-row" key={item}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
+              <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{item}</strong>
             </div>
           ))}
         </div>
       )}
 
-      {visual.type === 'risk' && (
+      {visual.type === "risk" && (
         <div className="risk-visual" aria-hidden="true">
           <div className="risk-score">
             <span>Rule scan</span>
@@ -144,38 +217,47 @@ function ProjectVisual({ project }: { project: PrimaryProject }) {
             </div>
           </div>
           <div className="risk-items">
-            {visual.items.map((item) => <span key={item}>{item}</span>)}
+            {visual.items.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </div>
       )}
 
-      {visual.type === 'transit' && (
+      {visual.type === "transit" && (
         <div className="transit-visual" aria-hidden="true">
           <div className="route-line">
-            {visual.items.map((item) => <span key={item}>{item}</span>)}
+            {visual.items.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
           <div className="route-summary">
             <strong>Route options</strong>
-            <span>compare · explain · speak</span>
+            <span>compare / explain / speak</span>
           </div>
         </div>
       )}
 
       <p className="visual-headline">{visual.headline}</p>
       <div className="visual-metrics">
-        {visual.metrics.map((metric) => <span key={metric}>{metric}</span>)}
+        {visual.metrics.map((metric) => (
+          <span key={metric}>{metric}</span>
+        ))}
       </div>
     </div>
   );
 }
 
 export default function Home() {
+  const lensOverlay = primaryProjects[0];
+
   return (
     <main className="site-shell">
       <nav className="top-nav" aria-label="주요 이동">
         <a href="#top" className="brand">전서기</a>
         <div className="nav-links">
           <a href="#projects">Projects</a>
+          <a href="#evidence">Evidence</a>
           <a href="#capabilities">Capabilities</a>
           <a href="#contact">Contact</a>
         </div>
@@ -183,38 +265,39 @@ export default function Home() {
 
       <section id="top" className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">New AI Service Developer</p>
-          <h1>AI 기능을 검증 가능한 서비스 데모로 만드는 신입 개발자</h1>
+          <p className="eyebrow">Android / AI Service Developer</p>
+          <h1>AI 기능을 실제 사용자 흐름에서 검증 가능한 앱과 서비스로 만듭니다.</h1>
           <p className="lead">
-            RAG, LLM 평가, AI 고객응대, 콘텐츠 제작, 업무 자동화를 직접 구현해본 경험을 바탕으로
-            작은 기능부터 책임 있게 완성하는 AI 서비스 개발자를 지향합니다.
+            LensOverlay Translate를 중심으로 Android 권한, OCR, 화면 캡처, 번역 라우팅, QA 증거를 하나의 대표 사례로 정리했습니다.
+            기존 AI/RAG/B2B 데모는 지원 프로젝트로 재배치해 채용 담당자가 30초 안에 강점을 판단할 수 있게 만들었습니다.
           </p>
           <div className="cta-row">
-            <a className="primary-button" href="https://ai-portfolio-lab.vercel.app" target="_blank" rel="noreferrer">AI Portfolio Lab 보기</a>
-            <a className="secondary-button" href="https://github.com/amu-create" target="_blank" rel="noreferrer">GitHub</a>
+            <a className="primary-button" href="/downloads/lens-overlay-case-study.pdf">검증 범위 포함 case study</a>
+            <a className="secondary-button" href="/downloads/lens-overlay-evidence-summary.pdf">Evidence summary</a>
           </div>
-          <div className="proof-row" aria-label="핵심 증빙">
-            <span>Vercel 배포</span>
-            <span>브라우저 QA</span>
-            <span>RAG/LLM/자동화</span>
-            <span>Python · JavaScript</span>
+          <div className="proof-row" aria-label="핵심 증거">
+            <span>targetSdk 35</span>
+            <span>APK install PASS</span>
+            <span>UIAutomator evidence</span>
+            <span>Vercel demos</span>
           </div>
         </div>
-        <aside className="hero-proof-panel" aria-label="대표 포트폴리오 증빙">
+
+        <aside className="hero-proof-panel" aria-label="대표 포트폴리오 증거">
           <p className="eyebrow">Main proof</p>
-          <h2>AI Portfolio Lab</h2>
+          <h2>LensOverlay Translate</h2>
           <p>
-            RAG 검색, LLM 평가, AI CS, 콘텐츠 제작, 업무 자동화 흐름을 하나의 정적 데모로 묶었습니다.
+            AI를 붙인 앱이 아니라, AI 기능이 권한/입력/번역/결과/검증 흐름 안에서 어떻게 제품화되는지 보여주는 Android 케이스입니다.
           </p>
-          <ProjectVisual project={primaryProjects[0]} />
+          <ProjectVisual project={lensOverlay} />
           <dl className="proof-stack">
             <div>
               <dt>검증</dt>
-              <dd>desktop/mobile browser QA 통과</dd>
+              <dd>Medium_Phone_API_35 설치와 홈 화면 실행 확인</dd>
             </div>
             <div>
               <dt>범위</dt>
-              <dd>외부 API 과금 없는 deterministic demo</dd>
+              <dd>debug demo와 에뮬레이터 검증. 실기기, 중국망, release는 미검증으로 고정 표시</dd>
             </div>
           </dl>
         </aside>
@@ -222,22 +305,24 @@ export default function Home() {
 
       <section id="projects" className="section-block">
         <div className="section-head">
-          <p className="eyebrow">Verified work</p>
+          <p className="eyebrow">Representative work</p>
           <h2>대표 프로젝트</h2>
-          <p>실제로 열리는 링크와 검증 가능한 구현을 우선 배치했습니다.</p>
+          <p>실제 링크, 실행 증거, 정직한 제한 범위가 있는 프로젝트만 앞에 배치했습니다.</p>
         </div>
         <div className="project-grid">
           {primaryProjects.map((project) => (
             <article className="project-card" key={project.title}>
-              <a className="project-visual-link" href={project.href} target="_blank" rel="noreferrer">
+              <div className="project-visual-link">
                 <ProjectVisual project={project} />
-              </a>
+              </div>
               <div className="project-body">
                 <p className="project-role">{project.role}</p>
                 <h3>{project.title}</h3>
                 <p>{project.summary}</p>
                 <div className="tag-row">
-                  {project.stack.map((tag) => <span key={tag}>{tag}</span>)}
+                  {project.stack.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
                 </div>
                 <dl className="proof-list">
                   <div>
@@ -249,20 +334,80 @@ export default function Home() {
                     <dd>{project.caveat}</dd>
                   </div>
                 </dl>
-                <a className="text-link" href={project.href} target="_blank" rel="noreferrer">프로젝트 열기</a>
+                <a
+                  className="text-link"
+                  href={project.href}
+                  target={project.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noreferrer"
+                  download={project.href.endsWith(".pdf") ? true : undefined}
+                >
+                  {project.cta}
+                </a>
               </div>
             </article>
           ))}
         </div>
       </section>
 
+      <section id="evidence" className="section-block evidence-section">
+        <div className="section-head">
+          <p className="eyebrow">Evidence package</p>
+          <h2>지원서와 앱 검증을 한 묶음으로 정리했습니다.</h2>
+          <p>
+            사이트에서 바로 열 수 있는 증거 PDF와 문서 패키지를 제공합니다. APK는 공개 웹 배포가 아니라 별도 로컬 제출 패키지에 보관한 debug demo입니다.
+          </p>
+        </div>
+        <div className="evidence-grid">
+          {lensEvidence.map(([label, value]) => (
+            <article className="evidence-card" key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </article>
+          ))}
+        </div>
+        <div className="case-files">
+          <a className="primary-button" href="/downloads/lens-overlay-case-study.pdf">Case study PDF 256KB</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-portfolio-docs-20260523.zip" download>문서 ZIP 774KB</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-architecture-summary.pdf">Architecture PDF</a>
+        </div>
+      </section>
+
+      <section className="section-block demo-readiness-section">
+        <div className="section-head">
+          <p className="eyebrow">Enterprise interview defense</p>
+          <h2>대기업 면접에서 먼저 물어볼 질문을 화면에 올렸습니다.</h2>
+          <p>
+            이 프로젝트는 상용 출시 완료 제품이 아닙니다. 대신 무엇을 검증했고 무엇을 아직 검증하지 않았는지 먼저 밝히는 방식으로 신뢰를 만듭니다.
+          </p>
+        </div>
+        <div className="readiness-grid">
+          <div className="readiness-panel">
+            <h3>데모 스크립트</h3>
+            {demoScripts.map(([time, text]) => (
+              <div className="readiness-row" key={time}>
+                <span>{time}</span>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="readiness-panel">
+            <h3>남은 P0 검증</h3>
+            {riskRegister.map(([label, text]) => (
+              <div className="readiness-row" key={label}>
+                <span>{label}</span>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="capabilities" className="section-block split-section">
         <div className="section-head sticky-head">
-          <p className="eyebrow">Why this is enough</p>
-          <h2>포트폴리오가 보여주는 것</h2>
+          <p className="eyebrow">Why this is stronger</p>
+          <h2>포트폴리오가 보여주는 역량</h2>
           <p>
-            단순히 AI를 써본 수준이 아니라, 기능 설계, 실패 방지, 검증, 배포 링크까지
-            채용 담당자가 확인할 수 있는 형태로 묶었습니다.
+            단순히 AI를 좋아한다는 인상이 아니라, 모바일/웹 기능을 만들고 검증하고 제한 범위를 설명할 수 있다는 증거로 구성했습니다.
           </p>
         </div>
         <div className="capability-list">
@@ -277,8 +422,8 @@ export default function Home() {
 
       <section className="section-block">
         <div className="section-head">
-          <p className="eyebrow">Supporting evidence</p>
-          <h2>보조 프로젝트</h2>
+          <p className="eyebrow">Supporting work</p>
+          <h2>Android 후보 스토리를 보조하는 프로젝트</h2>
         </div>
         <div className="support-grid">
           {supportProjects.map(([name, text]) => (
@@ -293,15 +438,14 @@ export default function Home() {
       <section id="contact" className="contact-section">
         <div>
           <p className="eyebrow">Next step</p>
-          <h2>작게 맡겨도 끝까지 검증하는 개발자</h2>
+          <h2>실행 증거까지 남기는 AI 앱/서비스 개발자</h2>
           <p>
-            신입으로서 회사의 코드베이스와 업무 방식을 빠르게 익히고,
-            반복 업무 자동화와 AI 기능 검증부터 실무 결과로 연결하겠습니다.
+            대기업 제출용으로는 LensOverlay case study와 증거 패키지를 먼저 보여주고, 웹/RAG/B2B 프로젝트는 확장 역량으로 이어서 설명하는 구성이 가장 강합니다.
           </p>
         </div>
         <div className="contact-actions">
           <a className="primary-button" href="mailto:jsg5080@gmail.com">jsg5080@gmail.com</a>
-          <a className="secondary-button" href="https://ai-portfolio-lab.vercel.app" target="_blank" rel="noreferrer">대표 데모</a>
+          <a className="secondary-button" href="https://github.com/amu-create" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </section>
     </main>

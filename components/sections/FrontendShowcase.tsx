@@ -25,7 +25,7 @@ const features = [
   {
     icon: <Layers className="w-6 h-6" />,
     title: "반응형 디자인",
-    description: "모든 디바이스에서 완벽하게 작동하는 적응형 레이아웃",
+    description: "주요 모바일/데스크톱 화면에서 확인한 적응형 레이아웃",
     color: "from-green-500 to-emerald-500"
   }
 ];
