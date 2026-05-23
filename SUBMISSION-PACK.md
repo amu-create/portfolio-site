@@ -1,19 +1,19 @@
-# 제출용 포트폴리오 패키지
+# Product Evidence Package
 
 ## 판단
 
-현재 자소서 방향은 충분하다. 다만 글만으로는 "AI를 좋아한다"로 보일 수 있어서, 실제로 열리는 포트폴리오 링크와 Android 앱 검증 증거가 반드시 같이 가야 한다.
+이 패키지의 목적은 자기소개 보강이 아니라 `LensOverlay Translate`를 제품/보안/운영 검토자가 빠르게 판단할 수 있는 evidence package로 만드는 것이다.
 
-지원 시에는 `portfolio-site`를 메인 링크로 두고, 그 안에서 `LensOverlay Translate`를 대표 case study로 먼저 보이게 하는 구성이 가장 낫다.
+공개 사이트에서는 검증된 범위, 데이터 경계, production 전 blocker, POC 성공 기준을 먼저 보여주고, 보조 프로젝트는 같은 구현/검증 습관을 다른 업무 흐름으로 확장한 사례로만 둔다.
 
-## 메인으로 보여줄 프로젝트
+## 대표 제품 증거
 
 ### 1. LensOverlay Translate
 
-- 링크: portfolio-site 내 `LensOverlay case study` PDF
-- 한 줄 설명: Android 권한, OCR, 화면 캡처, 번역 라우팅, QA evidence를 하나의 앱 흐름으로 검증한 모바일 AI 케이스 스터디.
-- 보여줄 역량: Kotlin/Compose, CameraX, ML Kit, MediaProjection, Overlay Service, APK 설치/실행 검증, 리스크 분리.
-- 주의: 상용 출시 완료 제품이 아니라 QA-signed release APK와 에뮬레이터 검증 범위라고 명확히 말한다.
+- 링크: portfolio-site 내 `Enterprise review PDF`, `Release QA PDF`, `Case study PDF`
+- 한 줄 설명: Android 권한, OCR, 화면 캡처, 번역 라우팅, release QA evidence를 하나의 앱 흐름으로 검증한 모바일 AI evaluation build.
+- 보여줄 역량: Kotlin/Compose, CameraX, ML Kit, MediaProjection, Overlay Service, APK integrity, privacy boundary, POC 기준 정리.
+- 주의: production-ready 또는 store release라고 말하지 않는다. QA-signed release evaluation build와 에뮬레이터 검증 범위라고 명확히 말한다.
 
 ### 2. AI Portfolio Lab
 
@@ -50,22 +50,23 @@
 - VoxCPM Local: 로컬 GPU 환경에서 TTS 서버 실행을 검증한 음성 백엔드 실험.
 - Excel Automation Pro: Excel/CSV 보고서 자동화 데스크톱 앱.
 
-## 자소서에 붙일 짧은 문장
+## 외부 검토자에게 줄 한 문장
 
-저는 AI를 단순히 호출해본 것에 그치지 않고, Android 권한, OCR, 화면 캡처, 번역 라우팅, QA 로그까지 하나의 사용자 흐름으로 묶어 검증 가능한 결과로 정리해왔습니다. 웹/RAG/B2B 데모는 이 역량을 다른 서비스 시나리오로 확장한 보조 사례입니다.
+LensOverlay는 Android AI evaluation build이며, CameraX/ML Kit/MediaProjection/overlay/provider routing을 release QA evidence, privacy boundary, explicit production gaps와 함께 검토할 수 있게 만든 제품 증거 패키지입니다.
 
-## 면접에서 말할 순서
+## 기술 검토 순서
 
-1. "대표 링크는 포트폴리오 사이트이고, 가장 먼저 보실 것은 LensOverlay Translate입니다."
-2. "LensOverlay는 상용 출시 제품이 아니라, Android 권한/OCR/화면 캡처/번역 라우팅/QA 증거를 한 흐름으로 검증한 case study입니다."
-3. "AI Portfolio Lab, ConsultFlow, FairSign, K-Transit은 각각 RAG/LLM 평가, 상담 전환, 문서 위험 분석, 외국인 교통 안내로 확장한 보조 사례입니다."
-4. "상용 서비스 수준의 트랙션이 아니라, 기능을 만들고 검증하고 남은 리스크를 분리해 설명하는 방식을 보여드리려는 목적입니다."
+1. "대표 검토 대상은 LensOverlay Translate입니다."
+2. "이 빌드는 production-ready가 아니라 QA-signed release evaluation build입니다."
+3. "검증된 것은 release build/test, APK integrity, emulator camera flow, emulator screen-translate flow, secret scan, release no-auto-save fix입니다."
+4. "아직 필요한 것은 production signing, physical-device matrix, China/provider latency, durable proxy auth/rate-limit, retention/deletion policy 확정입니다."
+5. "보조 프로젝트는 같은 제품화/검증 습관을 웹/RAG/B2B 흐름으로 확장한 사례입니다."
 
-## 아직 만들면 좋은 프로젝트 5개
+## 다음으로 보강하면 좋은 제품 증거 5개
 
 ### 1. RAG 문서 QA 미니 백오피스
 
-PDF/문서를 올리면 chunk, 검색 결과, citation, 답변 평가 로그가 보이는 백오피스. 현재 자소서의 RAG 역량을 가장 직접적으로 증명한다.
+PDF/문서를 올리면 chunk, 검색 결과, citation, 답변 평가 로그가 보이는 백오피스. RAG 구현과 검증 역량을 가장 직접적으로 증명한다.
 
 ### 2. LLM 응답 평가 대시보드
 
@@ -81,8 +82,8 @@ PDF/문서를 올리면 chunk, 검색 결과, citation, 답변 평가 로그가 
 
 ### 5. Excel/CSV 업무 자동화 웹 버전
 
-파일 업로드 -> 정리 -> 차트 -> 요약 리포트까지 보여주는 웹 데모. 기존 Excel 자동화 경험을 채용 담당자가 브라우저에서 바로 볼 수 있게 만든다.
+파일 업로드 -> 정리 -> 차트 -> 요약 리포트까지 보여주는 웹 데모. 기존 Excel 자동화 경험을 기술 검토자가 브라우저에서 바로 볼 수 있게 만든다.
 
 ## 우선순위
 
-지금 당장 새 프로젝트를 더 만들기보다, 현재는 `portfolio-site`와 `LensOverlay Translate` 증거 패키지를 제출 가능한 상태로 유지하는 것이 1순위다. 다음으로 만들 것은 물리 Android 기기 QA 영상, 중국망/provider latency 실측, production signing 증거다.
+지금 당장 새 프로젝트를 더 만들기보다, 현재는 `portfolio-site`와 `LensOverlay Translate`를 제품 검토 가능한 evidence package로 유지하는 것이 1순위다. 다음으로 만들 것은 물리 Android 기기 QA 영상, 중국망/provider latency 실측, production signing 증거다.

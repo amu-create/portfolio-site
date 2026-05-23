@@ -30,10 +30,10 @@ def run(url: str) -> int:
             page.screenshot(path=str(screenshot), full_page=True)
 
             required_text = [
-                "AI 기능을 실제 사용자 흐름에서 검증 가능한 앱과 서비스로 만듭니다.",
                 "LensOverlay Translate",
-                "검증 범위 포함 case study",
-                "대기업 면접에서 먼저 물어볼 질문",
+                "Review product dossier",
+                "제품팀, 보안팀, 운영팀이 막을 질문",
+                "POC 성공 기준",
                 "AI Portfolio Lab",
                 "ConsultFlow",
                 "FairSign",
@@ -77,7 +77,8 @@ def run(url: str) -> int:
 
         cache_expectations = {
             "/downloads/lens-overlay-case-study.pdf": "max-age=3600",
-            "/downloads/lens-overlay-portfolio-docs-20260523.zip": "max-age=3600",
+            "/downloads/lens-overlay-enterprise-readiness.pdf": "max-age=3600",
+            "/downloads/lens-overlay-product-evidence-20260524.zip": "max-age=3600",
             "/project-screens/lens-overlay-home.webp": "max-age=31536000",
         }
         request_context = p.request.new_context(base_url=url)

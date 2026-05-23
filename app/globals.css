@@ -784,6 +784,66 @@ img {
   gap: 12px;
 }
 
+.evidence-matrix {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.evidence-matrix-head,
+.evidence-matrix-row {
+  display: grid;
+  grid-template-columns: 0.82fr 1.32fr 0.72fr 1.28fr;
+  gap: 0;
+}
+
+.evidence-matrix-head {
+  background: #111827;
+  color: #ffffff;
+}
+
+.evidence-matrix-head span,
+.evidence-matrix-row strong,
+.evidence-matrix-row span,
+.evidence-matrix-row em {
+  min-width: 0;
+  padding: 13px 14px;
+  border-right: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.evidence-matrix-head span {
+  border-color: rgba(255, 255, 255, 0.18);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.evidence-matrix-row {
+  border-top: 1px solid var(--border);
+}
+
+.evidence-matrix-row strong {
+  color: var(--text);
+}
+
+.evidence-matrix-row span {
+  color: var(--muted);
+}
+
+.evidence-matrix-row em {
+  color: #0f766e;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.evidence-matrix-head span:last-child,
+.evidence-matrix-row span:last-child {
+  border-right: 0;
+}
+
 .evidence-card {
   display: grid;
   gap: 8px;
@@ -832,6 +892,10 @@ img {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
+}
+
+.readiness-panel-wide {
+  grid-column: 1 / -1;
 }
 
 .readiness-panel h3 {
@@ -1030,6 +1094,49 @@ img {
     min-height: 24px;
     font-size: 11px;
     white-space: normal;
+  }
+
+  .evidence-matrix-head {
+    display: none;
+  }
+
+  .evidence-matrix-row {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .evidence-matrix-row strong,
+  .evidence-matrix-row span,
+  .evidence-matrix-row em {
+    padding: 6px 0;
+    border-right: 0;
+  }
+
+  .evidence-matrix-row strong::before,
+  .evidence-matrix-row span::before,
+  .evidence-matrix-row em::before {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .evidence-matrix-row strong::before {
+    content: "Area";
+  }
+
+  .evidence-matrix-row span:first-of-type::before {
+    content: "Evidence";
+  }
+
+  .evidence-matrix-row em::before {
+    content: "Status";
+  }
+
+  .evidence-matrix-row span:last-child::before {
+    content: "Residual risk";
   }
 
   .risk-items span {

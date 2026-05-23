@@ -2,14 +2,14 @@
 
 Reference slug: `linear.app`
 
-Reason: this portfolio should be evaluated quickly by recruiters. The site needs a calm, precise, product-oriented layout that emphasizes deployed proof, project scope, and honest limitations instead of decorative motion.
+Reason: this portfolio should survive a quick product, security, and operations review by a large-company team. The site needs a calm, precise, product-evidence layout that emphasizes verified flows, data handling, POC criteria, and honest limitations instead of job-application packaging or decorative motion.
 
 ## Direction
 
 - First viewport must say: Android / AI service developer who can turn AI features into verified user flows.
-- The page should feel like a clean product dossier, not a flashy hero page.
+- The page should feel like a clean product dossier, not a flashy hero page or personal-application package.
 - Use clean project-summary visualizations on the home page; keep screenshots only as secondary evidence when they are large enough to read.
-- Lead with deployed links and verified work.
+- Lead with verified work, downloadable evidence, and clear POC/review criteria.
 - Avoid overclaiming production traction, legal advice, or live API accuracy.
 
 ## Layout
@@ -18,10 +18,12 @@ Reason: this portfolio should be evaluated quickly by recruiters. The site needs
 - First screen: identity, core pitch, primary CTA to the LensOverlay case study PDF, proof chips, and a compact evidence panel.
 - Project grid: LensOverlay Translate first as the current flagship Android/AI case, then 4 supporting deployed demos.
 - Capability section: RAG, LLM evaluation, CS automation, content workflow, office automation.
-- Evidence package section: concise resume/interview assets, screenshot proof, and honest limitations.
-- 2026-05-02 density correction: cap hero type below poster scale, treat screenshots as evidence thumbnails, and avoid oversized cards that slow recruiter scanning.
+- Evidence package section: release QA, privacy/security note, architecture note, screenshots, SHA/signing proof, and honest limitations.
+- Enterprise review section: 5-minute executive review, 15-minute product review, 30-minute technical review, POC success criteria, and explicit non-production boundaries.
+- 2026-05-02 density correction: cap hero type below poster scale, treat screenshots as evidence thumbnails, and avoid oversized cards that slow technical-review scanning.
 - 2026-05-02 visual distinction pass: do not repeat one diagram template across projects. Use different forms by project: module hub, lead funnel, risk screen, and route guide.
 - 2026-05-23 flagship update: LensOverlay uses a mobile screenshot and Android QA evidence visual, while the other projects remain supporting product demos.
+- 2026-05-24 enterprise correction: remove hiring-process wording from the public page and frame the work as a product evidence dossier for product, security, IT, and operations reviewers.
 
 ## Visual System
 

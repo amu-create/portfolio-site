@@ -2,7 +2,7 @@ export const portfolioData = {
   personal: {
     name: "전서기",
     title: "Android / AI 서비스 개발자",
-    subtitle: "AI 기능을 실제 사용자 흐름에서 검증 가능한 앱과 서비스로 구현합니다.",
+    subtitle: "Android AI 기능을 제품 검토 가능한 증거와 함께 구현합니다.",
     email: "jsg5080@gmail.com",
     phone: "010-2000-6637",
     github: "https://github.com/amu-create",
@@ -10,11 +10,11 @@ export const portfolioData = {
     about: `Android 권한, OCR, 화면 캡처, 번역 라우팅, QA evidence를 하나의 사용자 흐름으로 묶는 데 집중합니다.
     포트폴리오에서는 검증된 범위와 아직 남은 리스크를 분리해 설명합니다.`,
     achievements: [
-      { icon: "AI", text: "Android AI case study" },
-      { icon: "QA", text: "APK 설치/실행 검증" },
+      { icon: "AI", text: "Android AI evaluation build" },
+      { icon: "QA", text: "Release QA evidence" },
       { icon: "UX", text: "사용자 행동 중심 화면 설계" },
-      { icon: "EV", text: "증거 패키지 정리" },
-      { icon: "SC", text: "검증 범위와 리스크 분리" },
+      { icon: "EV", text: "Evidence package" },
+      { icon: "SC", text: "Production gap 분리" },
     ],
   },
 
@@ -70,12 +70,12 @@ export const portfolioData = {
       type: "개인 프로젝트",
       period: "2026.05",
       description:
-        "카메라 촬영, 사진 선택, 화면 위 번역을 하나의 Android 앱 흐름으로 묶은 OCR 번역 MVP입니다.",
+        "카메라 촬영, 사진 선택, 화면 위 번역을 하나의 Android 앱 흐름으로 묶은 OCR 번역 evaluation build입니다.",
       achievements: [
         "Kotlin, Compose, CameraX, ML Kit, MediaProjection, Overlay Service 기반 구현",
         "global/china product flavor와 번역 provider routing 구조 분리",
         "Medium_Phone_API_35 release 설치/실행, 카메라, 화면 위 번역, UIAutomator, logcat evidence 확보",
-        "QA-signed release 범위와 물리폰/중국망/production signing 미검증 리스크를 명시",
+        "QA-signed release 범위와 physical-device, China-network, production-signing blocker를 명시",
       ],
       technologies: ["Kotlin", "Compose", "ML Kit", "CameraX", "MediaProjection", "Android QA"],
       link: "/downloads/lens-overlay-case-study.pdf",
@@ -87,7 +87,7 @@ export const portfolioData = {
       period: "2026.05",
       description: "RAG, LLM 평가, CS, 콘텐츠, 자동화 흐름을 과금 없는 deterministic demo로 정리한 사이트입니다.",
       achievements: [
-        "채용 담당자가 빠르게 기능 흐름을 훑을 수 있도록 모듈형 구성",
+        "기술 검토자가 빠르게 기능 흐름과 검증 범위를 훑을 수 있도록 모듈형 구성",
         "실시간 모델 정확도 주장을 하지 않고 데모 범위를 명확히 분리",
       ],
       technologies: ["Static Web", "RAG demo", "LLM eval", "Vercel"],

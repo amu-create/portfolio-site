@@ -33,7 +33,7 @@ const primaryProjects: PrimaryProject[] = [
     proof:
       "Release unit test/build, QA-signed China/Global APK, apksigner/aapt 검증, secret scan 0건, 에뮬레이터 카메라/MediaProjection 실행 증거.",
     caveat:
-      "현재 공개 근거는 QA-signed release APK와 에뮬레이터 검증입니다. 물리폰 카메라 QA, 중국망/provider 지연, production signing은 다음 검증 항목입니다.",
+      "현재 공개 근거는 QA-signed release APK와 에뮬레이터 검증입니다. production signing, 물리폰 2종, 중국망/provider latency는 POC 전 검증 항목으로 분리했습니다.",
     visual: {
       type: "mobile",
       label: "Android evidence",
@@ -129,28 +129,36 @@ const capabilities = [
   ["RAG / LLM Eval", "검색 근거, 응답 평가, 실패 원인 기록을 UI와 QA 기준으로 묶어 보여줍니다."],
   ["B2B Workflow", "상담, 계약, 고객 응대처럼 구매자가 이해하는 업무 흐름에 AI 기능을 붙입니다."],
   ["Evidence Packaging", "링크, 스크린샷, 로그, SHA, 테스트 결과를 같은 폴더와 사이트 CTA에서 확인 가능하게 정리합니다."],
-  ["Honest Scope Control", "실제 검증된 것과 아직 위험한 것을 분리해 면접과 POC에서 과장 리스크를 줄입니다."],
+  ["Review-Ready Scope", "실제 검증된 것과 아직 위험한 것을 분리해 제품/보안/운영 검토에서 과장 리스크를 줄입니다."],
 ];
 
-const lensEvidence = [
-  ["APK", "com.lensoverlay.translate.china / versionName 0.1.0-china"],
-  ["Build", "China/Global release unit tests and assemble tasks PASS"],
-  ["Device", "Medium_Phone_API_35 / camera and screen translate smoke PASS"],
-  ["Integrity", "apksigner, aapt, SHA-256, APK secret scan evidence"],
-  ["Privacy", "Release build no longer auto-saves source capture images"],
+const evidenceMatrix = [
+  ["Product status", "Evaluation build, not a production-store release", "Stated", "Production signing and distribution policy are still required"],
+  ["Release build", "China/Global release unit tests and assemble tasks", "Verified", "QA signing only"],
+  ["Device flow", "Medium_Phone_API_35 camera and screen-translate smoke tests", "Verified", "Physical Samsung/Pixel matrix still required"],
+  ["Integrity", "apksigner, aapt metadata, SHA-256, APK secret scan", "Verified", "Production key custody is not claimed"],
+  ["Privacy", "Release build does not auto-save source capture images", "Improved", "OCR retention/deletion policy still needs customer approval"],
+  ["Network", "Provider keys and China latency were not exercised", "Blocked", "Needs approved keys, China-network test, p50/p95 timeout data"],
 ];
 
-const demoScripts = [
-  ["5분", "문제, 첫 화면, APK 검증, 왜 Android AI 역량인지 설명"],
-  ["15분", "카메라/사진/화면 위 번역 흐름과 QA evidence 패키지 설명"],
-  ["30분", "권한, 로그/캐시, server proxy, release 전 보안 체크리스트 질의 대응"],
+const reviewTracks = [
+  ["5분", "제품 가치, 대표 화면, 검증된 release QA, 아직 production이 아닌 범위까지 한 번에 확인"],
+  ["15분", "카메라/사진/화면 위 번역 흐름, 사용자가 얻는 결과, evidence 패키지와 실패 가능성 확인"],
+  ["30분", "권한, OCR 텍스트 처리, 저장/삭제, server proxy, signing, 로그, rollback 전제까지 기술 검토"],
 ];
 
-const riskRegister = [
-  ["실기기", "물리 Android 기기 2종 카메라/OCR/화면 위 번역 녹화 필요"],
-  ["보안", "production signing, proxy auth/rate limit, physical-device privacy QA 필요"],
-  ["개인정보", "화면 캡처와 OCR 텍스트의 저장 위치, 보존 기간, 삭제 정책 명시 필요"],
-  ["중국망", "현지망 provider latency, timeout, fallback 성공률 실측 필요"],
+const enterpriseGates = [
+  ["Production signing", "QA 서명이 아니라 조직 release key, Play/App distribution 정책, rollback 기준 필요"],
+  ["Physical device QA", "삼성/Pixel급 2종 이상에서 카메라, overlay, orientation, low-memory 흐름 녹화 필요"],
+  ["Data handling", "OCR 텍스트, 캡처 이미지, 로그의 저장 위치, 보존 기간, 삭제 정책을 환경별로 고정해야 함"],
+  ["Provider latency", "중국망 MiniMax/proxy timeout, fallback, rate limit, 장애 UX를 실측해야 함"],
+];
+
+const pocCriteria = [
+  ["Install", "10분 안에 QA-signed APK 설치와 앱 첫 화면 진입"],
+  ["Camera flow", "카메라 촬영 또는 사진 선택 후 OCR/번역 결과 화면 확인"],
+  ["Screen flow", "MediaProjection 동의, floating bubble, 번역 결과, 중지/정리 확인"],
+  ["Evidence review", "SHA-256, apksigner/aapt, secret scan, privacy note를 같은 패키지에서 확인"],
 ];
 
 function ProjectVisual({ project }: { project: PrimaryProject }) {
@@ -266,39 +274,39 @@ export default function Home() {
 
       <section id="top" className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">Android / AI Service Developer</p>
-          <h1>AI 기능을 실제 사용자 흐름에서 검증 가능한 앱과 서비스로 만듭니다.</h1>
+          <p className="eyebrow">Product evidence dossier / Android AI</p>
+          <h1>LensOverlay Translate</h1>
           <p className="lead">
-            LensOverlay Translate를 중심으로 Android 권한, OCR, 화면 캡처, 번역 라우팅, QA 증거를 하나의 대표 사례로 정리했습니다.
-            기존 AI/RAG/B2B 데모는 지원 프로젝트로 재배치해 채용 담당자가 30초 안에 강점을 판단할 수 있게 만들었습니다.
+            Android CameraX, ML Kit OCR, MediaProjection, overlay service, flavor-based provider routing을 하나의 번역 흐름으로 묶은 evaluation build입니다.
+            제품팀·보안팀·운영팀이 먼저 확인할 release QA, 개인정보 경계, POC 성공 기준, production gap을 한 화면에서 판단할 수 있게 정리했습니다.
           </p>
           <div className="cta-row">
-            <a className="primary-button" href="/downloads/lens-overlay-case-study.pdf">검증 범위 포함 case study</a>
-            <a className="secondary-button" href="/downloads/lens-overlay-evidence-summary.pdf">Evidence summary</a>
+            <a className="primary-button" href="/downloads/lens-overlay-enterprise-readiness.pdf">Review product dossier</a>
+            <a className="secondary-button" href="/downloads/lens-overlay-release-qa-addendum.pdf">Inspect release validation</a>
           </div>
           <div className="proof-row" aria-label="핵심 증거">
-            <span>targetSdk 35</span>
-            <span>Release QA PASS</span>
-            <span>UIAutomator evidence</span>
-            <span>Vercel demos</span>
+            <span>Verified flows 2/3</span>
+            <span>Secret scan 0</span>
+            <span>QA-signed release</span>
+            <span>Known gaps stated</span>
           </div>
         </div>
 
         <aside className="hero-proof-panel" aria-label="대표 포트폴리오 증거">
-          <p className="eyebrow">Main proof</p>
+          <p className="eyebrow">Current review state</p>
           <h2>LensOverlay Translate</h2>
           <p>
-            AI를 붙인 앱이 아니라, AI 기능이 권한/입력/번역/결과/검증 흐름 안에서 어떻게 제품화되는지 보여주는 Android 케이스입니다.
+            Production-ready라고 주장하지 않습니다. 지금 보여주는 것은 release-build QA evidence가 붙은 Android AI evaluation build와 다음 검증 관문입니다.
           </p>
           <ProjectVisual project={lensOverlay} />
           <dl className="proof-stack">
             <div>
-              <dt>검증</dt>
+              <dt>Status</dt>
               <dd>Medium_Phone_API_35 설치, 홈 화면, 카메라, 화면 위 번역 실행 확인</dd>
             </div>
             <div>
-              <dt>범위</dt>
-              <dd>QA-signed release APK와 에뮬레이터 검증. 실기기, 중국망, production signing은 미검증으로 고정 표시</dd>
+              <dt>Gate</dt>
+              <dd>QA-signed release APK와 에뮬레이터 검증. production signing, 실기기, 중국망은 POC 전 blocker로 고정 표시</dd>
             </div>
           </dl>
         </aside>
@@ -308,7 +316,7 @@ export default function Home() {
         <div className="section-head">
           <p className="eyebrow">Representative work</p>
           <h2>대표 프로젝트</h2>
-          <p>실제 링크, 실행 증거, 정직한 제한 범위가 있는 프로젝트만 앞에 배치했습니다.</p>
+          <p>실제 링크, 실행 증거, 데이터 경계, 정직한 제한 범위가 있는 프로젝트만 앞에 배치했습니다. LensOverlay가 대표 제품 증거이고 나머지는 보조 역량 사례입니다.</p>
         </div>
         <div className="project-grid">
           {primaryProjects.map((project) => (
@@ -353,40 +361,49 @@ export default function Home() {
       <section id="evidence" className="section-block evidence-section">
         <div className="section-head">
           <p className="eyebrow">Evidence package</p>
-          <h2>지원서와 앱 검증을 한 묶음으로 정리했습니다.</h2>
+          <h2>다운로드보다 먼저 검증 상태를 보여줍니다.</h2>
           <p>
-            사이트에서 바로 열 수 있는 증거 PDF와 문서 패키지를 제공합니다. APK는 공개 웹 배포가 아니라 별도 로컬 제출 패키지에 보관한 QA-signed release/demo 파일입니다.
+            대기업 검토자가 바로 막을 질문을 `Area / Evidence / Status / Residual risk`로 분리했습니다. APK는 공개 웹 배포가 아니라 별도 로컬 검토 패키지에 보관한 QA-signed release evaluation build입니다.
           </p>
         </div>
-        <div className="evidence-grid">
-          {lensEvidence.map(([label, value]) => (
-            <article className="evidence-card" key={label}>
-              <span>{label}</span>
-              <strong>{value}</strong>
-            </article>
+        <div className="evidence-matrix" role="table" aria-label="LensOverlay 검증 매트릭스">
+          <div className="evidence-matrix-head" role="row">
+            <span role="columnheader">Area</span>
+            <span role="columnheader">Evidence</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Residual risk</span>
+          </div>
+          {evidenceMatrix.map(([area, evidence, status, risk]) => (
+            <div className="evidence-matrix-row" role="row" key={area}>
+              <strong role="cell">{area}</strong>
+              <span role="cell">{evidence}</span>
+              <em role="cell">{status}</em>
+              <span role="cell">{risk}</span>
+            </div>
           ))}
         </div>
         <div className="case-files">
-          <a className="primary-button" href="/downloads/lens-overlay-case-study.pdf">Case study PDF 256KB</a>
+          <a className="primary-button" href="/downloads/lens-overlay-enterprise-readiness.pdf">Enterprise review PDF</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-case-study.pdf">Case study PDF 256KB</a>
           <a className="secondary-button" href="/downloads/lens-overlay-release-qa-addendum.pdf">Release QA PDF</a>
           <a className="secondary-button" href="/downloads/lens-overlay-privacy-security-note.pdf">Privacy note</a>
-          <a className="secondary-button" href="/downloads/lens-overlay-portfolio-docs-20260523.zip" download>문서 ZIP 4.1MB</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-product-evidence-20260524.zip" download>Product evidence ZIP 3.5MB</a>
           <a className="secondary-button" href="/downloads/lens-overlay-architecture-summary.pdf">Architecture PDF</a>
         </div>
       </section>
 
       <section className="section-block demo-readiness-section">
         <div className="section-head">
-          <p className="eyebrow">Enterprise interview defense</p>
-          <h2>대기업 면접에서 먼저 물어볼 질문을 화면에 올렸습니다.</h2>
+          <p className="eyebrow">Enterprise review readiness</p>
+          <h2>제품팀, 보안팀, 운영팀이 막을 질문을 먼저 열어둡니다.</h2>
           <p>
-            이 프로젝트는 상용 출시 완료 제품이 아닙니다. 대신 무엇을 검증했고 무엇을 아직 검증하지 않았는지 먼저 밝히는 방식으로 신뢰를 만듭니다.
+            이 프로젝트는 상용 출시 완료 제품이라고 포장하지 않습니다. 대신 지금 검증된 흐름, POC 성공 기준, production 전 blocker를 분리해 검토자가 바로 판단할 수 있게 합니다.
           </p>
         </div>
         <div className="readiness-grid">
           <div className="readiness-panel">
-            <h3>데모 스크립트</h3>
-            {demoScripts.map(([time, text]) => (
+            <h3>검토 트랙</h3>
+            {reviewTracks.map(([time, text]) => (
               <div className="readiness-row" key={time}>
                 <span>{time}</span>
                 <p>{text}</p>
@@ -394,8 +411,17 @@ export default function Home() {
             ))}
           </div>
           <div className="readiness-panel">
-            <h3>남은 P0 검증</h3>
-            {riskRegister.map(([label, text]) => (
+            <h3>POC 전 blocker</h3>
+            {enterpriseGates.map(([label, text]) => (
+              <div className="readiness-row" key={label}>
+                <span>{label}</span>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="readiness-panel readiness-panel-wide">
+            <h3>POC 성공 기준</h3>
+            {pocCriteria.map(([label, text]) => (
               <div className="readiness-row" key={label}>
                 <span>{label}</span>
                 <p>{text}</p>
@@ -410,7 +436,7 @@ export default function Home() {
           <p className="eyebrow">Why this is stronger</p>
           <h2>포트폴리오가 보여주는 역량</h2>
           <p>
-            단순히 AI를 좋아한다는 인상이 아니라, 모바일/웹 기능을 만들고 검증하고 제한 범위를 설명할 수 있다는 증거로 구성했습니다.
+            단순한 AI 데모가 아니라, 모바일/웹 기능을 만들고 검증하고 데이터·운영·보안 경계를 설명할 수 있다는 증거로 구성했습니다.
           </p>
         </div>
         <div className="capability-list">
@@ -441,9 +467,9 @@ export default function Home() {
       <section id="contact" className="contact-section">
         <div>
           <p className="eyebrow">Next step</p>
-          <h2>실행 증거까지 남기는 AI 앱/서비스 개발자</h2>
+          <h2>Android AI 구현과 검증 범위를 함께 보여줍니다.</h2>
           <p>
-            대기업 제출용으로는 LensOverlay case study와 증거 패키지를 먼저 보여주고, 웹/RAG/B2B 프로젝트는 확장 역량으로 이어서 설명하는 구성이 가장 강합니다.
+            대기업 검토용으로는 LensOverlay case study와 evidence package를 먼저 보여주고, 웹/RAG/B2B 프로젝트는 같은 검증 습관을 다른 업무 흐름으로 확장한 사례로 연결합니다.
           </p>
         </div>
         <div className="contact-actions">
