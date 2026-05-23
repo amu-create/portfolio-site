@@ -31,15 +31,15 @@ const primaryProjects: PrimaryProject[] = [
     summary:
       "카메라 촬영, 사진 선택, 화면 위 번역을 하나의 Android 앱 흐름으로 묶은 번역 보조 앱입니다. AI 호출보다 권한, OCR 후보 선택, 번역 라우팅, 실행 증거를 함께 관리한 점을 대표 역량으로 배치했습니다.",
     proof:
-      "Medium_Phone_API_35 설치/실행, targetSdk 35, UIAutomator 핵심 텍스트 확인, logcat 앱 FATAL/ANR 미검출, SHA-256 보존.",
+      "Release unit test/build, QA-signed China/Global APK, apksigner/aapt 검증, secret scan 0건, 에뮬레이터 카메라/MediaProjection 실행 증거.",
     caveat:
-      "현재 공개 근거는 debug demo와 에뮬레이터 검증입니다. 물리폰 카메라 QA, 중국망/provider 지연, release signing은 다음 검증 항목입니다.",
+      "현재 공개 근거는 QA-signed release APK와 에뮬레이터 검증입니다. 물리폰 카메라 QA, 중국망/provider 지연, production signing은 다음 검증 항목입니다.",
     visual: {
       type: "mobile",
       label: "Android evidence",
       headline: "촬영, 사진, 화면 위 번역을 하나의 앱 첫 화면에 정리",
       items: ["Capture", "OCR", "Translate", "Overlay"],
-      metrics: ["User flows", "APK verified", "Risk stated"],
+      metrics: ["Release QA", "Secret scan", "Risk stated"],
       image: "/project-screens/lens-overlay-home.webp",
     },
   },
@@ -134,9 +134,10 @@ const capabilities = [
 
 const lensEvidence = [
   ["APK", "com.lensoverlay.translate.china / versionName 0.1.0-china"],
-  ["Build", ":app:testChinaDebugUnitTest, :app:assembleChinaDebug"],
-  ["Device", "Medium_Phone_API_35 / Android SDK 35"],
-  ["Integrity", "SHA-256 preserved across original and demo copies"],
+  ["Build", "China/Global release unit tests and assemble tasks PASS"],
+  ["Device", "Medium_Phone_API_35 / camera and screen translate smoke PASS"],
+  ["Integrity", "apksigner, aapt, SHA-256, APK secret scan evidence"],
+  ["Privacy", "Release build no longer auto-saves source capture images"],
 ];
 
 const demoScripts = [
@@ -147,7 +148,7 @@ const demoScripts = [
 
 const riskRegister = [
   ["실기기", "물리 Android 기기 2종 카메라/OCR/화면 위 번역 녹화 필요"],
-  ["보안", "release signing, debug entry 제거, proxy auth/rate limit 검증 필요"],
+  ["보안", "production signing, proxy auth/rate limit, physical-device privacy QA 필요"],
   ["개인정보", "화면 캡처와 OCR 텍스트의 저장 위치, 보존 기간, 삭제 정책 명시 필요"],
   ["중국망", "현지망 provider latency, timeout, fallback 성공률 실측 필요"],
 ];
@@ -277,7 +278,7 @@ export default function Home() {
           </div>
           <div className="proof-row" aria-label="핵심 증거">
             <span>targetSdk 35</span>
-            <span>APK install PASS</span>
+            <span>Release QA PASS</span>
             <span>UIAutomator evidence</span>
             <span>Vercel demos</span>
           </div>
@@ -293,11 +294,11 @@ export default function Home() {
           <dl className="proof-stack">
             <div>
               <dt>검증</dt>
-              <dd>Medium_Phone_API_35 설치와 홈 화면 실행 확인</dd>
+              <dd>Medium_Phone_API_35 설치, 홈 화면, 카메라, 화면 위 번역 실행 확인</dd>
             </div>
             <div>
               <dt>범위</dt>
-              <dd>debug demo와 에뮬레이터 검증. 실기기, 중국망, release는 미검증으로 고정 표시</dd>
+              <dd>QA-signed release APK와 에뮬레이터 검증. 실기기, 중국망, production signing은 미검증으로 고정 표시</dd>
             </div>
           </dl>
         </aside>
@@ -354,7 +355,7 @@ export default function Home() {
           <p className="eyebrow">Evidence package</p>
           <h2>지원서와 앱 검증을 한 묶음으로 정리했습니다.</h2>
           <p>
-            사이트에서 바로 열 수 있는 증거 PDF와 문서 패키지를 제공합니다. APK는 공개 웹 배포가 아니라 별도 로컬 제출 패키지에 보관한 debug demo입니다.
+            사이트에서 바로 열 수 있는 증거 PDF와 문서 패키지를 제공합니다. APK는 공개 웹 배포가 아니라 별도 로컬 제출 패키지에 보관한 QA-signed release/demo 파일입니다.
           </p>
         </div>
         <div className="evidence-grid">
@@ -367,7 +368,9 @@ export default function Home() {
         </div>
         <div className="case-files">
           <a className="primary-button" href="/downloads/lens-overlay-case-study.pdf">Case study PDF 256KB</a>
-          <a className="secondary-button" href="/downloads/lens-overlay-portfolio-docs-20260523.zip" download>문서 ZIP 774KB</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-release-qa-addendum.pdf">Release QA PDF</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-privacy-security-note.pdf">Privacy note</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-portfolio-docs-20260523.zip" download>문서 ZIP 4.1MB</a>
           <a className="secondary-button" href="/downloads/lens-overlay-architecture-summary.pdf">Architecture PDF</a>
         </div>
       </section>

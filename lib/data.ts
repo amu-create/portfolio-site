@@ -74,8 +74,8 @@ export const portfolioData = {
       achievements: [
         "Kotlin, Compose, CameraX, ML Kit, MediaProjection, Overlay Service 기반 구현",
         "global/china product flavor와 번역 provider routing 구조 분리",
-        "Medium_Phone_API_35 설치/실행, targetSdk 35, UIAutomator, logcat evidence 확보",
-        "debug demo 범위와 물리폰/release/중국망 미검증 리스크를 명시",
+        "Medium_Phone_API_35 release 설치/실행, 카메라, 화면 위 번역, UIAutomator, logcat evidence 확보",
+        "QA-signed release 범위와 물리폰/중국망/production signing 미검증 리스크를 명시",
       ],
       technologies: ["Kotlin", "Compose", "ML Kit", "CameraX", "MediaProjection", "Android QA"],
       link: "/downloads/lens-overlay-case-study.pdf",

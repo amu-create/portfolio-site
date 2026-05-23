@@ -13,7 +13,7 @@
 - 링크: portfolio-site 내 `LensOverlay case study` PDF
 - 한 줄 설명: Android 권한, OCR, 화면 캡처, 번역 라우팅, QA evidence를 하나의 앱 흐름으로 검증한 모바일 AI 케이스 스터디.
 - 보여줄 역량: Kotlin/Compose, CameraX, ML Kit, MediaProjection, Overlay Service, APK 설치/실행 검증, 리스크 분리.
-- 주의: 상용 출시 완료 제품이 아니라 debug demo와 에뮬레이터 검증 범위라고 명확히 말한다.
+- 주의: 상용 출시 완료 제품이 아니라 QA-signed release APK와 에뮬레이터 검증 범위라고 명확히 말한다.
 
 ### 2. AI Portfolio Lab
 
@@ -85,4 +85,4 @@ PDF/문서를 올리면 chunk, 검색 결과, citation, 답변 평가 로그가 
 
 ## 우선순위
 
-지금 당장 새 프로젝트를 더 만들기보다, 현재는 `portfolio-site`와 `LensOverlay Translate` 증거 패키지를 제출 가능한 상태로 유지하는 것이 1순위다. 다음으로 만들 것은 물리 Android 기기 QA 영상과 release APK 검증 증거다.
+지금 당장 새 프로젝트를 더 만들기보다, 현재는 `portfolio-site`와 `LensOverlay Translate` 증거 패키지를 제출 가능한 상태로 유지하는 것이 1순위다. 다음으로 만들 것은 물리 Android 기기 QA 영상, 중국망/provider latency 실측, production signing 증거다.
