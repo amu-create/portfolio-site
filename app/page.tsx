@@ -298,6 +298,19 @@ export default function Home() {
           <p>
             Production-ready라고 주장하지 않습니다. 지금 보여주는 것은 release-build QA evidence가 붙은 Android AI evaluation build와 다음 검증 관문입니다.
           </p>
+          <div className="qr-scan-card" aria-label="포트폴리오 사이트 QR 코드">
+            <Image
+              src="/downloads/portfolio-site-qr.png"
+              alt="https://portfolio-site-bay-seven.vercel.app QR code"
+              width={132}
+              height={132}
+              className="qr-code-image"
+            />
+            <div>
+              <strong>Scan site</strong>
+              <span>portfolio-site-bay-seven.vercel.app</span>
+            </div>
+          </div>
           <ProjectVisual project={lensOverlay} />
           <dl className="proof-stack">
             <div>

@@ -32,6 +32,7 @@ def run(url: str) -> int:
             required_text = [
                 "LensOverlay Translate",
                 "Review product dossier",
+                "Scan site",
                 "제품팀, 보안팀, 운영팀이 막을 질문",
                 "POC 성공 기준",
                 "AI Portfolio Lab",
@@ -79,6 +80,7 @@ def run(url: str) -> int:
             "/downloads/lens-overlay-case-study.pdf": "max-age=3600",
             "/downloads/lens-overlay-enterprise-readiness.pdf": "max-age=3600",
             "/downloads/lens-overlay-product-evidence-20260524.zip": "max-age=3600",
+            "/downloads/portfolio-site-qr.png": "max-age=3600",
             "/project-screens/lens-overlay-home.webp": "max-age=31536000",
         }
         request_context = p.request.new_context(base_url=url)
