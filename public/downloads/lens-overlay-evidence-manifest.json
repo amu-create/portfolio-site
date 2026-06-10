@@ -1,6 +1,7 @@
 {
   "generatedAtKst": "2026-06-11 01:06:51 KST",
-  "sourceCommit": "cf4fd26",
+  "manifestVersion": "20260611-010651-kst",
+  "sourceRevisionNote": "Use the deployed git commit for page revision. Artifact integrity is verified by per-file SHA-256 below.",
   "scope": "Public portfolio download evidence for LensOverlay Translate evaluation build. This manifest verifies downloadable dossier artifacts, not production signing or physical-device POC completion.",
   "verification": {
     "localHashAlgorithm": "SHA-256",
