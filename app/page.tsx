@@ -36,10 +36,10 @@ const primaryProjects: PrimaryProject[] = [
       "현재 공개 근거는 QA-signed release APK와 에뮬레이터 검증입니다. production signing, 물리폰 2종, 중국망/provider latency는 POC 전 검증 항목으로 분리했습니다.",
     visual: {
       type: "mobile",
-      label: "Android evidence",
+      label: "Feature flow",
       headline: "촬영, 사진, 화면 위 번역을 하나의 앱 첫 화면에 정리",
-      items: ["Capture", "OCR", "Translate", "Overlay"],
-      metrics: ["Release QA", "Secret scan", "Risk stated"],
+      items: ["촬영", "사진", "화면 위", "라우팅", "검증"],
+      metrics: ["App flow", "QA evidence", "POC gaps"],
       image: "/project-screens/lens-overlay-home.webp",
     },
   },
@@ -65,7 +65,7 @@ const primaryProjects: PrimaryProject[] = [
     title: "ConsultFlow",
     role: "상담 전환 흐름 데모",
     href: "https://consult-flow-app.vercel.app",
-    cta: "서비스 열기",
+    cta: "ConsultFlow 열기",
     stack: ["Next.js", "Prisma", "Gemini", "Analytics"],
     summary:
       "상담 문의부터 후속 액션까지의 전환 흐름을 화면으로 구조화한 AI 보조 업무 데모입니다.",
@@ -83,7 +83,7 @@ const primaryProjects: PrimaryProject[] = [
     title: "FairSign",
     role: "계약 문구 리스크 체크 데모",
     href: "https://fairsign-topaz.vercel.app",
-    cta: "서비스 열기",
+    cta: "FairSign 열기",
     stack: ["Next.js", "OCR Intake", "Rule Scoring", "PDF"],
     summary:
       "프리랜서 계약서 문구의 위험 신호를 rule 기반으로 빠르게 확인하는 스크리닝 UX입니다.",
@@ -101,7 +101,7 @@ const primaryProjects: PrimaryProject[] = [
     title: "K-Transit",
     role: "외국인 대상 교통 안내",
     href: "https://k-transit.vercel.app",
-    cta: "서비스 열기",
+    cta: "K-Transit 열기",
     stack: ["Next.js", "Localization", "Route UX", "TTS Flow"],
     summary:
       "한국 방문자가 공항 이동, 막차, 경로 안내, 음성 안내를 빠르게 이해하도록 만든 모바일 우선 교통 안내 웹앱입니다.",
@@ -136,7 +136,7 @@ const coreFeatures = [
   ["01", "촬영 번역", "CameraX 촬영에서 OCR 후보를 뽑고 번역 결과 화면으로 이어지는 기본 흐름입니다.", "CameraX / OCR / result UI"],
   ["02", "사진 번역", "갤러리 이미지를 선택해 같은 OCR/번역 파이프라인으로 처리하는 보조 입력 흐름입니다.", "Photo picker / ML Kit"],
   ["03", "화면 위 번역", "MediaProjection 동의 후 floating bubble과 overlay service로 앱 밖 화면 텍스트를 확인합니다.", "MediaProjection / overlay"],
-  ["04", "Provider routing", "global/china flavor와 server proxy 경계를 나눠 키 노출 없이 번역 provider를 바꾸는 구조입니다.", "Flavor / proxy boundary"],
+  ["04", "제공자 라우팅", "global/china flavor와 server proxy 경계를 나눠 키 노출 없이 번역 provider를 바꾸는 구조입니다.", "Flavor / proxy boundary"],
   ["05", "검증 패키징", "APK 메타데이터, SHA-256, release QA, privacy note를 같은 dossier에서 확인하게 만든 증거 흐름입니다.", "SHA / QA / privacy"],
 ];
 
@@ -312,21 +312,14 @@ export default function Home() {
 
         <aside className="hero-proof-panel" aria-label="LensOverlay 핵심 기능 미리보기">
           <p className="eyebrow">Feature preview</p>
+          <ProjectVisual project={lensOverlay} />
           <h2>LensOverlay Translate</h2>
           <p>
-            앱 설치 없이도 촬영, 사진, 화면 위 번역이 어떤 흐름으로 이어지는지 먼저 보여줍니다. 검증 자료와 production gap은 아래 evidence 영역에서 확인합니다.
+            앱 설치 없이도 촬영, 사진, 화면 위 번역이 어떤 순서로 이어지는지 먼저 보여줍니다.
           </p>
-          <ProjectVisual project={lensOverlay} />
-          <dl className="proof-stack">
-            <div>
-              <dt>Status</dt>
-              <dd>Medium_Phone_API_35, emulator-5554, com.lensoverlay.translate.china, versionName 0.1.0-china 기준 설치, 홈 화면, 카메라, 화면 위 번역 실행 확인</dd>
-            </div>
-            <div>
-              <dt>Gate</dt>
-              <dd>QA-signed release APK와 에뮬레이터 검증. production signing, 실기기, 중국망은 POC 전 blocker로 고정 표시</dd>
-            </div>
-          </dl>
+          <p className="hero-proof-note">
+            검증 자료와 production gap은 Evidence 섹션에서 별도로 확인합니다.
+          </p>
         </aside>
       </section>
 
@@ -413,10 +406,10 @@ export default function Home() {
           </div>
           {evidenceMatrix.map(([area, evidence, status, risk]) => (
             <div className="evidence-matrix-row" role="row" key={area}>
-              <strong role="cell">{area}</strong>
-              <span role="cell">{evidence}</span>
-              <em role="cell">{status}</em>
-              <span role="cell">{risk}</span>
+              <strong role="cell" data-label="Area" aria-label={`Area: ${area}`}>{area}</strong>
+              <span role="cell" data-label="Evidence" aria-label={`Evidence: ${evidence}`}>{evidence}</span>
+              <em role="cell" data-label="Status" aria-label={`Status: ${status}`}>{status}</em>
+              <span role="cell" data-label="Residual risk" aria-label={`Residual risk: ${risk}`}>{risk}</span>
             </div>
           ))}
         </div>

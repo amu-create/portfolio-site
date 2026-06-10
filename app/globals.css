@@ -17,8 +17,10 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -237,32 +239,14 @@ img {
   line-height: 1.65;
 }
 
-.proof-stack {
-  display: grid;
-  gap: 8px;
-  margin: 16px 0 0;
-}
-
-.proof-stack div {
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
-  gap: 10px;
-  padding: 10px;
+.hero-proof-note {
+  margin-top: 10px !important;
+  padding: 10px 12px;
   border-radius: 8px;
   background: var(--surface-muted);
-}
-
-.proof-stack dt {
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.proof-stack dd {
-  margin: 0;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 13px !important;
+  font-weight: 800;
 }
 
 .qr-scan-card {
@@ -439,18 +423,18 @@ img {
 }
 
 .hero-proof-panel .project-visual {
-  min-height: 232px;
-  margin-top: 16px;
+  min-height: 242px;
+  margin-top: 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
 }
 
 .hero-proof-panel .mobile-visual {
-  grid-template-columns: 168px minmax(0, 1fr);
+  grid-template-columns: 156px minmax(0, 1fr);
 }
 
 .hero-proof-panel .phone-frame {
-  height: 218px;
+  height: 206px;
 }
 
 .visual-lab {
@@ -1273,7 +1257,13 @@ img {
   }
 
   .evidence-matrix-head {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .evidence-matrix-row {
@@ -1288,31 +1278,14 @@ img {
     border-right: 0;
   }
 
-  .evidence-matrix-row strong::before,
-  .evidence-matrix-row span::before,
-  .evidence-matrix-row em::before {
+  .evidence-matrix-row [role="cell"]::before {
+    content: attr(data-label);
     display: block;
     margin-bottom: 2px;
     color: var(--muted);
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
-  }
-
-  .evidence-matrix-row strong::before {
-    content: "Area";
-  }
-
-  .evidence-matrix-row span:first-of-type::before {
-    content: "Evidence";
-  }
-
-  .evidence-matrix-row em::before {
-    content: "Status";
-  }
-
-  .evidence-matrix-row span:last-child::before {
-    content: "Residual risk";
   }
 
   .risk-items span {
@@ -1328,11 +1301,50 @@ img {
   }
 
   .hero-feature-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
   }
 
   .hero-feature-strip span {
-    min-height: 58px;
+    min-height: 62px;
+    padding: 8px 5px;
+    font-size: 11px;
+    word-break: keep-all;
+  }
+
+  .hero-feature-strip i {
+    font-size: 10px;
+  }
+
+  .hero-proof-panel {
+    padding: 14px;
+  }
+
+  .hero-proof-panel .project-visual {
+    min-height: 0;
+    margin-top: 10px;
+  }
+
+  .hero-proof-panel .mobile-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-proof-panel .phone-frame {
+    height: 188px;
+  }
+
+  .hero-proof-panel h2 {
+    margin-top: 12px;
+    font-size: 24px;
+  }
+
+  .screen-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .screen-points span {
+    grid-template-columns: 28px 1fr;
+    min-height: 32px;
   }
 
   .core-feature-grid {
