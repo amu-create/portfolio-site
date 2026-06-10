@@ -293,21 +293,20 @@ export default function Home() {
           <p className="eyebrow">Core feature showcase / Android AI</p>
           <h1>LensOverlay Translate</h1>
           <p className="lead">
-            검토자가 앱을 직접 설치하거나 여러 PDF를 열지 않아도, 촬영 번역, 사진 번역, 화면 위 번역, provider routing, 검증 패키징이라는 핵심 기능을 먼저 볼 수 있게 정리했습니다.
+            촬영, 사진, 화면 위 번역이 어떤 순서로 동작하는지 첫 화면에서 바로 보이게 정리했습니다.
             release QA와 production gap은 아래 evidence 영역에 보조 증거로 분리했습니다.
           </p>
+          <div className="hero-feature-strip" aria-label="LensOverlay 핵심 기능">
+            {coreFeatures.map(([index, title]) => (
+              <span key={title}>
+                <i>{index}</i>
+                {title}
+              </span>
+            ))}
+          </div>
           <div className="cta-row">
             <a className="primary-button" href="#features">핵심 기능 보기</a>
             <a className="secondary-button" href="#evidence">검증 자료 보기</a>
-          </div>
-          <a className="direct-site-link" href="https://portfolio-site-bay-seven.vercel.app/">
-            Direct live URL for QR fallback: portfolio-site-bay-seven.vercel.app
-          </a>
-          <div className="proof-row" aria-label="핵심 증거">
-            <span>2/3 verified: camera + screen</span>
-            <span>Secret scan 0: release evidence</span>
-            <span>QA-signed release</span>
-            <span>Known gaps stated</span>
           </div>
         </div>
 
@@ -317,21 +316,6 @@ export default function Home() {
           <p>
             앱 설치 없이도 촬영, 사진, 화면 위 번역이 어떤 흐름으로 이어지는지 먼저 보여줍니다. 검증 자료와 production gap은 아래 evidence 영역에서 확인합니다.
           </p>
-          <div className="qr-scan-card" aria-label="포트폴리오 사이트 QR 코드와 검증 매니페스트">
-            <Image
-              src="/downloads/portfolio-site-qr.png"
-              alt="https://portfolio-site-bay-seven.vercel.app QR code"
-              width={132}
-              height={132}
-              className="qr-code-image"
-            />
-            <div>
-              <strong>Scan site + verify files</strong>
-              <span>QR opens this dossier. Manifest lists SHA-256, bytes, and known limits.</span>
-              <a className="mini-link" href="https://portfolio-site-bay-seven.vercel.app/">Open live URL</a>
-              <a className="mini-link" href="/downloads/lens-overlay-evidence-manifest.json">Open manifest JSON</a>
-            </div>
-          </div>
           <ProjectVisual project={lensOverlay} />
           <dl className="proof-stack">
             <div>
@@ -435,6 +419,21 @@ export default function Home() {
               <span role="cell">{risk}</span>
             </div>
           ))}
+        </div>
+        <div className="qr-scan-card evidence-qr-card" aria-label="포트폴리오 사이트 QR 코드와 검증 매니페스트">
+          <Image
+            src="/downloads/portfolio-site-qr.png"
+            alt="https://portfolio-site-bay-seven.vercel.app QR code"
+            width={132}
+            height={132}
+            className="qr-code-image"
+          />
+          <div>
+            <strong>Share live dossier</strong>
+            <span>QR opens this portfolio. If scanning fails, use the direct URL or manifest below.</span>
+            <a className="mini-link" href="https://portfolio-site-bay-seven.vercel.app/">Open live URL</a>
+            <a className="mini-link" href="/downloads/lens-overlay-evidence-manifest.json">Open manifest JSON</a>
+          </div>
         </div>
         <div className="case-files">
           <a className="primary-button" href="/downloads/lens-overlay-enterprise-readiness.pdf">Enterprise review PDF</a>
