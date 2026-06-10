@@ -24,6 +24,7 @@ Reason: this portfolio should survive a quick product, security, and operations 
 - 2026-05-02 visual distinction pass: do not repeat one diagram template across projects. Use different forms by project: module hub, lead funnel, risk screen, and route guide.
 - 2026-05-23 flagship update: LensOverlay uses a mobile screenshot and Android QA evidence visual, while the other projects remain supporting product demos.
 - 2026-05-24 enterprise correction: remove hiring-process wording from the public page and frame the work as a product evidence dossier for product, security, IT, and operations reviewers.
+- 2026-06-11 core-feature correction: the first screen should not force reviewers to open PDFs, ZIP files, or installed apps. Lead with the app's core feature map, then keep evidence files as optional supporting proof.
 
 ## Visual System
 

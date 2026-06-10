@@ -113,15 +113,17 @@ export default function HeroSection() {
               <Mail size={18} />
               <span className="text-sm sm:text-base">{personal.email}</span>
             </motion.a>
-            <motion.a
-              href={`tel:${personal.phone}`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors touch-target px-4 py-2 rounded-lg hover:bg-gray-50"
-            >
-              <Phone size={18} />
-              <span className="text-sm sm:text-base">{personal.phone}</span>
-            </motion.a>
+            {personal.phone ? (
+              <motion.a
+                href={`tel:${personal.phone}`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors touch-target px-4 py-2 rounded-lg hover:bg-gray-50"
+              >
+                <Phone size={18} />
+                <span className="text-sm sm:text-base">{personal.phone}</span>
+              </motion.a>
+            ) : null}
             <motion.a
               href={personal.github}
               target="_blank"

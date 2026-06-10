@@ -180,6 +180,16 @@ img {
   margin-top: 20px;
 }
 
+.direct-site-link {
+  display: inline-flex;
+  margin-top: 12px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .proof-row span,
 .tag-row span {
   display: inline-flex;
@@ -281,9 +291,22 @@ img {
   overflow-wrap: anywhere;
 }
 
+.mini-link {
+  display: inline-flex;
+  margin-top: 9px;
+  margin-right: 10px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 .section-block {
   padding: 52px 0;
   border-top: 1px solid var(--border);
+}
+
+.feature-showcase-section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(238, 242, 247, 0.56));
 }
 
 .section-head {
@@ -310,6 +333,61 @@ img {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+}
+
+.core-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.core-feature-card {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-height: 218px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.core-feature-card span {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 26px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 999px;
+  background: #eff6ff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.core-feature-card h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.core-feature-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.core-feature-card code {
+  align-self: end;
+  margin-top: 4px;
+  color: #0f766e;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .project-card,
@@ -912,6 +990,44 @@ img {
   margin-top: 18px;
 }
 
+.artifact-manifest {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.artifact-manifest a {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  min-height: 92px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.artifact-manifest strong {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.artifact-manifest span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.artifact-manifest code {
+  color: #0f766e;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .demo-readiness-section {
   background: #ffffff;
 }
@@ -1030,6 +1146,10 @@ img {
   }
 
   .support-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .core-feature-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1185,6 +1305,18 @@ img {
   }
 
   .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .core-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .core-feature-card {
+    min-height: 0;
+  }
+
+  .artifact-manifest {
     grid-template-columns: 1fr;
   }
 }

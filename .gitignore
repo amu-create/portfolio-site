@@ -1,7 +1,10 @@
 .next
 node_modules
 *.log
+tsconfig.tsbuildinfo
 qa/
+.playwright-cli/
+test-results/
 .DS_Store
 .env.local
 .env.development.local

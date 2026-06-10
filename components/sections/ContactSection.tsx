@@ -52,19 +52,21 @@ export default function ContactSection() {
                 </div>
               </motion.a>
 
-              <motion.a
-                href={`tel:${personal.phone}`}
-                whileHover={{ x: 5 }}
-                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all touch-target"
-              >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs sm:text-sm text-gray-600">전화번호</p>
-                  <p className="text-sm sm:text-base font-medium text-gray-800">{personal.phone}</p>
-                </div>
-              </motion.a>
+              {personal.phone ? (
+                <motion.a
+                  href={`tel:${personal.phone}`}
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all touch-target"
+                >
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm text-gray-600">전화번호</p>
+                    <p className="text-sm sm:text-base font-medium text-gray-800">{personal.phone}</p>
+                  </div>
+                </motion.a>
+              ) : null}
 
               <motion.a
                 href={personal.github}

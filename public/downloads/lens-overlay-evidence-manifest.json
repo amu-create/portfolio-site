@@ -1,0 +1,69 @@
+{
+  "generatedAtKst": "2026-06-11 01:06:51 KST",
+  "sourceCommit": "cf4fd26",
+  "scope": "Public portfolio download evidence for LensOverlay Translate evaluation build. This manifest verifies downloadable dossier artifacts, not production signing or physical-device POC completion.",
+  "verification": {
+    "localHashAlgorithm": "SHA-256",
+    "liveChecksRequired": [
+      "HTTP 200 for each artifact",
+      "Content-Length matches bytes below",
+      "PDF/ZIP/PNG/SVG file signatures are valid",
+      "QR decodes to https://portfolio-site-bay-seven.vercel.app/"
+    ],
+    "knownLimits": [
+      "Production signing is not claimed",
+      "Physical Samsung/Pixel device matrix is pending",
+      "China-network provider latency requires approved keys and in-region test"
+    ]
+  },
+  "artifacts": [
+    {
+      "label": "Enterprise review PDF",
+      "path": "/downloads/lens-overlay-enterprise-readiness.pdf",
+      "bytes": 38940,
+      "sha256": "af36851f49ba0660e6aa037202516dc7bb098e228fd13339d5e6706c10127204"
+    },
+    {
+      "label": "Case study PDF",
+      "path": "/downloads/lens-overlay-case-study.pdf",
+      "bytes": 262273,
+      "sha256": "9cabd46e94d0da1635b485b4083f1f2e7e86be54352c1d12ca0bec3448d116d3"
+    },
+    {
+      "label": "Release QA PDF",
+      "path": "/downloads/lens-overlay-release-qa-addendum.pdf",
+      "bytes": 5321,
+      "sha256": "1667c93be472689c6bd67782c9ce7368d7936bd0e9655d77f6867ce2fea97920"
+    },
+    {
+      "label": "Privacy note PDF",
+      "path": "/downloads/lens-overlay-privacy-security-note.pdf",
+      "bytes": 4554,
+      "sha256": "a9e998328adf4cf4eaa71afeeb7024f23cede3c6b553a898d9e19e4b31ef7250"
+    },
+    {
+      "label": "Product evidence ZIP",
+      "path": "/downloads/lens-overlay-product-evidence-20260524.zip",
+      "bytes": 3697082,
+      "sha256": "4f0a1ea59fc7c267e5e6ade0d30a44a1aa32d4ff9b32a459e67035ce9ac0c355"
+    },
+    {
+      "label": "Architecture PDF",
+      "path": "/downloads/lens-overlay-architecture-summary.pdf",
+      "bytes": 42222,
+      "sha256": "ce16a711449254725c14da38c52aec2a4f43fa6015f6560f1e92d8a7141cfbb4"
+    },
+    {
+      "label": "Portfolio QR PNG",
+      "path": "/downloads/portfolio-site-qr.png",
+      "bytes": 6983,
+      "sha256": "d893bc147c1514f8a5f047605d536466429147f6c5dd6fd1527a0a796ed8d76e"
+    },
+    {
+      "label": "Portfolio QR SVG",
+      "path": "/downloads/portfolio-site-qr.svg",
+      "bytes": 2130,
+      "sha256": "36a13d93015529267e46499a71aaadf2274237ba9968fec734fe338b69911359"
+    }
+  ]
+}

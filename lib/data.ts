@@ -4,7 +4,7 @@ export const portfolioData = {
     title: "Android / AI 서비스 개발자",
     subtitle: "Android AI 기능을 제품 검토 가능한 증거와 함께 구현합니다.",
     email: "jsg5080@gmail.com",
-    phone: "010-2000-6637",
+    phone: "",
     github: "https://github.com/amu-create",
     location: "대한민국",
     about: `Android 권한, OCR, 화면 캡처, 번역 라우팅, QA evidence를 하나의 사용자 흐름으로 묶는 데 집중합니다.

@@ -132,13 +132,28 @@ const capabilities = [
   ["Review-Ready Scope", "실제 검증된 것과 아직 위험한 것을 분리해 제품/보안/운영 검토에서 과장 리스크를 줄입니다."],
 ];
 
+const coreFeatures = [
+  ["01", "촬영 번역", "CameraX 촬영에서 OCR 후보를 뽑고 번역 결과 화면으로 이어지는 기본 흐름입니다.", "CameraX / OCR / result UI"],
+  ["02", "사진 번역", "갤러리 이미지를 선택해 같은 OCR/번역 파이프라인으로 처리하는 보조 입력 흐름입니다.", "Photo picker / ML Kit"],
+  ["03", "화면 위 번역", "MediaProjection 동의 후 floating bubble과 overlay service로 앱 밖 화면 텍스트를 확인합니다.", "MediaProjection / overlay"],
+  ["04", "Provider routing", "global/china flavor와 server proxy 경계를 나눠 키 노출 없이 번역 provider를 바꾸는 구조입니다.", "Flavor / proxy boundary"],
+  ["05", "검증 패키징", "APK 메타데이터, SHA-256, release QA, privacy note를 같은 dossier에서 확인하게 만든 증거 흐름입니다.", "SHA / QA / privacy"],
+];
+
 const evidenceMatrix = [
-  ["Product status", "Evaluation build, not a production-store release", "Stated", "Production signing and distribution policy are still required"],
-  ["Release build", "China/Global release unit tests and assemble tasks", "Verified", "QA signing only"],
-  ["Device flow", "Medium_Phone_API_35 camera and screen-translate smoke tests", "Verified", "Physical Samsung/Pixel matrix still required"],
-  ["Integrity", "apksigner, aapt metadata, SHA-256, APK secret scan", "Verified", "Production key custody is not claimed"],
+  ["Product status", "Evaluation build, not a production-store release", "Scoped claim", "Production signing and distribution policy are still required"],
+  ["Release build", "2026-05-23 KST China/Global release unit tests and assemble tasks", "Verified in QA", "QA signing only"],
+  ["Device flow", "Medium_Phone_API_35 camera and screen-translate smoke tests", "Verified in emulator", "Physical Samsung/Pixel matrix still required"],
+  ["Integrity", "apksigner, aapt metadata, SHA-256, APK secret scan over release evidence", "Verified in package", "Production key custody is not claimed"],
   ["Privacy", "Release build does not auto-save source capture images", "Improved", "OCR retention/deletion policy still needs customer approval"],
   ["Network", "Provider keys and China latency were not exercised", "Blocked", "Needs approved keys, China-network test, p50/p95 timeout data"],
+];
+
+const artifactManifest = [
+  ["Evidence ZIP", "3,697,082 bytes", "4f0a1ea59fc7", "/downloads/lens-overlay-product-evidence-20260524.zip"],
+  ["Enterprise PDF", "38,940 bytes", "af36851f49ba", "/downloads/lens-overlay-enterprise-readiness.pdf"],
+  ["Release QA PDF", "5,321 bytes", "1667c93be472", "/downloads/lens-overlay-release-qa-addendum.pdf"],
+  ["QR PNG", "6,983 bytes", "d893bc147c15", "/downloads/portfolio-site-qr.png"],
 ];
 
 const reviewTracks = [
@@ -265,8 +280,9 @@ export default function Home() {
       <nav className="top-nav" aria-label="주요 이동">
         <a href="#top" className="brand">전서기</a>
         <div className="nav-links">
-          <a href="#projects">Projects</a>
+          <a href="#features">Features</a>
           <a href="#evidence">Evidence</a>
+          <a href="#projects">Projects</a>
           <a href="#capabilities">Capabilities</a>
           <a href="#contact">Contact</a>
         </div>
@@ -274,31 +290,34 @@ export default function Home() {
 
       <section id="top" className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">Product evidence dossier / Android AI</p>
+          <p className="eyebrow">Core feature showcase / Android AI</p>
           <h1>LensOverlay Translate</h1>
           <p className="lead">
-            Android CameraX, ML Kit OCR, MediaProjection, overlay service, flavor-based provider routing을 하나의 번역 흐름으로 묶은 evaluation build입니다.
-            제품팀·보안팀·운영팀이 먼저 확인할 release QA, 개인정보 경계, POC 성공 기준, production gap을 한 화면에서 판단할 수 있게 정리했습니다.
+            검토자가 앱을 직접 설치하거나 여러 PDF를 열지 않아도, 촬영 번역, 사진 번역, 화면 위 번역, provider routing, 검증 패키징이라는 핵심 기능을 먼저 볼 수 있게 정리했습니다.
+            release QA와 production gap은 아래 evidence 영역에 보조 증거로 분리했습니다.
           </p>
           <div className="cta-row">
-            <a className="primary-button" href="/downloads/lens-overlay-enterprise-readiness.pdf">Review product dossier</a>
-            <a className="secondary-button" href="/downloads/lens-overlay-release-qa-addendum.pdf">Inspect release validation</a>
+            <a className="primary-button" href="#features">핵심 기능 보기</a>
+            <a className="secondary-button" href="#evidence">검증 자료 보기</a>
           </div>
+          <a className="direct-site-link" href="https://portfolio-site-bay-seven.vercel.app/">
+            Direct live URL for QR fallback: portfolio-site-bay-seven.vercel.app
+          </a>
           <div className="proof-row" aria-label="핵심 증거">
-            <span>Verified flows 2/3</span>
-            <span>Secret scan 0</span>
+            <span>2/3 verified: camera + screen</span>
+            <span>Secret scan 0: release evidence</span>
             <span>QA-signed release</span>
             <span>Known gaps stated</span>
           </div>
         </div>
 
-        <aside className="hero-proof-panel" aria-label="대표 포트폴리오 증거">
-          <p className="eyebrow">Current review state</p>
+        <aside className="hero-proof-panel" aria-label="LensOverlay 핵심 기능 미리보기">
+          <p className="eyebrow">Feature preview</p>
           <h2>LensOverlay Translate</h2>
           <p>
-            Production-ready라고 주장하지 않습니다. 지금 보여주는 것은 release-build QA evidence가 붙은 Android AI evaluation build와 다음 검증 관문입니다.
+            앱 설치 없이도 촬영, 사진, 화면 위 번역이 어떤 흐름으로 이어지는지 먼저 보여줍니다. 검증 자료와 production gap은 아래 evidence 영역에서 확인합니다.
           </p>
-          <div className="qr-scan-card" aria-label="포트폴리오 사이트 QR 코드">
+          <div className="qr-scan-card" aria-label="포트폴리오 사이트 QR 코드와 검증 매니페스트">
             <Image
               src="/downloads/portfolio-site-qr.png"
               alt="https://portfolio-site-bay-seven.vercel.app QR code"
@@ -307,15 +326,17 @@ export default function Home() {
               className="qr-code-image"
             />
             <div>
-              <strong>Scan site</strong>
-              <span>portfolio-site-bay-seven.vercel.app</span>
+              <strong>Scan site + verify files</strong>
+              <span>QR opens this dossier. Manifest lists SHA-256, bytes, and known limits.</span>
+              <a className="mini-link" href="https://portfolio-site-bay-seven.vercel.app/">Open live URL</a>
+              <a className="mini-link" href="/downloads/lens-overlay-evidence-manifest.json">Open manifest JSON</a>
             </div>
           </div>
           <ProjectVisual project={lensOverlay} />
           <dl className="proof-stack">
             <div>
               <dt>Status</dt>
-              <dd>Medium_Phone_API_35 설치, 홈 화면, 카메라, 화면 위 번역 실행 확인</dd>
+              <dd>Medium_Phone_API_35, emulator-5554, com.lensoverlay.translate.china, versionName 0.1.0-china 기준 설치, 홈 화면, 카메라, 화면 위 번역 실행 확인</dd>
             </div>
             <div>
               <dt>Gate</dt>
@@ -323,6 +344,26 @@ export default function Home() {
             </div>
           </dl>
         </aside>
+      </section>
+
+      <section id="features" className="section-block feature-showcase-section">
+        <div className="section-head">
+          <p className="eyebrow">What the app does</p>
+          <h2>직접 설치하지 않아도 핵심 기능이 먼저 보이게 했습니다.</h2>
+          <p>
+            QR로 들어온 검토자가 가장 먼저 봐야 하는 것은 다운로드 버튼이 아니라 앱이 해결하는 흐름입니다. 각 기능은 구현 범위와 검증 경계를 함께 표시합니다.
+          </p>
+        </div>
+        <div className="core-feature-grid">
+          {coreFeatures.map(([index, title, text, proof]) => (
+            <article className="core-feature-card" key={title}>
+              <span>{index}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <code>{proof}</code>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="projects" className="section-block">
@@ -397,11 +438,21 @@ export default function Home() {
         </div>
         <div className="case-files">
           <a className="primary-button" href="/downloads/lens-overlay-enterprise-readiness.pdf">Enterprise review PDF</a>
+          <a className="secondary-button" href="/downloads/lens-overlay-evidence-manifest.json">Evidence manifest JSON</a>
           <a className="secondary-button" href="/downloads/lens-overlay-case-study.pdf">Case study PDF 256KB</a>
           <a className="secondary-button" href="/downloads/lens-overlay-release-qa-addendum.pdf">Release QA PDF</a>
           <a className="secondary-button" href="/downloads/lens-overlay-privacy-security-note.pdf">Privacy note</a>
           <a className="secondary-button" href="/downloads/lens-overlay-product-evidence-20260524.zip" download>Product evidence ZIP 3.5MB</a>
           <a className="secondary-button" href="/downloads/lens-overlay-architecture-summary.pdf">Architecture PDF</a>
+        </div>
+        <div className="artifact-manifest" aria-label="공개 증거 파일 매니페스트">
+          {artifactManifest.map(([label, size, sha, href]) => (
+            <a href={href} key={label}>
+              <strong>{label}</strong>
+              <span>{size}</span>
+              <code>sha256 {sha}</code>
+            </a>
+          ))}
         </div>
       </section>
 
