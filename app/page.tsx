@@ -294,7 +294,6 @@ export default function Home() {
           <h1>LensOverlay Translate</h1>
           <p className="lead">
             촬영, 사진, 화면 위 번역이 어떤 순서로 동작하는지 첫 화면에서 바로 보이게 정리했습니다.
-            release QA와 production gap은 아래 evidence 영역에 보조 증거로 분리했습니다.
           </p>
           <div className="hero-feature-strip" aria-label="LensOverlay 핵심 기능">
             {coreFeatures.map(([index, title]) => (
@@ -303,6 +302,13 @@ export default function Home() {
                 {title}
               </span>
             ))}
+          </div>
+          <div className="hero-status-strip" aria-label="LensOverlay 검토 범위">
+            <strong>Evaluation PASS</strong>
+            <span>Production not claimed</span>
+            <em>Signing</em>
+            <em>Devices</em>
+            <em>China latency</em>
           </div>
           <div className="cta-row">
             <a className="primary-button" href="#features">핵심 기능 보기</a>

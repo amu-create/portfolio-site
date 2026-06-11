@@ -26,6 +26,7 @@ Reason: this portfolio should survive a quick product, security, and operations 
 - 2026-05-24 enterprise correction: remove hiring-process wording from the public page and frame the work as a product evidence dossier for product, security, IT, and operations reviewers.
 - 2026-06-11 core-feature correction: the first screen should not force reviewers to open PDFs, ZIP files, or installed apps. Lead with the app's core feature map, then keep evidence files as optional supporting proof.
 - 2026-06-11 mobile-preview correction: on mobile, the app flow visual must appear before long proof/status copy. Evidence status belongs in the Evidence section unless it is a one-line note.
+- 2026-06-11 claim-boundary correction: the hero may show a compact evaluation/pass boundary, but it must not imply production release readiness. Production signing, physical-device QA, and China/provider latency remain explicit gates.
 
 ## Visual System
 
